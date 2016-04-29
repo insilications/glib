@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.46.2
-Release  : 26
+Release  : 27
 URL      : http://ftp.acc.umu.se/pub/gnome/sources/glib/2.46/glib-2.46.2.tar.xz
 Source0  : http://ftp.acc.umu.se/pub/gnome/sources/glib/2.46/glib-2.46.2.tar.xz
 Summary  : Dynamic module loader for GLib
