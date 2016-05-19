@@ -1,58 +1,300 @@
-Overview of changes in GLib 2.46.2
+Overview of changes in GLib 2.48.1
 ==================================
-
-* Varioius small fixes, with a focus on win32
-
-* The docs should now be complete when doing non-srcdir builds
 
 Bugs fixed:
- 687223 cleverer GThreadPool management
- 754983 Wayland: g_desktop_app_info_launch_uris_with_spawn() forces DISPLAY variable to Wayland display
- 754994 g_date_time_get_second () sometimes returns an off-by-one result
- 755609 glib 2.46.0 breaks Sun Java JVM 1.8.0.60
- 756179 gwin32.c: Replace VerifyVersionInfoW() with RtlGetVersion() due to API deprecation
- 756382 snprintf used on Windows with VS2015 doesn't support %n
- 757628 gio tests fail to build when cross compiling 2.46.1
+ 731988 glocalfile: Avoid a potential NULL pointer dereference
+ 747107 GVariant varargs documentation: g_variant_get() example
+ 747478 g_system_thread_set_name() is not implemented for gthread-win32
+ 748474 g_get_language_names() is not thread-safe
+ 748530 gthread: W32 implementation of g_get_num_processors() has lame fallback
+ 748806 GVariant: Better introduction to the concepts and its uses
+ 749606 tests: always remove app.desktop
+ 758174 Fix documentation typos
+ 758738 Usage of GType properties causes crashes due to gulong/gpointer mismatch
+ 762994 Race condition in GIO/AppFileChooser crashes Firefox/Gtk3
+ 763379 codegen: Add support for g_autoptr to gdbus-codegen–generated objects
+ 763821 build: Also dist Systemtap files always for gobject/
+ 764092 gstrfuncs: Document the behaviour of g_strjoinv()
+ 764574 build: Fix all statfs() tests failing
+ 764575 tests: Fix compilation errors due to Y2K format problems
+ 764685 GApplication documentation about handling command-line options is confusing
+ 764754 '-' in application id: unbreak bus activation and notifications
+ 765959 socket: set fd field to -1 after closing socket
+ 765990 Visual Studio: Define inline only when necessary
 
-Overview of changes in GLib 2.46.1
+Translations updated:
+ Basque language
+ Catalan
+ Vietnamese
+ zh_CN
+
+Overview of changes in GLib 2.48.0
 ==================================
 
-* Remove system_header pragma
-  (should fix lack of warnings with things like g_return_if_fail)
+ * a minor build fix in the name of determinism
 
-* move GStrv typedef (and auto-cleanup) from libgobject to libglib
+ * a few coverity fixes
 
-* fix order of trashing files to be closer to what is required in the
-  specification.  Namely, trashinfo files are written first.  This
-  should fix issues with the gvfs trash backend failing to correctly
-  read the info for recently trashed files (preventing 'restore').
+Bugs fixed:
+ 763617 giotypefuncs.c: Sort _get_type functions in the 'C' locale
 
-* tweak mime logic to return text/plain on all empty files instead of
-  returning application/octet-stream.  This includes files that have
-  extensions that imply that they may be other types of files, which is
-  a slight change of behaviour with respect to old GLib versions.
+Translations updated:
+ Danish
+ Italian
 
-* Many win32 fixes
+Overview of changes in GLib 2.47.92
+===================================
 
-* Many docs fixes
+ * gdbus-codegen now supports g_autoptr()
+
+ * g_get_user_runtime_dir() now reliably returns an existing directory
+
+ * g_array_remove_range() can now remove 0 items from the end of an array
+
+ * Many fixes for Windows
+   * build fixes
+   * file monitoring
+   * gsettings backend
+   * streams
+   * random numbers
+   * wide character support
+
+ * documentation improvements
+
+ * other small bugfixes
+
+Bugs fixed:
+ 724847 Segmentation fault on "gsettings list-recursively"
+ 743933 gapplication: add --app-id command line option
+ 756706 [PATCH] gio/gtestdbus.c: don't use non-standard %m printf modifier
+ 757506 gsettings: schema_list should use the passed schema's source
+ 760694 W32: Apps linked with -mwindows make cursor busy sometimes
+ 762202 g_win32_error_message improvements
+ 762637 build: Unconditionally dist tapset files
+ 762748 Undefined behavior
+ 762937 Mention that g_clear_error can be used with an "empty" GError
+ 763339 array: Support clearing an empty array with g_array_remove_range()
+ 763344 g_get_user_runtime_dir(): ensure directory exists
+ 763379 codegen: Add support for g_autoptr to gdbus-codegen–generated objects
+
+Translations updated:
+ Brazilian Portuguese
+ Czech
+ Finnish
+ French
+ Galician s
+ German
+ Greek
+ Hebrew
+ Hungarian
+ Italian
+ Kazakh
+ Korean
+ Latvian
+ Lithuanian
+ Occitan
+ Polish
+ Russian
+ Serbian
+ Slovak
+ Slovenian
+ Spanish
+ Swedish
+
+Overview of changes in GLib 2.47.6
+==================================
+
+* Windows usupport:
+ - Fixes and improvements to the GSettings registry backend
+ - Handle readability and writability of registry keys
+ - Use Unicode registry APIs
 
 * Bugs fixed:
- 735754 Implement close on TLS GOutputStream
- 743011 Minor additions to GError documentation
- 749161 undefined reference to `__imp__stat32i64'
- 751924 Add recvmmsg()-like API on GSocket
- 752837 gobject and glib-compile-resources rely on .CRT$XCU section, no longer...
- 753310 Remove `#pragma GCC system_header` from gmessages.h
- 755083 Clarify in G_ADD_PRIVATE that it is safe to call _get_instance_private(NULL)
- 755351 Example still contains g_autoptr(gchar)
- 755355 Move GStrv to glib.h so it can be used with g_auto()
- 755496 glib 2.46 fails GStreamer test suite
- 755795 2.46 considers empty files as octet-stream rather than text (leads to...
- 756179 gwin32.c: Replace VerifyVersionInfoW() with RtlGetVersion() due to API...
- 756251 The documentation of G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START is confusing
- 756255 GOutputStream swallowing errors in splice with G_OUTPUT_STREAM_SPLICE_...
+760852 744772 761126 747927 761337 744570 761504 761550 761843
+ 744570 GString is missing (transfer none) annotations on many of its methods
+ 744772 systemtap and gdb scripts install in wrong place
+ 747927 Documentation: various small improvements
+ 760852 gdbusobjectmanagerserver: Clarify recommended ObjectManager paths
+ 761126 winiconv: update to upstream version
+ 761337 Fix some annotations
+ 761504 W32 registry GSettings backend does not use Unicode
+ 761550 Cannot build with default flags under Fedora rawhide (-Werror=format-...
+ 761843 gmacros.h is testing attributes with __has_feature (when compiling wi...
 
 * Translation updates:
+ Brazilian Portuguese
+ Bulagarian
+ Chinese (Taiwan)
+ Hungarian
+ Polish
+ Slovak
+ Slovenian
+ Spanish
+ Swedish
+
+
+Overview of changes in GLib 2.47.5
+==================================
+
+* the system copy of PCRE is now used by default to implement GRegex.
+  Configure with --with-pcre=internal if a system PCRE version
+  is unavailable or undesired.
+
+* interfaces for DTLS support have been added.  A new version of
+  glib-networking will also be required.
+
+* GDBusMethodInvocation now drops replies if the sender set the
+  NO_REPLY_EXPECTED flag
+
+* several GApplication fixes, including fixes for commandline arguments
+  in interpreted languages on Windows
+
+Bugs fixed:
+ 624186 Deprecate glib-gettext macros
+ 734095 gtk-demo.py of PyGObject fails to run on Windows (and likely other binding scripts using g_application_run())
+ 735754 Implement close on TLS GOutputStream
+ 748064 gnulib vfprintf returns desired (not actual) number of bytes, ignores errors
+ 752240 Add DTLS support to GIO
+ 755421 GDBus ignores NO_REPLY_EXPECTED flag in messages, leading to warnings on system bus
+ 756875 Include ntdef.h for NTSTATUS
+ 759554 g_application_run() calls g_main_context_default() repeatidly
+ 760199 gsettings: Install gettext ITS rules
+ 760215 G_LIKELY/_UNLIKELY macros need more parentheses
+ 760683 regex test: Check the expected PCRE exceptions at runtime
+
+Translations updated:
+ Brazilian Portuguese
+ Czech
+ German
+ Lithuanian
+ Swedish
+
+Overview of changes in GLib 2.47.4
+==================================
+
+* The GApplication documentation has been improved in several areas.
+
+* Bugs fixed:
+ 749092 gdb pretty-printers fail on Python 3 with a TypeError...
+ 757374 macros: clean up "inline" mess
+ 758641 Memory leak in g_dbus_proxy_new_for_bus_sync()
+ 759134 Add missing checks for gnulib vasnprintf()
+ 759408 Do not use uninitialized var 
+ 756475 Stop supporting non-POSIX getpwuid_r, getgrgid_r
+ 757372 GApplication: destroy the impl on shutdown
+ 728099 macros: add G_GNUC_CHECK_VERSION() for compiler checks
+ 757299 glib-compile-resources: do not leak c_name
+ 758553 Fix gettext use
+ 758823 file monitors: reorder some code to avoid segfault
+ 756214 gsettings: Don't translate ""
+ 710243 Add GParamSpec object ref management annotations
+ 735696 xdgmime: Finer handling for cases where mmap() is not available
+ 752983 gapplication: Acquire the main context before running
+
+* Translation updates:
+ Swedish
+
+
+Overview of changes in GLib 2.47.3
+==================================
+
+The inline cleanup in the last release accidentally removed three
+symbols from libglib-2.0.so.  It is unlikely that this will have caused
+any problems because these symbols were only backup symbols for
+definitions exported as inlines in the header files, but ABI is ABI.
+
+This release corrects only this problem.
+
+Overview of changes in GLib 2.47.2
+==================================
+
+* We have formalised the assumption that all compilers that are
+  interested in support 'static inline' and simplified the macros around
+  this considerably.  Please watch for and report unintentional fallout.
+
+* New API: hardware-assisted helpers for overflow-checked integer math.
+
+* other fixes
+
+Bugs fixed:
+ 696324 gtester-report doesn't work with Python 3.x
+ 719966 glib: Add missing (nullable) and (optional) annotations
+ 752837 gobject and glib-compile-resources rely on .CRT$XCU section, no longer works with Win 10 UCRT (VS 2015)
+ 755364 make gtkdoc-check happy again
+ 756134 Segmentation fault on calling g_simple_action_group_add_action with bad action constructor call
+ 756179 gwin32.c: Replace VerifyVersionInfoW() with RtlGetVersion() due to API deprecation
+ 756988 GSequence should document each function's complexity
+ 757294 Move G_POLLFD_FORMAT to glibconfig.h
+ 757374 macros: clean up "inline" mess
+ 757451 doc: fix g_task_attach_source() example
+ 757628 gio tests fail to build when cross compiling 2.46.1
+ 757693 Invalid free in g_local_file_trash()
+ 757742 Fix up annotations in ghash.c
+ 758181 GTask: fix wrong example code
+
+Translations updated:
+ Greek
+ Hebrew
+ Hungarian
+ Norwegian bokmål
+ Portuguese
+ Scottish Gaelic
+ Simplified Chinese
+ Spanish
+
+Overview of changes in GLib 2.47.1
+==================================
+
+* The Unicode support has been updated to version 8.0 of the Unicode standard
+
+* GDesktopAppInfo no longer sets the DISPLAY environment variable when
+  launching apps. This is now done in the GAppLaunchContext implementations
+  when appropriate
+
+* Bug fixes:
+ 664740 Key-value file parser, space after integer
+ 687223 cleverer GThreadPool management
+ 692085 stderr and stdout are not always file descriptors 1 and 2
+ 697907 Add interface for socket-like things (GSocket, DTLS, etc)
+ 735754 Implement close on TLS GOutputStream
+ 737116 Add functions to print GSocketConnectables and addresses as strings
+ 743011 Minor additions to GError documentation
+ 749161 undefined reference to `__imp__stat32i64'
+ 749314 Cannot restore a just-trashed file
+ 751924 Add recvmmsg()-like API on GSocket
+ 752240 Add DTLS support to GIO
+ 752837 gobject and glib-compile-resources rely on .CRT$XCU section, no longer...
+ 753310 Remove `#pragma GCC system_header` from gmessages.h
+ 753935 Update example namespace and class names in GObject tutorial
+ 754855 Object instantiation documentation refers to example that no longer ex...
+ 754983 Wayland: g_desktop_app_info_launch_uris_with_spawn() forces DISPLAY va...
+ 754994 g_date_time_get_second () sometimes returns an off-by-one result
+ 755083 Clarify in G_ADD_PRIVATE that it is safe to call _get_instance_private...
+ 755351 Example still contains g_autoptr(gchar)
+ 755355 Move GStrv to glib.h so it can be used with g_auto()
+ 755374 g_variant_get_child(): flatten-first logic on '&'
+ 755496 glib 2.46 fails GStreamer test suite
+ 755609 glib 2.46.0 breaks Sun Java JVM 1.8.0.60
+ 755766 gvalue: The g_auto cleanup function assert if value is G_VALUE_INIT
+ 755795 2.46 considers empty files as octet-stream rather than text (leads to...
+ 755961 Fix up annotations in gbytes.c
+ 756053 MSVC doesn't understand the symbol 'msghdr'
+ 756054 MSVC linker error due to 'g_socket_send_message_with_timeout()'
+ 756077 testutils: remove internal ABI comment
+ 756099 g_main_context_query(): Annotate @n_fds as (in) parameter
+ 756139 musl: ctors called in the wrong order
+ 756179 gwin32.c: Replace VerifyVersionInfoW() with RtlGetVersion() due to AP...
+ 756251 The documentation of G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START is confusing
+ 756255 GOutputStream swallowing errors in splice with G_OUTPUT_STREAM_SPLICE...
+ 756316 GSequence should provide fast api to check if empty
+ 756382 snprintf used on Windows with VS2015 doesn't support %n
+ 756477 gio/gthreadedresolver.c has outdated copy of bionic headers (for android)
+ 756550 gtypes.h: Make G_MININTn literals negative
+ 756875 Include ntdef.h for NTSTATUS
+ 756952 giomodule: return a copy of module name
+
+* Translation updates:
+ Basque
  Czech
  Serbian
  Serbian Latin
