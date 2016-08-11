@@ -4,13 +4,15 @@
 #
 Name     : glib
 Version  : 2.48.1
-Release  : 29
+Release  : 30
 URL      : http://ftp.acc.umu.se/pub/gnome/sources/glib/2.48/glib-2.48.1.tar.xz
 Source0  : http://ftp.acc.umu.se/pub/gnome/sources/glib/2.48/glib-2.48.1.tar.xz
+Source1  : glib.tmpfiles
 Summary  : Dynamic module loader for GLib
 Group    : Development/Tools
 License  : GPL-2.0 LGPL-2.0 LGPL-2.0+
 Requires: glib-bin
+Requires: glib-config
 Requires: glib-lib
 Requires: glib-data
 Requires: glib-doc
@@ -48,9 +50,18 @@ dynamic loading, and an object system.
 Summary: bin components for the glib package.
 Group: Binaries
 Requires: glib-data
+Requires: glib-config
 
 %description bin
 bin components for the glib package.
+
+
+%package config
+Summary: config components for the glib package.
+Group: Default
+
+%description config
+config components for the glib package.
 
 
 %package data
@@ -85,6 +96,7 @@ doc components for the glib package.
 Summary: lib components for the glib package.
 Group: Libraries
 Requires: glib-data
+Requires: glib-config
 
 %description lib
 lib components for the glib package.
@@ -105,17 +117,19 @@ locales components for the glib package.
 %patch3 -p1
 
 %build
+export LANG=C
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -flto -falign-functions=32 -O3 -fno-semantic-interposition "
-export FCFLAGS="$CFLAGS -flto -falign-functions=32 -O3 -fno-semantic-interposition "
-export FFLAGS="$CFLAGS -flto -falign-functions=32 -O3 -fno-semantic-interposition "
-export CXXFLAGS="$CXXFLAGS -flto -falign-functions=32 -O3 -fno-semantic-interposition "
+export CFLAGS="$CFLAGS -fno-semantic-interposition -falign-functions=32 -O3 "
+export FCFLAGS="$CFLAGS -fno-semantic-interposition -falign-functions=32 -O3 "
+export FFLAGS="$CFLAGS -fno-semantic-interposition -falign-functions=32 -O3 "
+export CXXFLAGS="$CXXFLAGS -fno-semantic-interposition -falign-functions=32 -O3 "
 %configure --disable-static
 make V=1  %{?_smp_mflags}
 
 %check
+export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost
@@ -125,6 +139,8 @@ make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 rm -rf %{buildroot}
 %make_install
 %find_lang glib20
+mkdir -p %{buildroot}/usr/lib/tmpfiles.d
+install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/glib.conf
 
 %files
 %defattr(-,root,root,-)
@@ -145,6 +161,10 @@ rm -rf %{buildroot}
 /usr/bin/gsettings
 /usr/bin/gtester
 /usr/bin/gtester-report
+
+%files config
+%defattr(-,root,root,-)
+/usr/lib/tmpfiles.d/glib.conf
 
 %files data
 %defattr(-,root,root,-)
