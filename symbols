@@ -55,6 +55,8 @@ libgio-2.0.so.0:g_app_info_get_supported_types
 libgio-2.0.so.0:g_app_info_get_type
 libgio-2.0.so.0:g_app_info_launch
 libgio-2.0.so.0:g_app_info_launch_default_for_uri
+libgio-2.0.so.0:g_app_info_launch_default_for_uri_async
+libgio-2.0.so.0:g_app_info_launch_default_for_uri_finish
 libgio-2.0.so.0:g_app_info_launch_uris
 libgio-2.0.so.0:g_app_info_monitor_get
 libgio-2.0.so.0:g_app_info_monitor_get_type
@@ -607,6 +609,7 @@ libgio-2.0.so.0:g_drive_has_media
 libgio-2.0.so.0:g_drive_has_volumes
 libgio-2.0.so.0:g_drive_is_media_check_automatic
 libgio-2.0.so.0:g_drive_is_media_removable
+libgio-2.0.so.0:g_drive_is_removable
 libgio-2.0.so.0:g_drive_poll_for_media
 libgio-2.0.so.0:g_drive_poll_for_media_finish
 libgio-2.0.so.0:g_drive_start
@@ -1370,12 +1373,14 @@ libgio-2.0.so.0:g_settings_get_enum
 libgio-2.0.so.0:g_settings_get_flags
 libgio-2.0.so.0:g_settings_get_has_unapplied
 libgio-2.0.so.0:g_settings_get_int
+libgio-2.0.so.0:g_settings_get_int64
 libgio-2.0.so.0:g_settings_get_mapped
 libgio-2.0.so.0:g_settings_get_range
 libgio-2.0.so.0:g_settings_get_string
 libgio-2.0.so.0:g_settings_get_strv
 libgio-2.0.so.0:g_settings_get_type
 libgio-2.0.so.0:g_settings_get_uint
+libgio-2.0.so.0:g_settings_get_uint64
 libgio-2.0.so.0:g_settings_get_user_value
 libgio-2.0.so.0:g_settings_get_value
 libgio-2.0.so.0:g_settings_is_writable
@@ -1423,9 +1428,11 @@ libgio-2.0.so.0:g_settings_set_double
 libgio-2.0.so.0:g_settings_set_enum
 libgio-2.0.so.0:g_settings_set_flags
 libgio-2.0.so.0:g_settings_set_int
+libgio-2.0.so.0:g_settings_set_int64
 libgio-2.0.so.0:g_settings_set_string
 libgio-2.0.so.0:g_settings_set_strv
 libgio-2.0.so.0:g_settings_set_uint
+libgio-2.0.so.0:g_settings_set_uint64
 libgio-2.0.so.0:g_settings_set_value
 libgio-2.0.so.0:g_settings_sync
 libgio-2.0.so.0:g_settings_unbind
@@ -1922,6 +1929,8 @@ libgio-2.0.so.0:g_vfs_get_supported_uri_schemes
 libgio-2.0.so.0:g_vfs_get_type
 libgio-2.0.so.0:g_vfs_is_active
 libgio-2.0.so.0:g_vfs_parse_name
+libgio-2.0.so.0:g_vfs_register_uri_scheme
+libgio-2.0.so.0:g_vfs_unregister_uri_scheme
 libgio-2.0.so.0:g_volume_can_eject
 libgio-2.0.so.0:g_volume_can_mount
 libgio-2.0.so.0:g_volume_eject
@@ -2162,6 +2171,7 @@ libglib-2.0.so.0:g_completion_set_compare
 libglib-2.0.so.0:g_compute_checksum_for_bytes
 libglib-2.0.so.0:g_compute_checksum_for_data
 libglib-2.0.so.0:g_compute_checksum_for_string
+libglib-2.0.so.0:g_compute_hmac_for_bytes
 libglib-2.0.so.0:g_compute_hmac_for_data
 libglib-2.0.so.0:g_compute_hmac_for_string
 libglib-2.0.so.0:g_cond_broadcast
@@ -2496,6 +2506,7 @@ libglib-2.0.so.0:g_key_file_get_uint64
 libglib-2.0.so.0:g_key_file_get_value
 libglib-2.0.so.0:g_key_file_has_group
 libglib-2.0.so.0:g_key_file_has_key
+libglib-2.0.so.0:g_key_file_load_from_bytes
 libglib-2.0.so.0:g_key_file_load_from_data
 libglib-2.0.so.0:g_key_file_load_from_data_dirs
 libglib-2.0.so.0:g_key_file_load_from_dirs
@@ -2567,6 +2578,16 @@ libglib-2.0.so.0:g_log_set_default_handler
 libglib-2.0.so.0:g_log_set_fatal_mask
 libglib-2.0.so.0:g_log_set_handler
 libglib-2.0.so.0:g_log_set_handler_full
+libglib-2.0.so.0:g_log_set_writer_func
+libglib-2.0.so.0:g_log_structured
+libglib-2.0.so.0:g_log_structured_array
+libglib-2.0.so.0:g_log_variant
+libglib-2.0.so.0:g_log_writer_default
+libglib-2.0.so.0:g_log_writer_format_fields
+libglib-2.0.so.0:g_log_writer_is_journald
+libglib-2.0.so.0:g_log_writer_journald
+libglib-2.0.so.0:g_log_writer_standard_streams
+libglib-2.0.so.0:g_log_writer_supports_color
 libglib-2.0.so.0:g_logv
 libglib-2.0.so.0:g_lstat
 libglib-2.0.so.0:g_main_context_acquire
