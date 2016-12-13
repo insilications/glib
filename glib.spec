@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.50.1
-Release  : 33
+Release  : 34
 URL      : http://ftp.acc.umu.se/pub/gnome/sources/glib/2.50/glib-2.50.1.tar.xz
 Source0  : http://ftp.acc.umu.se/pub/gnome/sources/glib/2.50/glib-2.50.1.tar.xz
 Source1  : glib.tmpfiles
@@ -20,12 +20,25 @@ Requires: glib-locales
 BuildRequires : desktop-file-utils
 BuildRequires : docbook-xml
 BuildRequires : elfutils-dev
+BuildRequires : elfutils-dev32
+BuildRequires : gcc-dev32
+BuildRequires : gcc-libgcc32
+BuildRequires : gcc-libstdc++32
 BuildRequires : gettext
+BuildRequires : glibc-dev32
+BuildRequires : glibc-libc32
 BuildRequires : gtk-doc
 BuildRequires : gtk-doc-dev
 BuildRequires : libxml2-dev
+BuildRequires : libxml2-dev32
 BuildRequires : libxslt-bin
 BuildRequires : perl(XML::Parser)
+BuildRequires : pkgconfig(32dbus-1)
+BuildRequires : pkgconfig(32libelf)
+BuildRequires : pkgconfig(32libffi)
+BuildRequires : pkgconfig(32libpcre)
+BuildRequires : pkgconfig(32mount)
+BuildRequires : pkgconfig(32zlib)
 BuildRequires : pkgconfig(dbus-1)
 BuildRequires : pkgconfig(libffi)
 BuildRequires : pkgconfig(libpcre)
@@ -85,6 +98,17 @@ Provides: glib-devel
 dev components for the glib package.
 
 
+%package dev32
+Summary: dev32 components for the glib package.
+Group: Default
+Requires: glib-lib32
+Requires: glib-bin
+Requires: glib-data
+
+%description dev32
+dev32 components for the glib package.
+
+
 %package doc
 Summary: doc components for the glib package.
 Group: Documentation
@@ -103,6 +127,16 @@ Requires: glib-config
 lib components for the glib package.
 
 
+%package lib32
+Summary: lib32 components for the glib package.
+Group: Default
+Requires: glib-data
+Requires: glib-config
+
+%description lib32
+lib32 components for the glib package.
+
+
 %package locales
 Summary: locales components for the glib package.
 Group: Default
@@ -116,6 +150,9 @@ locales components for the glib package.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+pushd ..
+cp -a glib-2.50.1 build32
+popd
 
 %build
 export LANG=C
@@ -126,15 +163,24 @@ export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-semantic-interposition 
 %configure --disable-static
 make V=1  %{?_smp_mflags}
 
-%check
-export LANG=C
-export http_proxy=http://127.0.0.1:9/
-export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost
-make VERBOSE=1 V=1 %{?_smp_mflags} check || :
-
+pushd ../build32/
+export CFLAGS="$CFLAGS -m32"
+export CXXFLAGS="$CXXFLAGS -m32"
+export LDFLAGS="$LDFLAGS -m32"
+%configure --disable-static   --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+make V=1  %{?_smp_mflags}
+popd
 %install
 rm -rf %{buildroot}
+pushd ../build32/
+%make_install32
+if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
+then
+pushd %{buildroot}/usr/lib32/pkgconfig
+for i in *.pc ; do mv $i 32$i ; done
+popd
+fi
+popd
 %make_install
 %find_lang glib20
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
@@ -171,6 +217,12 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/glib.conf
 /usr/share/bash-completion/completions/gdbus
 /usr/share/bash-completion/completions/gresource
 /usr/share/bash-completion/completions/gsettings
+/usr/share/gdb/auto-load/usr/lib32/libglib-2.0.so.0.5000.1-gdb.py
+/usr/share/gdb/auto-load/usr/lib32/libglib-2.0.so.0.5000.1-gdb.pyc
+/usr/share/gdb/auto-load/usr/lib32/libglib-2.0.so.0.5000.1-gdb.pyo
+/usr/share/gdb/auto-load/usr/lib32/libgobject-2.0.so.0.5000.1-gdb.py
+/usr/share/gdb/auto-load/usr/lib32/libgobject-2.0.so.0.5000.1-gdb.pyc
+/usr/share/gdb/auto-load/usr/lib32/libgobject-2.0.so.0.5000.1-gdb.pyo
 /usr/share/gdb/auto-load/usr/lib64/libglib-2.0.so.0.5000.1-gdb.py
 /usr/share/gdb/auto-load/usr/lib64/libglib-2.0.so.0.5000.1-gdb.pyc
 /usr/share/gdb/auto-load/usr/lib64/libglib-2.0.so.0.5000.1-gdb.pyo
@@ -475,10 +527,38 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/glib.conf
 /usr/include/glib-2.0/gobject/gvaluearray.h
 /usr/include/glib-2.0/gobject/gvaluecollector.h
 /usr/include/glib-2.0/gobject/gvaluetypes.h
-/usr/lib64/*.so
+/usr/lib32/glib-2.0/include/glibconfig.h
 /usr/lib64/glib-2.0/include/glibconfig.h
-/usr/lib64/pkgconfig/*.pc
+/usr/lib64/libgio-2.0.so
+/usr/lib64/libglib-2.0.so
+/usr/lib64/libgmodule-2.0.so
+/usr/lib64/libgobject-2.0.so
+/usr/lib64/libgthread-2.0.so
+/usr/lib64/pkgconfig/gio-2.0.pc
+/usr/lib64/pkgconfig/gio-unix-2.0.pc
+/usr/lib64/pkgconfig/glib-2.0.pc
+/usr/lib64/pkgconfig/gmodule-2.0.pc
+/usr/lib64/pkgconfig/gmodule-export-2.0.pc
+/usr/lib64/pkgconfig/gmodule-no-export-2.0.pc
+/usr/lib64/pkgconfig/gobject-2.0.pc
+/usr/lib64/pkgconfig/gthread-2.0.pc
 /usr/share/aclocal/*.m4
+
+%files dev32
+%defattr(-,root,root,-)
+/usr/lib32/libgio-2.0.so
+/usr/lib32/libglib-2.0.so
+/usr/lib32/libgmodule-2.0.so
+/usr/lib32/libgobject-2.0.so
+/usr/lib32/libgthread-2.0.so
+/usr/lib32/pkgconfig/32gio-2.0.pc
+/usr/lib32/pkgconfig/32gio-unix-2.0.pc
+/usr/lib32/pkgconfig/32glib-2.0.pc
+/usr/lib32/pkgconfig/32gmodule-2.0.pc
+/usr/lib32/pkgconfig/32gmodule-export-2.0.pc
+/usr/lib32/pkgconfig/32gmodule-no-export-2.0.pc
+/usr/lib32/pkgconfig/32gobject-2.0.pc
+/usr/lib32/pkgconfig/32gthread-2.0.pc
 
 %files doc
 %defattr(-,root,root,-)
@@ -956,7 +1036,29 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/glib.conf
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/*.so.*
+/usr/lib64/libgio-2.0.so.0
+/usr/lib64/libgio-2.0.so.0.5000.1
+/usr/lib64/libglib-2.0.so.0
+/usr/lib64/libglib-2.0.so.0.5000.1
+/usr/lib64/libgmodule-2.0.so.0
+/usr/lib64/libgmodule-2.0.so.0.5000.1
+/usr/lib64/libgobject-2.0.so.0
+/usr/lib64/libgobject-2.0.so.0.5000.1
+/usr/lib64/libgthread-2.0.so.0
+/usr/lib64/libgthread-2.0.so.0.5000.1
+
+%files lib32
+%defattr(-,root,root,-)
+/usr/lib32/libgio-2.0.so.0
+/usr/lib32/libgio-2.0.so.0.5000.1
+/usr/lib32/libglib-2.0.so.0
+/usr/lib32/libglib-2.0.so.0.5000.1
+/usr/lib32/libgmodule-2.0.so.0
+/usr/lib32/libgmodule-2.0.so.0.5000.1
+/usr/lib32/libgobject-2.0.so.0
+/usr/lib32/libgobject-2.0.so.0.5000.1
+/usr/lib32/libgthread-2.0.so.0
+/usr/lib32/libgthread-2.0.so.0.5000.1
 
 %files locales -f glib20.lang 
 %defattr(-,root,root,-)

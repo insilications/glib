@@ -8,3 +8,5 @@ tzdata
 desktop-file-utils
 shared-mime-info
 libxml2-dev
+libxml2-dev32
+elfutils-dev32
