@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.50.1
-Release  : 34
+Release  : 35
 URL      : http://ftp.acc.umu.se/pub/gnome/sources/glib/2.50/glib-2.50.1.tar.xz
 Source0  : http://ftp.acc.umu.se/pub/gnome/sources/glib/2.50/glib-2.50.1.tar.xz
 Source1  : glib.tmpfiles
@@ -164,9 +164,9 @@ export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-semantic-interposition 
 make V=1  %{?_smp_mflags}
 
 pushd ../build32/
-export CFLAGS="$CFLAGS -m32"
-export CXXFLAGS="$CXXFLAGS -m32"
-export LDFLAGS="$LDFLAGS -m32"
+export CFLAGS="$CFLAGS -m32 "
+export CXXFLAGS="$CXXFLAGS -m32 "
+export LDFLAGS="$LDFLAGS -m32 "
 %configure --disable-static   --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make V=1  %{?_smp_mflags}
 popd
@@ -177,7 +177,7 @@ pushd ../build32/
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
 then
 pushd %{buildroot}/usr/lib32/pkgconfig
-for i in *.pc ; do mv $i 32$i ; done
+for i in *.pc ; do ln -s $i 32$i ; done
 popd
 fi
 popd
@@ -559,6 +559,14 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/glib.conf
 /usr/lib32/pkgconfig/32gmodule-no-export-2.0.pc
 /usr/lib32/pkgconfig/32gobject-2.0.pc
 /usr/lib32/pkgconfig/32gthread-2.0.pc
+/usr/lib32/pkgconfig/gio-2.0.pc
+/usr/lib32/pkgconfig/gio-unix-2.0.pc
+/usr/lib32/pkgconfig/glib-2.0.pc
+/usr/lib32/pkgconfig/gmodule-2.0.pc
+/usr/lib32/pkgconfig/gmodule-export-2.0.pc
+/usr/lib32/pkgconfig/gmodule-no-export-2.0.pc
+/usr/lib32/pkgconfig/gobject-2.0.pc
+/usr/lib32/pkgconfig/gthread-2.0.pc
 
 %files doc
 %defattr(-,root,root,-)
