@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.50.1
-Release  : 35
+Release  : 36
 URL      : http://ftp.acc.umu.se/pub/gnome/sources/glib/2.50/glib-2.50.1.tar.xz
 Source0  : http://ftp.acc.umu.se/pub/gnome/sources/glib/2.50/glib-2.50.1.tar.xz
 Source1  : glib.tmpfiles
