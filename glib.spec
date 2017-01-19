@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.50.2
-Release  : 37
+Release  : 38
 URL      : http://ftp.acc.umu.se/pub/gnome/sources/glib/2.50/glib-2.50.2.tar.xz
 Source0  : http://ftp.acc.umu.se/pub/gnome/sources/glib/2.50/glib-2.50.2.tar.xz
 Source1  : glib.tmpfiles
@@ -47,9 +47,10 @@ BuildRequires : pkgconfig(zlib)
 BuildRequires : python-dev
 BuildRequires : shared-mime-info
 BuildRequires : tzdata
-Patch1: 0001-glib-tests-mappedfile-create-runtime_dir-before-writ.patch
-Patch2: xdg-path.patch
-Patch3: memory.patch
+Patch1: 0001-gio-Support-a-stateless-configuration-for-compiled-G.patch
+Patch2: 0001-glib-tests-mappedfile-create-runtime_dir-before-writ.patch
+Patch3: xdg-path.patch
+Patch4: memory.patch
 
 %description
 General Information
@@ -151,12 +152,14 @@ locales components for the glib package.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 pushd ..
 cp -a glib-2.50.2 build32
 popd
 
 %build
 export LANG=C
+export SOURCE_DATE_EPOCH=1484784826
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
@@ -169,10 +172,11 @@ export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 export CFLAGS="$CFLAGS -m32"
 export CXXFLAGS="$CXXFLAGS -m32"
 export LDFLAGS="$LDFLAGS -m32"
-%configure --disable-static   --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+%configure --disable-static    --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make V=1  %{?_smp_mflags}
 popd
 %install
+export SOURCE_DATE_EPOCH=1484784826
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32

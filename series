@@ -1,3 +1,4 @@
+0001-gio-Support-a-stateless-configuration-for-compiled-G.patch
 0001-glib-tests-mappedfile-create-runtime_dir-before-writ.patch
 #0001-Skip-xdg-desktopy-tests.patch
 xdg-path.patch
