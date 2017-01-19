@@ -1,0 +1,3 @@
+# enable the glib schema compile trigger
+mkdir -p %{buildroot}/usr/lib/systemd/system/update-triggers.target.wants
+ln -s /usr/lib/systemd/system/glib-schemas-trigger.service %{buildroot}/usr/lib/systemd/system/update-triggers.target.wants/glib-schemas-trigger.service

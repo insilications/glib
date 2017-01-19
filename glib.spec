@@ -4,10 +4,11 @@
 #
 Name     : glib
 Version  : 2.50.2
-Release  : 38
+Release  : 41
 URL      : http://ftp.acc.umu.se/pub/gnome/sources/glib/2.50/glib-2.50.2.tar.xz
 Source0  : http://ftp.acc.umu.se/pub/gnome/sources/glib/2.50/glib-2.50.2.tar.xz
-Source1  : glib.tmpfiles
+Source1  : glib-schemas-trigger.service
+Source2  : glib.tmpfiles
 Summary  : unix specific headers for glib I/O library
 Group    : Development/Tools
 License  : GPL-2.0 LGPL-2.0 LGPL-2.0+
@@ -159,7 +160,7 @@ popd
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1484784826
+export SOURCE_DATE_EPOCH=1484787546
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
@@ -176,7 +177,7 @@ export LDFLAGS="$LDFLAGS -m32"
 make V=1  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1484784826
+export SOURCE_DATE_EPOCH=1484787546
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -189,8 +190,14 @@ fi
 popd
 %make_install
 %find_lang glib20
+mkdir -p %{buildroot}/usr/lib/systemd/system
+install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/glib-schemas-trigger.service
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
-install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/glib.conf
+install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/tmpfiles.d/glib.conf
+## make_install_append content
+mkdir -p %{buildroot}/usr/lib/systemd/system/update-triggers.target.wants
+ln -s /usr/lib/systemd/system/glib-schemas-trigger.service %{buildroot}/usr/lib/systemd/system/update-triggers.target.wants/glib-schemas-trigger.service
+## make_install_append end
 
 %files
 %defattr(-,root,root,-)
@@ -215,6 +222,8 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/glib.conf
 
 %files config
 %defattr(-,root,root,-)
+/usr/lib/systemd/system/glib-schemas-trigger.service
+/usr/lib/systemd/system/update-triggers.target.wants/glib-schemas-trigger.service
 /usr/lib/tmpfiles.d/glib.conf
 
 %files data
