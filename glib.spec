@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.52.0
-Release  : 43
+Release  : 44
 URL      : https://download.gnome.org/sources/glib/2.52/glib-2.52.0.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.52/glib-2.52.0.tar.xz
 Source1  : glib-schemas-trigger.service
@@ -160,7 +160,7 @@ popd
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1490283188
+export SOURCE_DATE_EPOCH=1490283605
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
@@ -177,7 +177,7 @@ export LDFLAGS="$LDFLAGS -m32"
 make V=1  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1490283188
+export SOURCE_DATE_EPOCH=1490283605
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
