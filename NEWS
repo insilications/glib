@@ -1,36 +1,175 @@
-Overview of changes in GLib 2.50.3
+Overview of changes in GLib 2.52.0
 ==================================
 
-* Bugs fixed:
- 775309 Crash in gdbusauth
- 775468 Improve log write supports color method on windows
- 775517 Password input is echoed in the terminal
- 775765 FDO notification withdrawal backend sends wrong ID to the server
+* Bug fixes:
+ 779799 gdatetime test fails with tzdata 2017a
+ 780032 Add missing attributes to two functions
+ 780144 gio/fam: Remove leftover debug print
 
 * Translation updates:
- Simplified Chinese
+ French
+ Friulian
+ Latvian
 
 
-Overview of changes in GLib 2.50.2
+Overview of changes in GLib 2.51.5
+==================================
+
+* OS X implementations of GContentType and GAppInfo
+  have been added
+
+* Bugs fixed:
+ 673047 gunicollate is broken on OS X (patch included!)
+ 734946 Implement GContentType on OSX
+ 747146 Implement GNotification on OSX
+ 769983 glib-mkenums generates non-reproducible Makefile snippets
+ 777203 gnulib license information is not correct in glib2.0
+ 778515 Crash in the gio kqueue backend
+ 779456 Make g_utf8_make_valid optionally take a length
+
+* Translation updates:
+ Danish
+ Friulian
+ German
+ Hungarian
+ Korean
+ Lithuanian
+
+
+Overview of changes in GLib 2.51.4
+==================================
+
+* Memory leak fixes
+* Fix the released tarball
+
+
+Overview of changes in GLib 2.51.3
 ==================================
 
 * Bugs fixed:
+ 771997 gchecksum: Add SHA-384 support
+ 778422 gsubprocesslauncher: Clarify the behavior of set_environ()
+ 778581 gdbus-codegen: Fix -Wconversion warning
+ 778801 gdbus-codegen: Add --outdir flag
+ 778991 Plug a mem leak in gdbusauth
+ 779183 g_io_extension_point_get_extensions should check for NULL pointer
+
+* Translation updates:
+ Basque
+ Chinese (Taiwan)
+ Danish
+ Indonesian
+ Italian
+ Serbian
+
+
+Overview of changes in GLib 2.51.2
+==================================
+
+* Minimal support for UUIDs has been added
+
+* A new file attribute, G_FILE_ATTRIBUTE_RECENT_MODIFIED has been added
+  to improve sorting of recent files
+
+* Bugs fixed:
+ 639078 UUID support feature request
+ 777135 gkeyfile: Be more specific about error codes in documentation
+ 777307 race condition between gdbus signal callback and g_bus_unwatch_name...
+ 777481 goutputstream: docs: fix typos
+ 777493 g_mkdtemp() not introspectable
+ 777507 Recent view sorting incorrectly
+ 777592 Add minor examples to GDBus and GVariant documentation
+ 778002 race in gdbusprivate.c detected by the ThreadSanitizer
+ 778096 race in gdbusconnection reported by TSan
+
+* Translation updates:
+ Norwegian bokmål
+ Polish
+ Simplified Chinese
+ Slovak
+ Spanish
+ Swedish
+
+
+Overview of changes in GLib 2.51.1
+==================================
+
+* glib-compile-resources grew a --generate-phony-targets flag
+
+* GLib now installs a valgrind suppressions file for GLib and GIO
+
+* Bugs fixed:
+ 666114 should have infrastructure to run its tests under valgrind
+ 729730 GDBusMessage: Fix segfault if DEBUG_SERIALIZER is enabled
+ 730932 statically assert that reasonable assumptions about enums are true
+ 735731 gobject: Document behaviour of GType checking macros on NULL
+ 736810 gdbus: Fix leak in g_dbus_message_print()
+ 762283 GSocket – Fix race conditions on Win32 if multiple threads are waiting on cond...
+ 767609 Test suite problems
+ 767952 g_dbus_method_invocation_return_*, g_dbus_method_invocation_take_error: They d...
+ 769672 Assert threads for testcase 642026 are sucessfully created
+ 769745 gtask: Add guards for public functions
+ 770175 Add command line argument to mkenums and genmarshal to write output to a file
+ 770646 glib: Namespace global tapset variables by soname
+ 772160 Add g_unix_mount_for() support
+ 772989 Totem allows invalid urls that might cause segfault that's irrecoverable
+ 773823 gio: Bump copy buffer size to 256k by default
+ 774086 fix g_main_context_check declaration
+ 774368 Dependency file output of resource scanner breaks Ninja
+ 774421 Two minor patches
+ 774520 GSocket allocates and processes control messages even if not requested
+ 775309 Crash in gdbusauth
+ 775468 Improve log write supports color method on windows
+ 775510 testing with -fsanitize=undefined reports various undefined behaviour
+ 775517 Password input is echoed in the terminal
+ 775621 gmessages: Fix compilation on Android
+ 775765 FDO notification withdrawal backend sends wrong ID to the server
+ 775913 subprocesslauncher: potential infinite loop in verify_disposition()
+ 776198 Stray semicolon after g_variant_print() function in gvariant.c
+ 776586 License headers cleanup
+ 777077 Use of memory after it is freed
+
+* Translation updates:
+ Brazilian Portuguese
+ Czech
+ Galician
+ German
+ Hebrew
+ Kazakh
+ Lithuanian
+ Spanish
+ Swedish
+
+
+Overview of changes in GLib 2.51.0
+==================================
+
+* glib-genmarshal and glib-mkenums have gained --output options
+  for better build system integration
+
+* New API: g_utf8_make_valid
+
+* Bugs fixed:
+ 591603 Make _g_utf8_make_valid public
+ 610969 Nice to have g_utf8_make_valid as public
  767882 Bit shift overflow (-Wshift-overflow) warning in gparam.h
  769135 External control for g_test_add/g_test_run
  769630 gfile: G_FILE_MONITOR_WATCH_MOVES was actually introduced in 2.46
- 772054 Patch for glib/gspawn-win32-helper.c: unexpected behavior re CommandLineToArgvW()
- 773303 GApplication leaks option_strings
- 773344 glib-compile-resources: Fix creating depfile with other targets
+ 772160 Add g_unix_mount_for() support
+ 772221 Take advantage of Unicode
+ 773303 GApplication leaks option_strings 
 
 * Translation updates:
  French
  Galician
  German
+ Hungarian
  Lithuanian
  Norwegian bokmål
  Occitan
- Serbian
+ Polish
  Slovak
+ Turkish
 
 
 Overview of changes in GLib 2.50.1
