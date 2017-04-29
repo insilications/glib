@@ -3,3 +3,4 @@
 #0001-Skip-xdg-desktopy-tests.patch
 xdg-path.patch
 memory.patch
+madvise.patch
