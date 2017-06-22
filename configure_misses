@@ -1,0 +1,106 @@
+Configure miss: the Android
+Configure miss: Mac OS X Carbon support
+Configure miss: Mac OS X Cocoa support
+Configure miss: whether to enable garbage collector friendliness
+Configure miss: whether to disable memory pools
+Configure miss: indent
+Configure miss: growing stack pointer
+Configure miss: whether using Sun Studio C compiler
+Configure miss: sys/vmount.h usability
+Configure miss: sys/vmount.h presence
+Configure miss: sys/vmount.h
+Configure miss: sys/mnttab.h usability
+Configure miss: sys/mnttab.h presence
+Configure miss: sys/mnttab.h
+Configure miss: sys/vfstab.h usability
+Configure miss: sys/vfstab.h presence
+Configure miss: sys/vfstab.h
+Configure miss: sys/mntctl.h usability
+Configure miss: sys/mntctl.h presence
+Configure miss: sys/mntctl.h
+Configure miss: sysctlbyname
+Configure miss: struct stat.st_mtimensec
+Configure miss: struct stat.st_atimensec
+Configure miss: struct stat.st_ctimensec
+Configure miss: struct stat.st_birthtime
+Configure miss: struct stat.st_birthtim
+Configure miss: struct statfs.f_fstypename
+Configure miss: struct statvfs.f_basetype
+Configure miss: struct statvfs.f_fstypename
+Configure miss: getfsstat
+Configure miss: getvfsstat
+Configure miss: if arpa/nameser_compat.h is needed
+Configure miss: OpenBSD strlcpy/strlcat
+Configure miss: whether va_lists can be copied by value
+Configure miss: NSLinkModule
+Configure miss: RTLD_GLOBAL brokenness
+Configure miss: preceeding underscore in symbols
+Configure miss: sys/event.h usability
+Configure miss: sys/event.h presence
+Configure miss: sys/event.h
+Configure miss: FAMOpen in -lfam
+Configure miss: XATTR_NOFOLLOW
+Configure miss: pthread_cond_timedwait_relative_np
+Configure miss: pthread_setname_np(const char*)
+Configure miss: broken poll
+Configure miss: XML catalog (/etc/xml/catalog)
+Configure miss: DocBook XML DTD V4.1.2 in XML catalog
+Configure miss: whether to generate man pages
+Configure miss: dtrace
+Configure miss: whether to include systemtap tracing support
+Configure miss: if gcc supports flag -Werror=format-security in envvar CFLAGS
+Configure miss: the Android
+Configure miss: Mac OS X Carbon support
+Configure miss: Mac OS X Cocoa support
+Configure miss: whether to enable garbage collector friendliness
+Configure miss: whether to disable memory pools
+Configure miss: i686-generic-linux-gnu-pkg-config
+Configure miss: indent
+Configure miss: i686-generic-linux-gnu-objdump
+Configure miss: i686-generic-linux-gnu-dlltool
+Configure miss: i686-generic-linux-gnu-strip
+Configure miss: i686-generic-linux-gnu-mt
+Configure miss: growing stack pointer
+Configure miss: whether using Sun Studio C compiler
+Configure miss: sys/vmount.h usability
+Configure miss: sys/vmount.h presence
+Configure miss: sys/vmount.h
+Configure miss: sys/mnttab.h usability
+Configure miss: sys/mnttab.h presence
+Configure miss: sys/mnttab.h
+Configure miss: sys/vfstab.h usability
+Configure miss: sys/vfstab.h presence
+Configure miss: sys/vfstab.h
+Configure miss: sys/mntctl.h usability
+Configure miss: sys/mntctl.h presence
+Configure miss: sys/mntctl.h
+Configure miss: sysctlbyname
+Configure miss: struct stat.st_mtimensec
+Configure miss: struct stat.st_atimensec
+Configure miss: struct stat.st_ctimensec
+Configure miss: struct stat.st_birthtime
+Configure miss: struct stat.st_birthtim
+Configure miss: struct statfs.f_fstypename
+Configure miss: struct statvfs.f_basetype
+Configure miss: struct statvfs.f_fstypename
+Configure miss: getfsstat
+Configure miss: getvfsstat
+Configure miss: if arpa/nameser_compat.h is needed
+Configure miss: OpenBSD strlcpy/strlcat
+Configure miss: NSLinkModule
+Configure miss: RTLD_GLOBAL brokenness
+Configure miss: preceeding underscore in symbols
+Configure miss: sys/event.h usability
+Configure miss: sys/event.h presence
+Configure miss: sys/event.h
+Configure miss: FAMOpen in -lfam
+Configure miss: XATTR_NOFOLLOW
+Configure miss: pthread_cond_timedwait_relative_np
+Configure miss: pthread_setname_np(const char*)
+Configure miss: broken poll
+Configure miss: XML catalog (/etc/xml/catalog)
+Configure miss: DocBook XML DTD V4.1.2 in XML catalog
+Configure miss: whether to generate man pages
+Configure miss: dtrace
+Configure miss: whether to include systemtap tracing support
+Configure miss: if gcc supports flag -Werror=format-security in envvar CFLAGS
