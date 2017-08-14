@@ -10,3 +10,4 @@ shared-mime-info
 libxml2-dev
 libxml2-dev32
 elfutils-dev32
+glib-dev

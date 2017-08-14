@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.52.3
-Release  : 50
+Release  : 51
 URL      : https://download.gnome.org/sources/glib/2.52/glib-2.52.3.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.52/glib-2.52.3.tar.xz
 Source1  : glib-schemas-trigger.service
@@ -26,6 +26,7 @@ BuildRequires : gcc-dev32
 BuildRequires : gcc-libgcc32
 BuildRequires : gcc-libstdc++32
 BuildRequires : gettext
+BuildRequires : glib-dev
 BuildRequires : glibc-dev32
 BuildRequires : glibc-libc32
 BuildRequires : gtk-doc
@@ -47,6 +48,8 @@ BuildRequires : pkgconfig(mount)
 BuildRequires : pkgconfig(zlib)
 BuildRequires : python-dev
 BuildRequires : shared-mime-info
+BuildRequires : six
+BuildRequires : six-python
 BuildRequires : tzdata
 Patch1: 0001-gio-Support-a-stateless-configuration-for-compiled-G.patch
 Patch2: 0001-glib-tests-mappedfile-create-runtime_dir-before-writ.patch
@@ -165,14 +168,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1498158755
+export SOURCE_DATE_EPOCH=1502674962
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition "
 %configure --disable-static
 make V=1  %{?_smp_mflags}
 
@@ -185,7 +188,7 @@ export LDFLAGS="$LDFLAGS -m32"
 make V=1  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1498158755
+export SOURCE_DATE_EPOCH=1502674962
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32

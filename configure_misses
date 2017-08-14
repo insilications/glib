@@ -19,6 +19,9 @@ Configure miss: sys/mntctl.h usability
 Configure miss: sys/mntctl.h presence
 Configure miss: sys/mntctl.h
 Configure miss: sysctlbyname
+Configure miss: xlocale.h usability
+Configure miss: xlocale.h presence
+Configure miss: xlocale.h
 Configure miss: struct stat.st_mtimensec
 Configure miss: struct stat.st_atimensec
 Configure miss: struct stat.st_ctimensec
@@ -75,6 +78,9 @@ Configure miss: sys/mntctl.h usability
 Configure miss: sys/mntctl.h presence
 Configure miss: sys/mntctl.h
 Configure miss: sysctlbyname
+Configure miss: xlocale.h usability
+Configure miss: xlocale.h presence
+Configure miss: xlocale.h
 Configure miss: struct stat.st_mtimensec
 Configure miss: struct stat.st_atimensec
 Configure miss: struct stat.st_ctimensec
