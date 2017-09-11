@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.54.0
-Release  : 52
+Release  : 53
 URL      : https://download.gnome.org/sources/glib/2.54/glib-2.54.0.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.54/glib-2.54.0.tar.xz
 Source1  : glib-schemas-trigger.service
@@ -160,16 +160,13 @@ locales components for the glib package.
 pushd ..
 cp -a glib-2.54.0 build32
 popd
-pushd ..
-cp -a glib-2.54.0 buildavx2
-popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1505137242
+export SOURCE_DATE_EPOCH=1505141299
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -188,15 +185,8 @@ export LDFLAGS="$LDFLAGS -m32"
 %configure --disable-static    --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make V=1  %{?_smp_mflags}
 popd
-pushd ../buildavx2/
-export CFLAGS="$CFLAGS -m64 -march=haswell"
-export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
-export LDFLAGS="$LDFLAGS -m64 -march=haswell"
-%configure --disable-static    --libdir=/usr/lib64/haswell
-make V=1  %{?_smp_mflags}
-popd
 %install
-export SOURCE_DATE_EPOCH=1505137242
+export SOURCE_DATE_EPOCH=1505141299
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -208,9 +198,6 @@ popd
 fi
 popd
 %make_install
-pushd ../buildavx2/
-%make_install
-popd
 %find_lang glib20
 mkdir -p %{buildroot}/usr/lib/systemd/system
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/glib-schemas-trigger.service
@@ -223,14 +210,6 @@ ln -s /usr/lib/systemd/system/glib-schemas-trigger.service %{buildroot}/usr/lib/
 
 %files
 %defattr(-,root,root,-)
-/usr/lib64/haswell/pkgconfig/gio-2.0.pc
-/usr/lib64/haswell/pkgconfig/gio-unix-2.0.pc
-/usr/lib64/haswell/pkgconfig/glib-2.0.pc
-/usr/lib64/haswell/pkgconfig/gmodule-2.0.pc
-/usr/lib64/haswell/pkgconfig/gmodule-export-2.0.pc
-/usr/lib64/haswell/pkgconfig/gmodule-no-export-2.0.pc
-/usr/lib64/haswell/pkgconfig/gobject-2.0.pc
-/usr/lib64/haswell/pkgconfig/gthread-2.0.pc
 
 %files bin
 %defattr(-,root,root,-)
@@ -268,12 +247,6 @@ ln -s /usr/lib/systemd/system/glib-schemas-trigger.service %{buildroot}/usr/lib/
 /usr/share/gdb/auto-load/usr/lib32/libgobject-2.0.so.0.5400.0-gdb.py
 /usr/share/gdb/auto-load/usr/lib32/libgobject-2.0.so.0.5400.0-gdb.pyc
 /usr/share/gdb/auto-load/usr/lib32/libgobject-2.0.so.0.5400.0-gdb.pyo
-/usr/share/gdb/auto-load/usr/lib64/haswell/libglib-2.0.so.0.5400.0-gdb.py
-/usr/share/gdb/auto-load/usr/lib64/haswell/libglib-2.0.so.0.5400.0-gdb.pyc
-/usr/share/gdb/auto-load/usr/lib64/haswell/libglib-2.0.so.0.5400.0-gdb.pyo
-/usr/share/gdb/auto-load/usr/lib64/haswell/libgobject-2.0.so.0.5400.0-gdb.py
-/usr/share/gdb/auto-load/usr/lib64/haswell/libgobject-2.0.so.0.5400.0-gdb.pyc
-/usr/share/gdb/auto-load/usr/lib64/haswell/libgobject-2.0.so.0.5400.0-gdb.pyo
 /usr/share/gdb/auto-load/usr/lib64/libglib-2.0.so.0.5400.0-gdb.py
 /usr/share/gdb/auto-load/usr/lib64/libglib-2.0.so.0.5400.0-gdb.pyc
 /usr/share/gdb/auto-load/usr/lib64/libglib-2.0.so.0.5400.0-gdb.pyo
@@ -582,12 +555,6 @@ ln -s /usr/lib/systemd/system/glib-schemas-trigger.service %{buildroot}/usr/lib/
 /usr/include/glib-2.0/gobject/gvaluetypes.h
 /usr/lib32/glib-2.0/include/glibconfig.h
 /usr/lib64/glib-2.0/include/glibconfig.h
-/usr/lib64/haswell/glib-2.0/include/glibconfig.h
-/usr/lib64/haswell/libgio-2.0.so
-/usr/lib64/haswell/libglib-2.0.so
-/usr/lib64/haswell/libgmodule-2.0.so
-/usr/lib64/haswell/libgobject-2.0.so
-/usr/lib64/haswell/libgthread-2.0.so
 /usr/lib64/libgio-2.0.so
 /usr/lib64/libglib-2.0.so
 /usr/lib64/libgmodule-2.0.so
@@ -1038,16 +1005,6 @@ ln -s /usr/lib/systemd/system/glib-schemas-trigger.service %{buildroot}/usr/lib/
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/haswell/libgio-2.0.so.0
-/usr/lib64/haswell/libgio-2.0.so.0.5400.0
-/usr/lib64/haswell/libglib-2.0.so.0
-/usr/lib64/haswell/libglib-2.0.so.0.5400.0
-/usr/lib64/haswell/libgmodule-2.0.so.0
-/usr/lib64/haswell/libgmodule-2.0.so.0.5400.0
-/usr/lib64/haswell/libgobject-2.0.so.0
-/usr/lib64/haswell/libgobject-2.0.so.0.5400.0
-/usr/lib64/haswell/libgthread-2.0.so.0
-/usr/lib64/haswell/libgthread-2.0.so.0.5400.0
 /usr/lib64/libgio-2.0.so.0
 /usr/lib64/libgio-2.0.so.0.5400.0
 /usr/lib64/libglib-2.0.so.0
