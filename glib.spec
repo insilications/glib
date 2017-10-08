@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.54.1
-Release  : 54
+Release  : 55
 URL      : https://download.gnome.org/sources/glib/2.54/glib-2.54.1.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.54/glib-2.54.1.tar.xz
 Source1  : glib-schemas-trigger.service
@@ -129,7 +129,6 @@ doc components for the glib package.
 Summary: lib components for the glib package.
 Group: Libraries
 Requires: glib-data
-Requires: glib-config
 
 %description lib
 lib components for the glib package.
@@ -139,7 +138,6 @@ lib components for the glib package.
 Summary: lib32 components for the glib package.
 Group: Default
 Requires: glib-data
-Requires: glib-config
 
 %description lib32
 lib32 components for the glib package.
@@ -169,15 +167,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1506970750
+export SOURCE_DATE_EPOCH=1507487864
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-common -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-common -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-common -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-common -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-%configure --disable-static
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+%configure --disable-static --with-python=/usr/bin/python3
 make V=1  %{?_smp_mflags}
 
 pushd ../build32/
@@ -185,11 +183,11 @@ export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 export CFLAGS="$CFLAGS -m32"
 export CXXFLAGS="$CXXFLAGS -m32"
 export LDFLAGS="$LDFLAGS -m32"
-%configure --disable-static    --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+%configure --disable-static --with-python=/usr/bin/python3   --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make V=1  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1506970750
+export SOURCE_DATE_EPOCH=1507487864
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -246,48 +244,34 @@ ln -s /usr/lib/systemd/system/glib-schemas-trigger.service %{buildroot}/usr/lib/
 /usr/share/bash-completion/completions/gsettings
 /usr/share/gdb/auto-load/usr/lib32/libglib-2.0.so.0.5400.1-gdb.py
 /usr/share/gdb/auto-load/usr/lib32/libglib-2.0.so.0.5400.1-gdb.pyc
-/usr/share/gdb/auto-load/usr/lib32/libglib-2.0.so.0.5400.1-gdb.pyo
 /usr/share/gdb/auto-load/usr/lib32/libgobject-2.0.so.0.5400.1-gdb.py
 /usr/share/gdb/auto-load/usr/lib32/libgobject-2.0.so.0.5400.1-gdb.pyc
-/usr/share/gdb/auto-load/usr/lib32/libgobject-2.0.so.0.5400.1-gdb.pyo
 /usr/share/gdb/auto-load/usr/lib64/libglib-2.0.so.0.5400.1-gdb.py
 /usr/share/gdb/auto-load/usr/lib64/libglib-2.0.so.0.5400.1-gdb.pyc
-/usr/share/gdb/auto-load/usr/lib64/libglib-2.0.so.0.5400.1-gdb.pyo
 /usr/share/gdb/auto-load/usr/lib64/libgobject-2.0.so.0.5400.1-gdb.py
 /usr/share/gdb/auto-load/usr/lib64/libgobject-2.0.so.0.5400.1-gdb.pyc
-/usr/share/gdb/auto-load/usr/lib64/libgobject-2.0.so.0.5400.1-gdb.pyo
 /usr/share/gettext/its/gschema.its
 /usr/share/gettext/its/gschema.loc
 /usr/share/glib-2.0/codegen/__init__.py
 /usr/share/glib-2.0/codegen/__init__.pyc
-/usr/share/glib-2.0/codegen/__init__.pyo
 /usr/share/glib-2.0/codegen/codegen.py
 /usr/share/glib-2.0/codegen/codegen.pyc
-/usr/share/glib-2.0/codegen/codegen.pyo
 /usr/share/glib-2.0/codegen/codegen_docbook.py
 /usr/share/glib-2.0/codegen/codegen_docbook.pyc
-/usr/share/glib-2.0/codegen/codegen_docbook.pyo
 /usr/share/glib-2.0/codegen/codegen_main.py
 /usr/share/glib-2.0/codegen/codegen_main.pyc
-/usr/share/glib-2.0/codegen/codegen_main.pyo
 /usr/share/glib-2.0/codegen/config.py
 /usr/share/glib-2.0/codegen/config.pyc
-/usr/share/glib-2.0/codegen/config.pyo
 /usr/share/glib-2.0/codegen/dbustypes.py
 /usr/share/glib-2.0/codegen/dbustypes.pyc
-/usr/share/glib-2.0/codegen/dbustypes.pyo
 /usr/share/glib-2.0/codegen/parser.py
 /usr/share/glib-2.0/codegen/parser.pyc
-/usr/share/glib-2.0/codegen/parser.pyo
 /usr/share/glib-2.0/codegen/utils.py
 /usr/share/glib-2.0/codegen/utils.pyc
-/usr/share/glib-2.0/codegen/utils.pyo
 /usr/share/glib-2.0/gdb/glib_gdb.py
 /usr/share/glib-2.0/gdb/glib_gdb.pyc
-/usr/share/glib-2.0/gdb/glib_gdb.pyo
 /usr/share/glib-2.0/gdb/gobject_gdb.py
 /usr/share/glib-2.0/gdb/gobject_gdb.pyc
-/usr/share/glib-2.0/gdb/gobject_gdb.pyo
 /usr/share/glib-2.0/gettext/po/Makefile.in.in
 /usr/share/glib-2.0/schemas/gschema.dtd
 /usr/share/glib-2.0/valgrind/glib.supp
