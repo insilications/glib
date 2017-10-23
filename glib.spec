@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.54.1
-Release  : 55
+Release  : 56
 URL      : https://download.gnome.org/sources/glib/2.54/glib-2.54.1.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.54/glib-2.54.1.tar.xz
 Source1  : glib-schemas-trigger.service
