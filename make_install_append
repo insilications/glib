@@ -1,3 +1,6 @@
 # enable the glib schema compile trigger
 mkdir -p %{buildroot}/usr/lib/systemd/system/update-triggers.target.wants
 ln -s /usr/lib/systemd/system/glib-schemas-trigger.service %{buildroot}/usr/lib/systemd/system/update-triggers.target.wants/glib-schemas-trigger.service
+# also enable glib schema compile on first boot
+mkdir -p %{buildroot}/usr/lib/systemd/system/graphical.target.wants
+ln -s /usr/lib/systemd/system/glib-schemas-firstboot.service %{buildroot}/usr/lib/systemd/system/graphical.target.wants/glib-schemas-firstboot.service
