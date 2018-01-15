@@ -4,16 +4,18 @@
 #
 Name     : glib
 Version  : 2.54.3
-Release  : 58
+Release  : 59
 URL      : https://download.gnome.org/sources/glib/2.54/glib-2.54.3.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.54/glib-2.54.3.tar.xz
-Source1  : glib-schemas-trigger.service
-Source2  : glib.tmpfiles
+Source1  : glib-schemas-firstboot.service
+Source2  : glib-schemas-trigger.service
+Source3  : glib.tmpfiles
 Summary  : unix specific headers for glib I/O library
 Group    : Development/Tools
 License  : LGPL-2.0+ LGPL-2.1
 Requires: glib-bin
 Requires: glib-config
+Requires: glib-autostart
 Requires: glib-lib
 Requires: glib-data
 Requires: glib-doc
@@ -66,6 +68,14 @@ library that forms the basis for projects such as GTK+ and GNOME. It
 provides data structure handling for C, portability wrappers, and
 interfaces for such runtime functionality as an event loop, threads,
 dynamic loading, and an object system.
+
+%package autostart
+Summary: autostart components for the glib package.
+Group: Default
+
+%description autostart
+autostart components for the glib package.
+
 
 %package bin
 Summary: bin components for the glib package.
@@ -167,7 +177,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1515453797
+export SOURCE_DATE_EPOCH=1516048591
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -187,7 +197,7 @@ export LDFLAGS="$LDFLAGS -m32"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1515453797
+export SOURCE_DATE_EPOCH=1516048591
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -201,16 +211,23 @@ popd
 %make_install
 %find_lang glib20
 mkdir -p %{buildroot}/usr/lib/systemd/system
-install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/glib-schemas-trigger.service
+install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/glib-schemas-firstboot.service
+install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system/glib-schemas-trigger.service
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
-install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/tmpfiles.d/glib.conf
+install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/glib.conf
 ## make_install_append content
 mkdir -p %{buildroot}/usr/lib/systemd/system/update-triggers.target.wants
 ln -s /usr/lib/systemd/system/glib-schemas-trigger.service %{buildroot}/usr/lib/systemd/system/update-triggers.target.wants/glib-schemas-trigger.service
+mkdir -p %{buildroot}/usr/lib/systemd/system/graphical.target.wants
+ln -s /usr/lib/systemd/system/glib-schemas-firstboot.service %{buildroot}/usr/lib/systemd/system/graphical.target.wants/glib-schemas-firstboot.service
 ## make_install_append end
 
 %files
 %defattr(-,root,root,-)
+
+%files autostart
+%defattr(-,root,root,-)
+/usr/lib/systemd/system/graphical.target.wants/glib-schemas-firstboot.service
 
 %files bin
 %defattr(-,root,root,-)
@@ -232,6 +249,8 @@ ln -s /usr/lib/systemd/system/glib-schemas-trigger.service %{buildroot}/usr/lib/
 
 %files config
 %defattr(-,root,root,-)
+%exclude /usr/lib/systemd/system/graphical.target.wants/glib-schemas-firstboot.service
+/usr/lib/systemd/system/glib-schemas-firstboot.service
 /usr/lib/systemd/system/glib-schemas-trigger.service
 /usr/lib/systemd/system/update-triggers.target.wants/glib-schemas-trigger.service
 /usr/lib/tmpfiles.d/glib.conf
