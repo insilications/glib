@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.54.3
-Release  : 59
+Release  : 60
 URL      : https://download.gnome.org/sources/glib/2.54/glib-2.54.3.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.54/glib-2.54.3.tar.xz
 Source1  : glib-schemas-firstboot.service
