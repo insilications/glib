@@ -5,3 +5,4 @@ xdg-path.patch
 #memory.patch
 #madvise.patch
 wakeups.patch
+gerror-return-on-null.patch
