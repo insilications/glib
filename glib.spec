@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.56.1
-Release  : 68
+Release  : 69
 URL      : https://download.gnome.org/sources/glib/2.56/glib-2.56.1.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.56/glib-2.56.1.tar.xz
 Source1  : glib-schemas-firstboot.service
