@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.56.1
-Release  : 69
+Release  : 70
 URL      : https://download.gnome.org/sources/glib/2.56/glib-2.56.1.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.56/glib-2.56.1.tar.xz
 Source1  : glib-schemas-firstboot.service
@@ -18,7 +18,6 @@ Requires: glib-config
 Requires: glib-autostart
 Requires: glib-lib
 Requires: glib-data
-Requires: glib-doc
 Requires: glib-locales
 BuildRequires : desktop-file-utils
 BuildRequires : docbook-xml
@@ -58,6 +57,7 @@ Patch1: 0001-gio-Support-a-stateless-configuration-for-compiled-G.patch
 Patch2: xdg-path.patch
 Patch3: wakeups.patch
 Patch4: gerror-return-on-null.patch
+Patch5: gmodule-avx.patch
 
 %description
 General Information
@@ -166,6 +166,7 @@ locales components for the glib package.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 pushd ..
 cp -a glib-2.56.1 build32
 popd
@@ -175,7 +176,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1523135972
+export SOURCE_DATE_EPOCH=1527377032
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -195,7 +196,7 @@ export LDFLAGS="$LDFLAGS -m32"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1523135972
+export SOURCE_DATE_EPOCH=1527377032
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
