@@ -49,7 +49,7 @@ BuildRequires : pkgconfig(libffi)
 BuildRequires : pkgconfig(libpcre)
 BuildRequires : pkgconfig(mount)
 BuildRequires : pkgconfig(zlib)
-BuildRequires : python-dev
+
 BuildRequires : python3
 BuildRequires : shared-mime-info
 BuildRequires : tzdata
