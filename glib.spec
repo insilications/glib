@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.56.1
-Release  : 71
+Release  : 72
 URL      : https://download.gnome.org/sources/glib/2.56/glib-2.56.1.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.56/glib-2.56.1.tar.xz
 Source1  : glib-schemas-firstboot.service
@@ -18,6 +18,7 @@ Requires: glib-config
 Requires: glib-autostart
 Requires: glib-lib
 Requires: glib-data
+Requires: glib-license
 Requires: glib-locales
 BuildRequires : desktop-file-utils
 BuildRequires : docbook-xml
@@ -49,7 +50,7 @@ BuildRequires : pkgconfig(libffi)
 BuildRequires : pkgconfig(libpcre)
 BuildRequires : pkgconfig(mount)
 BuildRequires : pkgconfig(zlib)
-
+BuildRequires : python-dev
 BuildRequires : python3
 BuildRequires : shared-mime-info
 BuildRequires : tzdata
@@ -81,6 +82,7 @@ Summary: bin components for the glib package.
 Group: Binaries
 Requires: glib-data
 Requires: glib-config
+Requires: glib-license
 
 %description bin
 bin components for the glib package.
@@ -134,10 +136,19 @@ Group: Documentation
 doc components for the glib package.
 
 
+%package extras
+Summary: extras components for the glib package.
+Group: Default
+
+%description extras
+extras components for the glib package.
+
+
 %package lib
 Summary: lib components for the glib package.
 Group: Libraries
 Requires: glib-data
+Requires: glib-license
 
 %description lib
 lib components for the glib package.
@@ -147,9 +158,18 @@ lib components for the glib package.
 Summary: lib32 components for the glib package.
 Group: Default
 Requires: glib-data
+Requires: glib-license
 
 %description lib32
 lib32 components for the glib package.
+
+
+%package license
+Summary: license components for the glib package.
+Group: Default
+
+%description license
+license components for the glib package.
 
 
 %package locales
@@ -176,7 +196,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1527377032
+export SOURCE_DATE_EPOCH=1530111859
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -196,8 +216,11 @@ export LDFLAGS="$LDFLAGS -m32"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1527377032
+export SOURCE_DATE_EPOCH=1530111859
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/doc/glib
+cp COPYING %{buildroot}/usr/share/doc/glib/COPYING
+cp gmodule/COPYING %{buildroot}/usr/share/doc/glib/gmodule_COPYING
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -256,43 +279,43 @@ ln -s /usr/lib/systemd/system/glib-schemas-firstboot.service %{buildroot}/usr/li
 
 %files data
 %defattr(-,root,root,-)
-/usr/share/bash-completion/completions/gapplication
-/usr/share/bash-completion/completions/gdbus
-/usr/share/bash-completion/completions/gresource
-/usr/share/bash-completion/completions/gsettings
-/usr/share/gdb/auto-load/usr/lib32/__pycache__/libglib-2.0.so.0.5600.1-gdb.cpython-36.pyc
-/usr/share/gdb/auto-load/usr/lib32/__pycache__/libgobject-2.0.so.0.5600.1-gdb.cpython-36.pyc
-/usr/share/gdb/auto-load/usr/lib32/libglib-2.0.so.0.5600.1-gdb.py
-/usr/share/gdb/auto-load/usr/lib32/libgobject-2.0.so.0.5600.1-gdb.py
-/usr/share/gdb/auto-load/usr/lib64/__pycache__/libglib-2.0.so.0.5600.1-gdb.cpython-36.pyc
-/usr/share/gdb/auto-load/usr/lib64/__pycache__/libgobject-2.0.so.0.5600.1-gdb.cpython-36.pyc
-/usr/share/gdb/auto-load/usr/lib64/libglib-2.0.so.0.5600.1-gdb.py
-/usr/share/gdb/auto-load/usr/lib64/libgobject-2.0.so.0.5600.1-gdb.py
+%exclude /usr/share/bash-completion/completions/gapplication
+%exclude /usr/share/bash-completion/completions/gdbus
+%exclude /usr/share/bash-completion/completions/gresource
+%exclude /usr/share/bash-completion/completions/gsettings
+%exclude /usr/share/gdb/auto-load/usr/lib32/__pycache__/libglib-2.0.so.0.5600.1-gdb.cpython-36.pyc
+%exclude /usr/share/gdb/auto-load/usr/lib32/__pycache__/libgobject-2.0.so.0.5600.1-gdb.cpython-36.pyc
+%exclude /usr/share/gdb/auto-load/usr/lib32/libglib-2.0.so.0.5600.1-gdb.py
+%exclude /usr/share/gdb/auto-load/usr/lib32/libgobject-2.0.so.0.5600.1-gdb.py
+%exclude /usr/share/gdb/auto-load/usr/lib64/__pycache__/libglib-2.0.so.0.5600.1-gdb.cpython-36.pyc
+%exclude /usr/share/gdb/auto-load/usr/lib64/__pycache__/libgobject-2.0.so.0.5600.1-gdb.cpython-36.pyc
+%exclude /usr/share/gdb/auto-load/usr/lib64/libglib-2.0.so.0.5600.1-gdb.py
+%exclude /usr/share/gdb/auto-load/usr/lib64/libgobject-2.0.so.0.5600.1-gdb.py
+%exclude /usr/share/glib-2.0/codegen/__init__.py
+%exclude /usr/share/glib-2.0/codegen/__pycache__/__init__.cpython-36.pyc
+%exclude /usr/share/glib-2.0/codegen/__pycache__/codegen.cpython-36.pyc
+%exclude /usr/share/glib-2.0/codegen/__pycache__/codegen_docbook.cpython-36.pyc
+%exclude /usr/share/glib-2.0/codegen/__pycache__/codegen_main.cpython-36.pyc
+%exclude /usr/share/glib-2.0/codegen/__pycache__/config.cpython-36.pyc
+%exclude /usr/share/glib-2.0/codegen/__pycache__/dbustypes.cpython-36.pyc
+%exclude /usr/share/glib-2.0/codegen/__pycache__/parser.cpython-36.pyc
+%exclude /usr/share/glib-2.0/codegen/__pycache__/utils.cpython-36.pyc
+%exclude /usr/share/glib-2.0/codegen/codegen.py
+%exclude /usr/share/glib-2.0/codegen/codegen_docbook.py
+%exclude /usr/share/glib-2.0/codegen/codegen_main.py
+%exclude /usr/share/glib-2.0/codegen/config.py
+%exclude /usr/share/glib-2.0/codegen/dbustypes.py
+%exclude /usr/share/glib-2.0/codegen/parser.py
+%exclude /usr/share/glib-2.0/codegen/utils.py
+%exclude /usr/share/glib-2.0/gdb/__pycache__/glib_gdb.cpython-36.pyc
+%exclude /usr/share/glib-2.0/gdb/__pycache__/gobject_gdb.cpython-36.pyc
+%exclude /usr/share/glib-2.0/gdb/glib_gdb.py
+%exclude /usr/share/glib-2.0/gdb/gobject_gdb.py
+%exclude /usr/share/glib-2.0/gettext/po/Makefile.in.in
+%exclude /usr/share/glib-2.0/valgrind/glib.supp
 /usr/share/gettext/its/gschema.its
 /usr/share/gettext/its/gschema.loc
-/usr/share/glib-2.0/codegen/__init__.py
-/usr/share/glib-2.0/codegen/__pycache__/__init__.cpython-36.pyc
-/usr/share/glib-2.0/codegen/__pycache__/codegen.cpython-36.pyc
-/usr/share/glib-2.0/codegen/__pycache__/codegen_docbook.cpython-36.pyc
-/usr/share/glib-2.0/codegen/__pycache__/codegen_main.cpython-36.pyc
-/usr/share/glib-2.0/codegen/__pycache__/config.cpython-36.pyc
-/usr/share/glib-2.0/codegen/__pycache__/dbustypes.cpython-36.pyc
-/usr/share/glib-2.0/codegen/__pycache__/parser.cpython-36.pyc
-/usr/share/glib-2.0/codegen/__pycache__/utils.cpython-36.pyc
-/usr/share/glib-2.0/codegen/codegen.py
-/usr/share/glib-2.0/codegen/codegen_docbook.py
-/usr/share/glib-2.0/codegen/codegen_main.py
-/usr/share/glib-2.0/codegen/config.py
-/usr/share/glib-2.0/codegen/dbustypes.py
-/usr/share/glib-2.0/codegen/parser.py
-/usr/share/glib-2.0/codegen/utils.py
-/usr/share/glib-2.0/gdb/__pycache__/glib_gdb.cpython-36.pyc
-/usr/share/glib-2.0/gdb/__pycache__/gobject_gdb.cpython-36.pyc
-/usr/share/glib-2.0/gdb/glib_gdb.py
-/usr/share/glib-2.0/gdb/gobject_gdb.py
-/usr/share/glib-2.0/gettext/po/Makefile.in.in
 /usr/share/glib-2.0/schemas/gschema.dtd
-/usr/share/glib-2.0/valgrind/glib.supp
 
 %files dev
 %defattr(-,root,root,-)
@@ -600,7 +623,7 @@ ln -s /usr/lib/systemd/system/glib-schemas-firstboot.service %{buildroot}/usr/li
 /usr/lib32/pkgconfig/gthread-2.0.pc
 
 %files doc
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 /usr/share/gtk-doc/html/gio/GAction.html
 /usr/share/gtk-doc/html/gio/GActionGroup.html
 /usr/share/gtk-doc/html/gio/GActionMap.html
@@ -1010,6 +1033,43 @@ ln -s /usr/lib/systemd/system/glib-schemas-firstboot.service %{buildroot}/usr/li
 /usr/share/gtk-doc/html/gobject/up-insensitive.png
 /usr/share/gtk-doc/html/gobject/up.png
 
+%files extras
+%defattr(-,root,root,-)
+/usr/share/bash-completion/completions/gapplication
+/usr/share/bash-completion/completions/gdbus
+/usr/share/bash-completion/completions/gresource
+/usr/share/bash-completion/completions/gsettings
+/usr/share/gdb/auto-load/usr/lib32/__pycache__/libglib-2.0.so.0.5600.1-gdb.cpython-36.pyc
+/usr/share/gdb/auto-load/usr/lib32/__pycache__/libgobject-2.0.so.0.5600.1-gdb.cpython-36.pyc
+/usr/share/gdb/auto-load/usr/lib32/libglib-2.0.so.0.5600.1-gdb.py
+/usr/share/gdb/auto-load/usr/lib32/libgobject-2.0.so.0.5600.1-gdb.py
+/usr/share/gdb/auto-load/usr/lib64/__pycache__/libglib-2.0.so.0.5600.1-gdb.cpython-36.pyc
+/usr/share/gdb/auto-load/usr/lib64/__pycache__/libgobject-2.0.so.0.5600.1-gdb.cpython-36.pyc
+/usr/share/gdb/auto-load/usr/lib64/libglib-2.0.so.0.5600.1-gdb.py
+/usr/share/gdb/auto-load/usr/lib64/libgobject-2.0.so.0.5600.1-gdb.py
+/usr/share/glib-2.0/codegen/__init__.py
+/usr/share/glib-2.0/codegen/__pycache__/__init__.cpython-36.pyc
+/usr/share/glib-2.0/codegen/__pycache__/codegen.cpython-36.pyc
+/usr/share/glib-2.0/codegen/__pycache__/codegen_docbook.cpython-36.pyc
+/usr/share/glib-2.0/codegen/__pycache__/codegen_main.cpython-36.pyc
+/usr/share/glib-2.0/codegen/__pycache__/config.cpython-36.pyc
+/usr/share/glib-2.0/codegen/__pycache__/dbustypes.cpython-36.pyc
+/usr/share/glib-2.0/codegen/__pycache__/parser.cpython-36.pyc
+/usr/share/glib-2.0/codegen/__pycache__/utils.cpython-36.pyc
+/usr/share/glib-2.0/codegen/codegen.py
+/usr/share/glib-2.0/codegen/codegen_docbook.py
+/usr/share/glib-2.0/codegen/codegen_main.py
+/usr/share/glib-2.0/codegen/config.py
+/usr/share/glib-2.0/codegen/dbustypes.py
+/usr/share/glib-2.0/codegen/parser.py
+/usr/share/glib-2.0/codegen/utils.py
+/usr/share/glib-2.0/gdb/__pycache__/glib_gdb.cpython-36.pyc
+/usr/share/glib-2.0/gdb/__pycache__/gobject_gdb.cpython-36.pyc
+/usr/share/glib-2.0/gdb/glib_gdb.py
+/usr/share/glib-2.0/gdb/gobject_gdb.py
+/usr/share/glib-2.0/gettext/po/Makefile.in.in
+/usr/share/glib-2.0/valgrind/glib.supp
+
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libgio-2.0.so.0
@@ -1035,6 +1095,11 @@ ln -s /usr/lib/systemd/system/glib-schemas-firstboot.service %{buildroot}/usr/li
 /usr/lib32/libgobject-2.0.so.0.5600.1
 /usr/lib32/libgthread-2.0.so.0
 /usr/lib32/libgthread-2.0.so.0.5600.1
+
+%files license
+%defattr(-,root,root,-)
+/usr/share/doc/glib/COPYING
+/usr/share/doc/glib/gmodule_COPYING
 
 %files locales -f glib20.lang
 %defattr(-,root,root,-)
