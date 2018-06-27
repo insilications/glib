@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.56.1
-Release  : 72
+Release  : 73
 URL      : https://download.gnome.org/sources/glib/2.56/glib-2.56.1.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.56/glib-2.56.1.tar.xz
 Source1  : glib-schemas-firstboot.service
@@ -196,7 +196,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1530111859
+export SOURCE_DATE_EPOCH=1530114585
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -216,7 +216,7 @@ export LDFLAGS="$LDFLAGS -m32"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1530111859
+export SOURCE_DATE_EPOCH=1530114585
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/glib
 cp COPYING %{buildroot}/usr/share/doc/glib/COPYING
