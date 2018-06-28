@@ -3,7 +3,6 @@
 # automatically. One name per line, no whitespace.
 #
 elfutils-dev
-python-dev
 tzdata
 desktop-file-utils
 shared-mime-info

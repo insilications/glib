@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.56.1
-Release  : 74
+Release  : 75
 URL      : https://download.gnome.org/sources/glib/2.56/glib-2.56.1.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.56/glib-2.56.1.tar.xz
 Source1  : glib-schemas-firstboot.service
@@ -50,7 +50,6 @@ BuildRequires : pkgconfig(libffi)
 BuildRequires : pkgconfig(libpcre)
 BuildRequires : pkgconfig(mount)
 BuildRequires : pkgconfig(zlib)
-BuildRequires : python-dev
 BuildRequires : python3
 BuildRequires : shared-mime-info
 BuildRequires : tzdata
@@ -188,7 +187,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1530116626
+export SOURCE_DATE_EPOCH=1530209788
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -208,7 +207,7 @@ export LDFLAGS="$LDFLAGS -m32"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1530116626
+export SOURCE_DATE_EPOCH=1530209788
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/glib
 cp COPYING %{buildroot}/usr/share/doc/glib/COPYING
