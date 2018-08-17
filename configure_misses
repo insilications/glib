@@ -18,6 +18,7 @@ Configure miss: sys/mntctl.h usability
 Configure miss: sys/mntctl.h presence
 Configure miss: sys/mntctl.h
 Configure miss: sysctlbyname
+Configure miss: whether sys/types.h defines makedev
 Configure miss: struct stat.st_atimensec
 Configure miss: struct stat.st_ctimensec
 Configure miss: struct stat.st_birthtime
@@ -65,6 +66,7 @@ Configure miss: sys/mntctl.h usability
 Configure miss: sys/mntctl.h presence
 Configure miss: sys/mntctl.h
 Configure miss: sysctlbyname
+Configure miss: whether sys/types.h defines makedev
 Configure miss: struct stat.st_atimensec
 Configure miss: struct stat.st_ctimensec
 Configure miss: struct stat.st_birthtime
