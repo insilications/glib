@@ -2,4 +2,5 @@
 # undesirable. One name per line, no whitespace.
 #
 libelf
-
+libselinux
+32libselinux

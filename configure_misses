@@ -1,8 +1,6 @@
 Configure miss: the Android
 Configure miss: Mac OS X Carbon support
 Configure miss: Mac OS X Cocoa support
-Configure miss: whether to enable garbage collector friendliness
-Configure miss: whether to disable memory pools
 Configure miss: growing stack pointer
 Configure miss: whether using Sun Studio C compiler
 Configure miss: sys/vmount.h usability
@@ -49,8 +47,6 @@ Configure miss: if gcc supports flag -Werror=format-security in envvar CFLAGS
 Configure miss: the Android
 Configure miss: Mac OS X Carbon support
 Configure miss: Mac OS X Cocoa support
-Configure miss: whether to enable garbage collector friendliness
-Configure miss: whether to disable memory pools
 Configure miss: growing stack pointer
 Configure miss: whether using Sun Studio C compiler
 Configure miss: sys/vmount.h usability
