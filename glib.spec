@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.58.0
-Release  : 78
+Release  : 79
 URL      : https://download.gnome.org/sources/glib/2.58/glib-2.58.0.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.58/glib-2.58.0.tar.xz
 Source1  : glib-schemas-firstboot.service
@@ -20,7 +20,6 @@ Requires: glib-lib
 Requires: glib-data
 Requires: glib-license
 Requires: glib-locales
-BuildRequires : buildreq-gnome
 BuildRequires : buildreq-meson
 BuildRequires : desktop-file-utils
 BuildRequires : docbook-xml
@@ -38,6 +37,7 @@ BuildRequires : gtk-doc-dev
 BuildRequires : libxml2-dev
 BuildRequires : libxml2-dev32
 BuildRequires : libxslt-bin
+BuildRequires : perl
 BuildRequires : perl(XML::Parser)
 BuildRequires : pkg-config
 BuildRequires : pkgconfig(32dbus-1)
@@ -59,6 +59,7 @@ Patch2: xdg-path.patch
 Patch3: wakeups.patch
 Patch4: gerror-return-on-null.patch
 Patch5: gmodule-avx.patch
+Patch6: 0001-Remove-debugging-in-gspawn.c.patch
 
 %description
 
@@ -74,9 +75,9 @@ autostart components for the glib package.
 %package bin
 Summary: bin components for the glib package.
 Group: Binaries
-Requires: glib-data
-Requires: glib-config
-Requires: glib-license
+Requires: glib-data = %{version}-%{release}
+Requires: glib-config = %{version}-%{release}
+Requires: glib-license = %{version}-%{release}
 
 %description bin
 bin components for the glib package.
@@ -101,10 +102,10 @@ data components for the glib package.
 %package dev
 Summary: dev components for the glib package.
 Group: Development
-Requires: glib-lib
-Requires: glib-bin
-Requires: glib-data
-Provides: glib-devel
+Requires: glib-lib = %{version}-%{release}
+Requires: glib-bin = %{version}-%{release}
+Requires: glib-data = %{version}-%{release}
+Provides: glib-devel = %{version}-%{release}
 
 %description dev
 dev components for the glib package.
@@ -113,10 +114,10 @@ dev components for the glib package.
 %package dev32
 Summary: dev32 components for the glib package.
 Group: Default
-Requires: glib-lib32
-Requires: glib-bin
-Requires: glib-data
-Requires: glib-dev
+Requires: glib-lib32 = %{version}-%{release}
+Requires: glib-bin = %{version}-%{release}
+Requires: glib-data = %{version}-%{release}
+Requires: glib-dev = %{version}-%{release}
 
 %description dev32
 dev32 components for the glib package.
@@ -125,8 +126,8 @@ dev32 components for the glib package.
 %package lib
 Summary: lib components for the glib package.
 Group: Libraries
-Requires: glib-data
-Requires: glib-license
+Requires: glib-data = %{version}-%{release}
+Requires: glib-license = %{version}-%{release}
 
 %description lib
 lib components for the glib package.
@@ -135,8 +136,8 @@ lib components for the glib package.
 %package lib32
 Summary: lib32 components for the glib package.
 Group: Default
-Requires: glib-data
-Requires: glib-license
+Requires: glib-data = %{version}-%{release}
+Requires: glib-license = %{version}-%{release}
 
 %description lib32
 lib32 components for the glib package.
@@ -165,6 +166,7 @@ locales components for the glib package.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 pushd ..
 cp -a glib-2.58.0 build32
 popd
@@ -174,7 +176,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1535824038
+export SOURCE_DATE_EPOCH=1537391843
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -194,7 +196,7 @@ export LDFLAGS="$LDFLAGS -m32"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1535824038
+export SOURCE_DATE_EPOCH=1537391843
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/glib
 cp COPYING %{buildroot}/usr/share/doc/glib/COPYING
@@ -224,6 +226,7 @@ ln -s /usr/lib/systemd/system/glib-schemas-firstboot.service %{buildroot}/usr/li
 
 %files
 %defattr(-,root,root,-)
+%exclude /usr/lib/systemd/system/graphical.target.wants/glib-schemas-firstboot.service
 
 %files autostart
 %defattr(-,root,root,-)
@@ -250,9 +253,9 @@ ln -s /usr/lib/systemd/system/glib-schemas-firstboot.service %{buildroot}/usr/li
 
 %files config
 %defattr(-,root,root,-)
-%exclude /usr/lib/systemd/system/graphical.target.wants/glib-schemas-firstboot.service
 /usr/lib/systemd/system/glib-schemas-firstboot.service
 /usr/lib/systemd/system/glib-schemas-trigger.service
+/usr/lib/systemd/system/graphical.target.wants/glib-schemas-firstboot.service
 /usr/lib/systemd/system/update-triggers.target.wants/glib-schemas-trigger.service
 /usr/lib/tmpfiles.d/glib.conf
 
@@ -565,7 +568,9 @@ ln -s /usr/lib/systemd/system/glib-schemas-firstboot.service %{buildroot}/usr/li
 /usr/lib64/pkgconfig/gmodule-no-export-2.0.pc
 /usr/lib64/pkgconfig/gobject-2.0.pc
 /usr/lib64/pkgconfig/gthread-2.0.pc
-/usr/share/aclocal/*.m4
+/usr/share/aclocal/glib-2.0.m4
+/usr/share/aclocal/glib-gettext.m4
+/usr/share/aclocal/gsettings.m4
 
 %files dev32
 %defattr(-,root,root,-)
