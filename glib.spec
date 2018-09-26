@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.58.1
-Release  : 82
+Release  : 83
 URL      : https://download.gnome.org/sources/glib/2.58/glib-2.58.1.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.58/glib-2.58.1.tar.xz
 Source1  : glib-schemas-firstboot.service
@@ -187,7 +187,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1537979920
+export SOURCE_DATE_EPOCH=1537998786
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -208,7 +208,7 @@ export LDFLAGS="$LDFLAGS -m32"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1537979920
+export SOURCE_DATE_EPOCH=1537998786
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/glib
 cp COPYING %{buildroot}/usr/share/package-licenses/glib/COPYING
@@ -236,6 +236,7 @@ mkdir -p %{buildroot}/usr/lib/systemd/system/graphical.target.wants
 ln -s /usr/lib/systemd/system/glib-schemas-firstboot.service %{buildroot}/usr/lib/systemd/system/graphical.target.wants/glib-schemas-firstboot.service
 mkdir -p %{buildroot}/usr/libexec
 mv %{buildroot}/usr/bin/glib-compile-schemas %{buildroot}/usr/libexec/glib-compile-schemas
+ln -s ../libexec/glib-compile-schemas %{buildroot}/usr/bin
 ## install_append end
 
 %files
@@ -254,6 +255,7 @@ mv %{buildroot}/usr/bin/glib-compile-schemas %{buildroot}/usr/libexec/glib-compi
 /usr/bin/gio-launch-desktop
 /usr/bin/gio-querymodules
 /usr/bin/glib-compile-resources
+/usr/bin/glib-compile-schemas
 /usr/bin/glib-genmarshal
 /usr/bin/glib-gettextize
 /usr/bin/glib-mkenums

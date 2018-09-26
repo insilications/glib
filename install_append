@@ -5,6 +5,7 @@ ln -s /usr/lib/systemd/system/glib-schemas-trigger.service %{buildroot}/usr/lib/
 mkdir -p %{buildroot}/usr/lib/systemd/system/graphical.target.wants
 ln -s /usr/lib/systemd/system/glib-schemas-firstboot.service %{buildroot}/usr/lib/systemd/system/graphical.target.wants/glib-schemas-firstboot.service
 
-# place it in libexec
+# place it in libexec (with compat)
 mkdir -p %{buildroot}/usr/libexec
 mv %{buildroot}/usr/bin/glib-compile-schemas %{buildroot}/usr/libexec/glib-compile-schemas
+ln -s ../libexec/glib-compile-schemas %{buildroot}/usr/bin
