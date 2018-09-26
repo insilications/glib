@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.58.1
-Release  : 81
+Release  : 82
 URL      : https://download.gnome.org/sources/glib/2.58/glib-2.58.1.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.58/glib-2.58.1.tar.xz
 Source1  : glib-schemas-firstboot.service
@@ -13,14 +13,14 @@ Source3  : glib.tmpfiles
 Summary  : unix specific headers for glib I/O library
 Group    : Development/Tools
 License  : LGPL-2.0+ LGPL-2.1
-Requires: glib-bin
-Requires: glib-config
-Requires: glib-autostart
-Requires: glib-lib
-Requires: glib-data
-Requires: glib-license
-Requires: glib-locales
-BuildRequires : buildreq-gnome
+Requires: glib-autostart = %{version}-%{release}
+Requires: glib-bin = %{version}-%{release}
+Requires: glib-config = %{version}-%{release}
+Requires: glib-data = %{version}-%{release}
+Requires: glib-lib = %{version}-%{release}
+Requires: glib-libexec = %{version}-%{release}
+Requires: glib-license = %{version}-%{release}
+Requires: glib-locales = %{version}-%{release}
 BuildRequires : buildreq-meson
 BuildRequires : desktop-file-utils
 BuildRequires : docbook-xml
@@ -38,6 +38,7 @@ BuildRequires : gtk-doc-dev
 BuildRequires : libxml2-dev
 BuildRequires : libxml2-dev32
 BuildRequires : libxslt-bin
+BuildRequires : perl
 BuildRequires : perl(XML::Parser)
 BuildRequires : pkg-config
 BuildRequires : pkgconfig(32dbus-1)
@@ -76,6 +77,7 @@ autostart components for the glib package.
 Summary: bin components for the glib package.
 Group: Binaries
 Requires: glib-data = %{version}-%{release}
+Requires: glib-libexec = %{version}-%{release}
 Requires: glib-config = %{version}-%{release}
 Requires: glib-license = %{version}-%{release}
 
@@ -127,6 +129,7 @@ dev32 components for the glib package.
 Summary: lib components for the glib package.
 Group: Libraries
 Requires: glib-data = %{version}-%{release}
+Requires: glib-libexec = %{version}-%{release}
 Requires: glib-license = %{version}-%{release}
 
 %description lib
@@ -141,6 +144,14 @@ Requires: glib-license = %{version}-%{release}
 
 %description lib32
 lib32 components for the glib package.
+
+
+%package libexec
+Summary: libexec components for the glib package.
+Group: Default
+
+%description libexec
+libexec components for the glib package.
 
 
 %package license
@@ -176,7 +187,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1537576848
+export SOURCE_DATE_EPOCH=1537979920
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -189,6 +200,7 @@ make  %{?_smp_mflags}
 
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+export ASFLAGS="$ASFLAGS --32"
 export CFLAGS="$CFLAGS -m32"
 export CXXFLAGS="$CXXFLAGS -m32"
 export LDFLAGS="$LDFLAGS -m32"
@@ -196,11 +208,11 @@ export LDFLAGS="$LDFLAGS -m32"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1537576848
+export SOURCE_DATE_EPOCH=1537979920
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/glib
-cp COPYING %{buildroot}/usr/share/doc/glib/COPYING
-cp gmodule/COPYING %{buildroot}/usr/share/doc/glib/gmodule_COPYING
+mkdir -p %{buildroot}/usr/share/package-licenses/glib
+cp COPYING %{buildroot}/usr/share/package-licenses/glib/COPYING
+cp gmodule/COPYING %{buildroot}/usr/share/package-licenses/glib/gmodule_COPYING
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -222,6 +234,8 @@ mkdir -p %{buildroot}/usr/lib/systemd/system/update-triggers.target.wants
 ln -s /usr/lib/systemd/system/glib-schemas-trigger.service %{buildroot}/usr/lib/systemd/system/update-triggers.target.wants/glib-schemas-trigger.service
 mkdir -p %{buildroot}/usr/lib/systemd/system/graphical.target.wants
 ln -s /usr/lib/systemd/system/glib-schemas-firstboot.service %{buildroot}/usr/lib/systemd/system/graphical.target.wants/glib-schemas-firstboot.service
+mkdir -p %{buildroot}/usr/libexec
+mv %{buildroot}/usr/bin/glib-compile-schemas %{buildroot}/usr/libexec/glib-compile-schemas
 ## install_append end
 
 %files
@@ -240,7 +254,6 @@ ln -s /usr/lib/systemd/system/glib-schemas-firstboot.service %{buildroot}/usr/li
 /usr/bin/gio-launch-desktop
 /usr/bin/gio-querymodules
 /usr/bin/glib-compile-resources
-/usr/bin/glib-compile-schemas
 /usr/bin/glib-genmarshal
 /usr/bin/glib-gettextize
 /usr/bin/glib-mkenums
@@ -619,10 +632,14 @@ ln -s /usr/lib/systemd/system/glib-schemas-firstboot.service %{buildroot}/usr/li
 /usr/lib32/libgthread-2.0.so.0
 /usr/lib32/libgthread-2.0.so.0.5800.1
 
+%files libexec
+%defattr(-,root,root,-)
+/usr/libexec/glib-compile-schemas
+
 %files license
 %defattr(-,root,root,-)
-/usr/share/doc/glib/COPYING
-/usr/share/doc/glib/gmodule_COPYING
+/usr/share/package-licenses/glib/COPYING
+/usr/share/package-licenses/glib/gmodule_COPYING
 
 %files locales -f glib20.lang
 %defattr(-,root,root,-)
