@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.58.1
-Release  : 83
+Release  : 84
 URL      : https://download.gnome.org/sources/glib/2.58/glib-2.58.1.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.58/glib-2.58.1.tar.xz
 Source1  : glib-schemas-firstboot.service
@@ -21,6 +21,7 @@ Requires: glib-lib = %{version}-%{release}
 Requires: glib-libexec = %{version}-%{release}
 Requires: glib-license = %{version}-%{release}
 Requires: glib-locales = %{version}-%{release}
+BuildRequires : buildreq-gnome
 BuildRequires : buildreq-meson
 BuildRequires : desktop-file-utils
 BuildRequires : docbook-xml
@@ -149,6 +150,8 @@ lib32 components for the glib package.
 %package libexec
 Summary: libexec components for the glib package.
 Group: Default
+Requires: glib-config = %{version}-%{release}
+Requires: glib-license = %{version}-%{release}
 
 %description libexec
 libexec components for the glib package.
@@ -187,7 +190,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1537998786
+export SOURCE_DATE_EPOCH=1538713518
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -208,7 +211,7 @@ export LDFLAGS="$LDFLAGS -m32"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1537998786
+export SOURCE_DATE_EPOCH=1538713518
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/glib
 cp COPYING %{buildroot}/usr/share/package-licenses/glib/COPYING
@@ -639,7 +642,7 @@ ln -s ../libexec/glib-compile-schemas %{buildroot}/usr/bin
 /usr/libexec/glib-compile-schemas
 
 %files license
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 /usr/share/package-licenses/glib/COPYING
 /usr/share/package-licenses/glib/gmodule_COPYING
 
