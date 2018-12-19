@@ -1,1042 +1,591 @@
-=== ChangeLog discontinued ===
+2009-01-13  Tor Lillqvist  <tml@novell.com>
 
-	With the move to git, GLib is switching from a ChangeLog file
-	to relying on commit messages to provide change history. Please
-	see README.commits for guidance on the expected message format.
+	* win32/vs8/README
+	* win32/vs9/README: New files. Mention this VS solution and
+	projects are experimental and that https://code.launchpad.net/oah
+	might be a better choice.
 
-2009-03-13  Matthias Clasen  <mclasen@redhat.com>
+	* win32/vs8/Makefile.am
+	* win32/vs9/Makefile.am (EXTRA_DIST): Add the READMEs and two
+	missing vcproj files.
 
-	* === Released 2.20.0 ===
+2008-11-02  Tor Lillqvist  <tml@novell.com>
 
-2009-03-02  Matthias Clasen <mclasen@redhat.com>
+	* win32/Makefile.am (SUBDIRS): Add vs9.
 
-	* === Released 2.19.10 ===
+2008-11-02  Tor Lillqvist  <tml@novell.com>
 
-2009-03-02  Matthias Clasen <mclasen@redhat.com>
+	Bug 558153 - Patch for .def files generation
 
-	* === Released 2.19.9 ===
+	* win32/{vs8,vs9}/*.vcproj: Add &quot; around paths, making it
+	possible to compile in a directory containing spaces. .def files
+	generation is done for every configuration not only the "Debug"
+	ones.
 
-2009-03-01  Matthias Clasen  <mclasen@redhat.com>
+	Patch by Guillaume Duhamel.
 
-	Bug 71704 - Header file include order
+2008-09-16  Tor Lillqvist  <tml@novell.com>
 
-	* gmodule.c: Include gmodule.h before io.h.
-	Pointed out by Kazuki Iwamoto
+	* win32/vs9: New folder. Project files for use with MSVS9. Based
+	on the MSVS8 project files is win32/vs8. Four configurations:
+	Debug|Win32, Release|Win32, Debug|x64 and Release|x64. DLL names
+	simplified to of the style glib-2-vs9.dll.
 
-2009-02-17  Matthias Clasen  <mclasen@redhat.com>
+2008-09-15  Tor Lillqvist  <tml@novell.com>
 
-	* === Released 2.19.8 ===
+	* win32/vs8/*.vcproj: Update to match the Makefile.am files. Drop
+	G*_EXPORTS from PreprocessorDefinitions, nothing looks for such
+	macros. Add G_DISABLE_DEPRECATED.
 
-2009-02-16  Matthias Clasen  <mclasen@redhat.com>
+	Don't use Detect64BitPortabilityProblems as those warnings are
+	misleading. They don't take into consideration ifdefs in
+	glibconfig.h and elsewhere for _WIN64.
 
-	* === Released 2.19.7 ===
+	Add PCRE_STATIC for glib to avoid exporting the pcre
+	functions. Add DLL_EXPORT to glib to export also the GLIB_VAR
+	variables that aren't mentioned in glib.symbols. Add G_LOG_DOMAIN
+	for gobject.
 
-2009-02-02  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.19.6 ===
-
-2009-01-19  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.19.5 ===
-
-2009-01-05  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.19.4 ===
-
-2008-12-15  Matthias Clasen <mclasen@redhat.com>
-
-	* === Released 2.19.3 ===
-
-2008-12-01  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.19.2 ===
-
-2008-12-01  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.19.1 ===
-
-2008-10-16  Matthias Clasen <mclasen@redhat.com>
-
-	* === Released 2.19.0 ===
-
-2008-09-26  Tor Lillqvist  <tml@novell.com>
-
-	* gmodule-win32.c: Improve error reporting: When g_module_open()
-	fails, include the name of the module passed to LoadLibrary() in
-	what g_module_error() returns.
-
-2008-09-17  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.18.1 ===
-
-2008-09-08  Tor Lillqvist  <tml@novell.com>
-
-	Bug 551408 - gmodule.def generated to builddir, but required in srcdir
-
-	* Makefile.am: Use gmodule.def from builddir, not srcdir.
-
-2008-09-02  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.18.0 ===
-
-2008-08-18  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.17.7 ===
-
-2008-08-04  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.17.6 ===
-
-2008-08-04  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.17.5 ===
-
-2008-08-01  Hans Breuer  <hans@breuer.org>
-
-	* makefile.msc.in : adapt to gmodule.symbols usage
-
-2008-07-27  Tor Lillqvist  <tml@novell.com>
-
-	* gmodule.symbols: New file.
-
-	* gmodule.c: Bypass the Windows ABI compatibility symbols on
-	64-bit Windows. Thus no need to keep the file name in system
-	codepage around on 64-bit Windows either.
+	Drop the "win32" part from under "dependencies" so that the same
+	project files can be used also for 64-bit compilation by just
+	having a different "dependencies" folder containing 64-bit
+	packages instead. At least, I hope it will work out some way like
+	that. MSVS project files really are a pain to maintain.  Much
+	information is typically copied for four different configurations
+	"Debug|Win32", "Release|Win32", "Debug|x64" and "Release|x64"
+	instead of having common stuff listed just once and only different
+	parametrisations. Or am I missing something?
 	
-	* Makefile.am: Produce gmodule.def from gmodule.symbols. Dist
-	gmodule.symbols instead of gmodule.def.
+	Make the "Release" configuration work, too. Use correct character
+	set for the gspawn-win32-helper programs. Use correct subsystem
+	for the non-console one.
 
-	* gmodule.def: Drop from SVN.
+2008-08-27  Tor Lillqvist  <tml@novell.com>
 
-2008-07-27  Tor Lillqvist  <tml@novell.com>
+	* win32/vs8/*.vcproj: Add "win32" directory level to the
+	references to the dependencies folder (which each actual user of
+	the project file probably needs to edit anyway depending on their
+	directory structure). Add missing files, remove nonexistent files.
 
-	* Makefile.am (gmodule-2.0.lib): Pass appropriate -machine flag to
-	lib.exe.
+	* win32/vs8/glib.vcproj: Don't needlessly copy localcharset.c, but
+	compile it where it is in libcharset. Drop dirent as gdir.c
+	includes dirent.h and wdirent.c directly. Handle also
+	G_GNUC_FORMAT in the custom build step for glib.symbols.
 
-2008-07-21  Matthias Clasen  <mclasen2redhat.com>
+2008-08-02  Tor Lillqvist  <tml@novell.com>
 
-	* === Released 2.17.4 ===
+	Bug 545954 - 64-bit issue in dirent
 
-2008-07-02  Matthias Clasen  <mclasen@redhat.com>
+	* win32/dirent/dirent.h: Use __int64 for the dd_handle on 64-bit
+	Windows. (Would use intptr_t, but that is not available before
+	MSVS8, and we want to keep this compilable also with MSVS6 and 7,
+	I think.) Thanks to Richard Hult.
 
-	* === Released 2.17.3 ===
+2008-05-19  Tor Lillqvist  <tml@novell.com>
 
-2008-06-12  Matthias Clasen  <mclasen@redhat.com>
-	
-	* === Released 2.17.2 ===
+	* win32/dirent/dirent.c: Include dirent.h with doublequotes so
+	that it is searched from this same folder first.
 
-2008-06-12  Matthias Clasen  <mclasen@redhat.com>
+2008-05-19  Tor Lillqvist  <tml@novell.com>
 
-	* === Released 2.17.1 ===
+	* win32/vs8/gspawn-win32-helper.vcproj
+	* win32/vs8/gspawn-win32-helper-console.vcproj: New files. Build
+	these two executables.
 
-2008-05-28  Michael Natterer  <mitch@imendio.com>
+	* win32/vs8/*.vcproj: Compile as C and not C++.
 
-	* Makefile.am: don't define G_DISABLE_SINGLE_INCLUDES, it's in
-	the global CPPFLAGS now.
+	* win32/vs8/glib-genmarshal.vcproj: Use MBS and not Unicode. (What
+	this setting really means is just that we don't define the UNICODE
+	and _UNICODE macros when compiling; it has no effect on what APIs
+	the code might use.) Use the same IntermediateDirectory as the
+	other projects.
 
-2008-05-27  Matthias Clasen  <mclasen@redhat.com>
+	* win32/vs8/glib.sln: Add the gspawn-win32-helper and gspawn-win32-helper projects.
 
-	* === Released 2.17.0 ===
+2008-05-17  Tor Lillqvist  <tml@novell.com>
 
-2008-05-05  Michael Natterer  <mitch@imendio.com>
+	* "build" is no longer include into GLib through
+	svn:externals. The relevant directories and files have been svn
+	add'ed to GLib (trunk) instead.
 
-	* Makefile.am. build with G_DISABLE_SINGLE_INCLUDES to prevent
-	code from being checked in that breaks the build of applications
-	which use G_DISABLE_SINGLE_INCLUDES.
+2008-05-16  Tor Lillqvist  <tml@novell.com>
 
-	* gmodule.c: #include "glib.h" instead of "glibconfig.h"
+	* win32/vs8/glib.vcproj: Add gi18n.c.
 
-2008-03-16  Tor Lillqvist  <tml@novell.com>
+	* win32/vs8/gio.vcproj: Add gwin32directorymonitor.c.
 
-	* Makefile.am: Define gmodule_def locally here instead of using an
-	Autoconf variable.
+	* win32/vs8/glib-genmarshal.vcproj: Put also glib-genmarshal.exe
+	in the "bin" folder.
 
-2008-03-10  Matthias Clasen  <mclasen@redhat.com>
-	
-	* === Released 2.16.1 ===
+2008-04-23  Tor Lillqvist  <tml@novell.com>
 
-2008-03-10  Matthias Clasen  <mclasen@redhat.com>
+	Bug 529391 - Update of vs8 build files for Glib 2.16
 
-	* === Released 2.16.0 ===
+	* win32/vs8/*: Update from Danel Atallah.
 
-2008-02-25  Matthias Clasen  <mclasen@redhat.com>
+2008-03-12  Tor Lillqvist  <tml@novell.com>
 
-	* === Released 2.15.6 ===
+	* MAINTAINERS: Add.
 
-2008-02-11  Matthias Clasen <mclasen@redhat.com>
+	* win32/make.mingw: Remove this since long unused and obsolete
+	file from SVN.
 
-	* === Released 2.15.5 ===
+	* win32/make.msc: Don't mention it here either then.
 
-2008-01-28  Matthias Clasen  <mclasen@redhat.com>
+2007-04-15  Tor Lillqvist  <tml@novell.com>
 
-	* === Released 2.15.4 ===
+	* .cvsignore
+	* win32/.cvsignore
+	* win32/dirent/.cvsignore
+	* win32/vs8/.cvsignore: Remove.
 
-2008-01-21  Matthias Clasen  <mclasen@redhat.com>
+2006-10-14  Tor Lillqvist  <tml@novell.com>
 
-	* === Released 2.15.3 ===
+	* win32/vs8/gmodule.vcproj
+	* win32/vs8/gobject.vcproj
+	* win32/vs8/gthread.vcproj: Updates by Mike Edenfield. (#354124)
 
-2008-01-14  Matthias Clasen  <mclasen@redhat.com>
+2006-09-02  Tor Lillqvist  <tml@novell.com>
 
-	* === Released 2.15.2 ===
+	* win32/vs8/glib.vcproj: Update from Mike Edenfield.
 
-008-01-07  Matthias Clasen  <mclasen@redhat.com>
+2006-02-08  Tor Lillqvist  <tml@novell.com>
 
-	* === Released 2.15.1 ===
+	* win32/vs8/glib-genmarshal.vcproj: New file: Visual Studio
+	project file for glib-genmarshal.exe, by Sergey Scobich.
 
-2007-12-22  Matthias Clasen  <mclasen@redhat.com>
+	* win32/vs8/Makefile.am
+	* win32/vs8/glib.sln: Add it.
 
-	* gmodule.c (g_module_open): Don't fail to load modules
-	with suffix .la.  (#480122, Andrey Tsyvarev)
+2006-01-31  Tor Lillqvist  <tml@novell.com>
 
-2007-12-20  Matthias Clasen  <mclasen@redhat.com>
+	* win32/Makefile.am (EXTRA_DIST): Drop the obsolete shell scripts
+	and make.mingw.
 
-	* === Released 2.15.0 ===
+	* win32/vs8/*: Visual Studio 2005 project files for GLib
+	contributed by Sergey Scobich. (#328691)
 
-2007-11-08  Matthias Clasen <mclasen@redhat.com>
+	* win32/Makefile.am (SUBDIRS): Add vs8.
 
-	* gmodule.c: Include glibconfig.h before checking G_OS_WIN32.
+	* win32/make.msc (LINKDEBUG): Use /nodefaultlib:msvcrt.lib when
+	debugging. (#329325, Timo Linna)
 
-2007-11-07  Matthias Clasen <mclasen@redhat.com>
+2005-09-01  Tor Lillqvist  <tml@novell.com>
 
-	* *.c: Make header include order consistent (#71704,
-	Diego Escalante Urrelo)
+	* win32/cl-wrapper.c: Again spent some hours hacking on this. Now
+	the compilation phase of building libglib autoconfiscated using
+	CC=cl-wrapper seems to work. But problems in the linking phase,
+	for instance -Wl,--whole-archive isn't implemented, and I don't
+	think link.exe even has a such feature to include all of a
+	library. Argh. To implement -Wl,--whole-archive, would need to
+	extract the library contents into a temp directory and link with
+	all the resulting object files. Sigh.
 
-2007-11-07  Matthias Clasen <mclasen@redhat.com>
-
-	* === Released 2.14.3 ===
-
-2007-10-16  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.14.2 ===
-
-2007-09-19  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.14.1 ===
-
-2007-08-03  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.14.0 ===
-
-2007-07-12  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.13.7 ===
-
-2007-07-09  Matthias Clasen  <mclasen@redhat.com>
-
-	* gmodule.c (g_module_open): Include the module file 
-	name to the error message given when module initialization 
-	fails.  (#445813, Gustavo Carneiro)
-
-Fri Jun 29 2007  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.13.6 ===
-
-2007-06-18  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.13.5 ===
-
-2007-06-05  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.13.4 ===
-
-2007-06-04  Matthias Clasen  <mclasen@redhat.com>
-	
-	* === Released 2.13.3 ===
-
-2007-05-22  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.13.2 ===
-
-2007-05-03  Matthias Clasen <mclasen@redhat.com>
-
-	* === Released 2.13.1 ===
-
-2007-03-16  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.13.0 ===
-
-2007-01-19  Tor Lillqvist  <tml@novell.com>
-
-	* Makefile.am (gmodule-2.0.lib): Use $(srcdir) for builds outside
-	srcdir.
-
-2006-12-31  Matthias Clasen  <mclasen@redhat.com>
-
-	* gmodule.c: Fix include order for win32. (#390943, 
-	Kazuki Iwamoto)
-
-2006-12-28  Matthias Clasen  <mclasen@redhat.com>
-
-	* gmodule.c: Clean up includes.
-
-2006-12-13  Matthias Clasen  <mclasen@redhat.com>
-
-	* gmodule.c (g_module_open):
-	* gmodule-dl.c (_g_module_symbol): Handle valid symbols
-	that are NULL correctly.  (#385388, Felix Kater)
-
-Mon Sep 11 14:58:56 2006  Tim Janik  <timj@imendio.com>
-
-	* gmodule.c: applied patch from Christian Persch to support
-	G_DEBUG flags resident-modules and bind-now-modules, bug #345099.
-
-2006-08-29  Tor Lillqvist  <tml@novell.com>
-
-	Remove support for Windows 9x/ME. GTK+ hasn't worked on Win9x
-	since 2.6. It's pointless to keep the Win9x code in here as it
-	isn't being maintained anyway. If somebody is interested, it is in
-	older GLib versions, and in CVS.
-
-	* gmodule-win32.c (_g_module_open): Remove the Win9x branch of if
-	statement.
-
-2006-08-15  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.12.2 ===
-
-2006-07-22  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.12.1 ===
-
-2006-07-02  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.12.0 ===
-
-2006-06-20  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.11.4 ===
-
-2006-06-12  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.11.3 ===
-
-2006-06-05  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.11.2 ===
-
-2006-05-15  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.11.1 ===
-
-2006-05-02  Matthias Clasen  <mclasen@redhat.com>
-	
-	* === Released 2.11.0 ===
-
-2006-03-29  Matthias Clasen  <mclasen@redhat.com>
-
-	* gmodule.c (g_module_symbol): Make sure to
-	not return TRUE if symbol is NULL.  (#334440,
-	ITOH Yasufumi)
-
-2006-03-07  Matthias Clasen  <mclasen@redhat.com>
-
-	* ===  Released 2.10.1 ===
-
-2006-02-24  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.10.0 ===
-
-2006-02-10  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.9.6 ===
-
-2006-01-27  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.9.5 ===
-
-2006-01-18  Matthias Clasen  <mclasen@redhat.com>
-	
-	* === Released 2.9.4 ===
-
-2006-01-16  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.9.3 ===
-
-2006-01-05  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.9.2 ===
-
-2005-12-09  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.9.1 ===
-
-2005-11-28  Matthias Clasen  <mclasen@redhat.com>
-
-	* gmodule.c (parse_libtool_archive): Silence
-	compiler warnings.
-
-2005-11-17  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.9.0 ===
-
-2005-08-23  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.8.1 ===
-
-2005-08-12  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.8.0 ===
-
-2005-08-05  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.7.7 ===
-
-2005-08-03  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.7.6 ===
-
-2005-08-02  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.7.5 ===
-
-2005-07-21  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.7.4 ===
-
-2005-07-15  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.7.3 ===
-	
 2005-07-09  Tor Lillqvist  <tml@novell.com>
 
-	* Makefile.am: Don't use the scripts in build/win32 to compile
-	gmodule.rc into a resource object file. (This means we lose the
-	build number increment magic, but I doubt it was that useful
-	anyway.) Instead use windres directly. To pass the normal .o file
-	produced by windres through libtool, which wants .lo files, pass
-	it directly to the linker using a -Wl option.
-
-	* gmodule.rc.in: Thus replace BUILDNUMBER with 0.
-
-2005-07-08  Matthias Clasen  <mclasen@redhat.com>
-	
-	* === Released 2.7.2 ===
-
-2005-06-30  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.7.1 ===
-
-2005-06-30  Matthias Clasen  <mclasen@redhat.com>
-
-	* gmodule-ar.c: Include stdlib.h
-
-2005-06-26  Tor Lillqvist  <tml@novell.com>
-
-	* Makefile.am: libtool installs/uninstalls the import library, no
-	need to do it ourselves. Do still install/uninstall the .def file,
+	* README: When using auto*/libtool/gcc to build GLib, Pango and
+	GTK+, the scripts to compile resource files in build/win32 are no
+	longer used. Still here in case somebody wants to have a look,
 	though.
-
-2005-06-24  Tor Lillqvist  <tml@novell.com>
-
-	* Makefile.am (install-libtool-import-lib): Current GNU tools do
-	understand the PRIVATE keyword.
-
-2005-06-10  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.7.0 ===
-
-2005-01-07  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.6.1 ===
-
-2004-12-31  Tor Lillqvist  <tml@iki.fi>
-
-	* gmodule.c (g_module_open): It's wrong to call g_file_test() with
-	more than one test (both G_FILE_TEST_EXISTS and _IS_REGULAR). (It
-	would succeed even if the pathname existed as a nonregular file.)
-	Just G_FILE_TEST_IS_REGULAR works fine. (#162594)
-
-2004-12-16  Matthias Clasen  <mclasen@redhat.com>
-
-	* === Released 2.6.0 ===
 	
-2004-12-06  Tor Lillqvist  <tml@iki.fi>
+2005-02-06  Hans Breuer  <hans@breuer.org>
 
-	* Makefile.am
-	* gmodule.def
-	* gmodule.[hc]: Win32 DLL ABI stability cruft like in ../glib.
+	* win32/make.msc win32/module.defs : updated to include Cairo,
+	gnome-canvas, gnome-print(ui), libart, pangoft2, libxml2, libxslt
 
-2004-12-02  Matthias Clasen  <mclasen@redhat.com>
+2004-12-29  Tor Lillqvist  <tml@iki.fi>
 
-	* === Released 2.5.7 ===
-	
-2004-11-12  Matthias Clasen  <mclasen@redhat.com>
+	* win32/cl-wrapper.c: More hacking. Implement -idirafter
+	correctly, amending the INCLUDE environment variable. Ignore
+	-lm. Error if multiple -o options. Copy input libs called foo.a to
+	foo.temp.lib so that link knows what they are. Remove dead
+	code. Link with same default libraries as mingw's gcc. Use
+	indirect command line file if command line is too long.
 
-	* === Released 2.5.6 ===
-	
-2004-11-04  Tor Lillqvist  <tml@iki.fi>
+2004-12-12  Tor Lillqvist  <tml@iki.fi>
 
-	* gmodule-win32.c (_g_module_open): Argument is in UTF-8. Use wide
-	character Win32 API if present.
+	* win32/cl-wrapper.c: Hack more on this. Using MSVC is necessary
+	if one wants to use tools like Purify or BoundsChecker.
 
-	* gmodule.c (parse_libtool_archive, g_module_open): Convert file
-	name to UTF-8 before storing in the error message string.
+2004-08-11  Tor Lillqvist  <tml@iki.fi>
 
-	* gmodule.c (parse_libtool_archive): Use g_open().
+	* win32/dirent/dirent.[ch]: Update from mingw-runtime-3.3.
+	Implements both normal and wide-char versions.
 
-2004-11-02  Matthias Clasen  <mclasen@redhat.com>
+	* win32/dirent/wdirent.c: New file.
 
-	* === Released 2.5.5 ===
+	* win32/dirent/Makefile.am (EXTRA_DIST): Add wdirent.c.
 
-2004-10-27 Matthias Clasen  <mclasen@redhat.com>
+2004-05-01  Hans Breuer  <hans@breuer.org>
 
-	* === Released 2.5.4 ===
+	* win32/make.msc : -DG_ENABLE_DEBUG=1 for debug builds
+	(#141335, John Ehresman)
 
-2004-09-18 Matthias Clasen  <mclasen@redhat.com>
+2004-03-05  Federico Mena Quintero  <federico@ximian.com>
 
-	* === Released 2.5.3 ===
+	Fix #136082, patch by Morten Welinder.
 
-2004-08-25 Matthias Clasen  <mclasen@redhat.com>
+	* win32/cl-wrapper.c: #include <config.h>
+	* win32/dirent/dirent.c: Likewise.
 
-	* === Released 2.5.2 ===
+2004-01-24  Tor Lillqvist  <tml@iki.fi>
 
-2004-08-01 Matthias Clasen  <mclasen@redhat.com>
+	* win32/compile-resource
+	* win32/lt-compile-resource: Use /bin/sh instead of /bin/bash, as
+	MSYS doesn't come with any /bin/bash. When compiling with
+	--enable-static and --disable-shared flag, libtool creates *.lo
+	files as scripts, but the *.o files are in "." and not in
+	".libs". Thanks to Fridrich Strba.
 
-	* === Released 2.5.1 ===
+2003-11-15  Tor Lillqvist  <tml@iki.fi>
 
-Sun Jul 18 18:03:08 2004  Soeren Sandmann  <sandmann@daimi.au.dk>
+	* win32/dirent/makefile.msc: Improve. (#126913, John Ehresman)
 
-	* === Released 2.5.0 ===
+2003-08-08  Tor Lillqvist  <tml@iki.fi>
 
-Mon May 31 00:09:10 2004  Matthias Clasen  <maclas@gmx.de>
+	* win32/cl-wrapper.c: Fix bug in environment variable
+	handling. Support --version flag. Prefix double quotes in -I and
+	-D parameters with backslash.
 
-	* Makefile.am (EXTRA_DIST): Add gmodule-ar.c. (#85930, Tomas Ögren)
+2003-06-06  Tor Lillqvist  <tml@iki.fi>
 
-Tue May 11 23:23:21 2004  Matthias Clasen  <maclas@gmx.de>
+	* win32(compile-resource (resfile): Support a WINDRES environment
+	variable. (#112387, J. Ali Harlow)
 
-	* gmodule-ar.c (_g_module_open): Make it compile on AIX.  
-	(#141159, Michael Wilson)
+2002-09-28  Tor Lillqvist  <tml@iki.fi>
 
-2004-03-31  Tor Lillqvist  <tml@iki.fi>
+	* win32/make.mingw: Add libxml2 CFLAGS and LIBS
+	(suggestion by Steffen Macke).
 
-	* gmodule-win32.c (_g_module_build_path): On Cygwin, use the "cyg"
-	prefix, and accept also the normal "lib". (#138403, Roger Leigh)
+2002-09-17  Tor Lillqvist  <tml@iki.fi>
 
-Tue Feb 24 14:09:21 2004  Owen Taylor  <otaylor@redhat.com>
+	* win32/compile-resource: Return failure (implicitly, as the
+	return status of the last command executed) if m4 or windres
+	fails. Thanks to charlet@act-europe.fr (#93373).
 
-	* === Released 2.3.3 ===
+2002-09-13  Tor Lillqvist  <tml@iki.fi>
 
-Sun Feb 22 02:28:43 2004  Matthias Clasen  <maclas@gmx.de>
+	* win32/lt-compile-resource: Argh. With some libtool versions, or
+	when the moon is in a certain phase, libtool creates the actual
+	object files as .lo files. Otherwise .lo files are small scripts
+	(which is what lt-compile-resource has always thought until now).
+	Add an ugly hack that tries to determine which kind of .lo files are
+	used, and act correspondingly.
 
-	Bug #85930, Laurent Vivier:
-	
-	* gmodule-ar.c: Implementation of native module management for AIX.
-	* gmoduleconf.h.in: 
-	* gmodule.c: Support gmodule-ar.c 
+2002-09-10  Tor Lillqvist  <tml@iki.fi>
 
-2003-01-01  Tor Lillqvist  <tml@iki.fi>
+	* win32/module.defs: Remove GTK_VER which was misleading and
+	unused. Ditto for GTKGLAREA_VER. Add comment about taking this
+	stuff with a very big grain of salt.
 
-	* gmodule-win32.c (_g_module_build_path): Use g_ascii_strcasecmp().
+2002-03-27  Tor Lillqvist  <tml@iki.fi>
 
-Tue Dec  3 20:56:19 2002  Owen Taylor  <otaylor@redhat.com>
+	* win32/module.defs
+	* win32/make.msc
+	* win32/make.mingw: Try to make up-to-date with GLib 2.0, ATK 1.0,
+	Pango 1.0 and GTK+ 2.0. This stuff is starting to feel more and
+	more quaint, though. Remove the FriBiDi references, Pango uses its
+	own mini-fribidi version. Use the names GTK2_CFLAGS and _LIBS also in
+	make.mingw, not GTKCURRENT_*.
 
-	* gmodule.c (g_module_open): Properly refcount the
-	main module if it is already open. (#98648)
+2001-12-05  Tor Lillqvist  <tml@iki.fi>
 
-Sat Mar  2 14:46:17 2002  Owen Taylor  <otaylor@redhat.com>
+	* win32/make.mingw (LIBICONV_LIBS): Fix typo: pkg-config --libs,
+	not --cflags. Thanks to Victor Secarin.
 
-	* gmodule-beos.c (_g_module_build_path) * gmodule-dyld.c (_g_module_build_path) 
-	  gmodule-dl.c (_g_module_build_path): Use G_MODULE_SUFFIX rather than
-	a hardcoded ".so". (#72803)
+	* win32/build-dll: Don't call dirname blindly on $0 which might be
+	a Windows-style (drive letter, backslashes) pathname. Thanks to
+	Victor Secarin. Remove mention of Platform SDK, it doesn't
+	include the linker any longer.
 
-Sun Feb 17 18:15:22 2002  Owen Taylor  <otaylor@redhat.com>
+2001-10-31  Tor Lillqvist  <tml@iki.fi>
 
-	* gmodule.c (g_module_open): Fix typo when checking
-	if file + module_suffix exists. (Miroslaw Dobrzanski-Neumann,
-	#71801)
+	* win32/make.mingw (TIFF_LIBS): We can use same import library for
+	non-LZW and LZW-enabled versions. Just let the user decide which
+	DLL to use.
 
-2001-11-24  Tor Lillqvist  <tml@iki.fi>
+2001-10-30  Tor Lillqvist  <tml@iki.fi>
 
-	* Makefile.am: Remove rule for testgmodule.exp, too.
+	* win32/make.mingw: Use pkg-config for more stuff. The
+	corresponding .pc files are included in the new packages on
+	www.gimp.org/win32/new-downloads.html. 
 
-2001-11-22  Tor Lillqvist  <tml@iki.fi>
+	* win32/dirent/dirent-zip: New file, script to package a developer
+	package of dirent.h and dirent.lib.
 
-	* gmodule-win32.c: Current w32api headers do include tlhelp32.h,
-	so no need to have an extract from it here.
+	* win32/dirent/Makefile.am (EXTRA_DIST): Add it.
 
-Mon Nov 19 16:12:12 2001  Owen Taylor  <otaylor@redhat.com>
+2001-10-24  Tor Lillqvist  <tml@iki.fi>
 
-	* Makefile.am makefile.msc.in makefile.mingw.in: Remove
-	testgmodule and associated plugin files; we don't need _both_ this
-	and ../tests/module-test.c
+	* win32/make.mingw: Also try to include module.defs from the build
+	subdirectory of GLib.
 
-2001-11-16  Michael Meeks  <michael@ximian.com>
-
-	* gmodule.c (parse_libtool_archive): fix leak.
-
-2001-10-30  Dan Winship  <danw@ximian.com>
-
-	* Makefile.am (EXTRA_DIST): Add gmodule-dyld.c
+	* win32/make.msc: When DEBUG, use -Zi, otherwise -Zi. Always use
+	/machine:ix86.
 
 2001-10-23  Tor Lillqvist  <tml@iki.fi>
 
-	* Makefile.am: (Win32): If we have built the MSVC import library,
-	install it. Install the gcc import library. Also support
-	uninstall.
+	* win32/cl-wrapper.c: Various changes. I don't actually use this
+	to build with libtool and MSVC, only to run configure for MSVC. At
+	least for now.
 
-2001-10-09  Tor Lillqvist  <tml@iki.fi>
+	* win32/make.mingw: Use pkg-config to get CFLAGS and LIBS for GLib
+	and GTK.
 
-	* gmodule-win32.c (_g_module_build_path): More Unix compatibility:
-	Add "lib" prefix in case the module name doesn't already have it,
-	except if it ends with ".dll" (in which case it probably already
-	is the name of an existing DLL). This is needed for instance for
-	the gdk-pixbuf loaders, which are called "lib*.dll", but
-	gdk-pixbuf-io calls g_module_build_path without the "lib" prefix.
+	* win32/make.msc: Use GDK and GTK import library names now
+	produced in gtk-1-3-win32-production.
 
-2001-10-03  jacob berkman  <jacob@ximian.com>
+2001-10-10  Tor Lillqvist  <tml@iki.fi>
 
-	* libgplugin_a.c: (gplugin_a_module_func): 
-	* gmodule.h: s/retrive/retrieve/
+	* win32/module.defs (PNG): Use libpng 1.2.0.
+
+	* win32/lt-compile-resource: Mkdir .libs if not there already.
+
+2001-09-30  Tor Lillqvist  <tml@iki.fi>
+
+	* win32/build-dll: Comment clarification.
+
+	* win32/Makefile.am: Add dirent subdirectory.
+
+	* win32/dirent/*: New files. The (public domain) dirent
+	implementation from the mingw runtime, for MSVC users.
+
+	* win32/make.msc (DIRENT_CFLAGS,DIRENT_LIBS): Point to
+	build/win32/dirent in the GLib sources. Hmm.
+	(CC): Remove duplicate $(OPTIMIZE), already in CFLAGS.
+	
+2001-09-28  Tor Lillqvist  <tml@iki.fi>
+
+	* win32/make.mingw
+	* win32/make.msc: Separate the compiler program names into
+	an Make macro of its own (CCOMPILER and CXXCOMPILER).
+
+	* win32/cl-wrapper.c: New file. A program that accepts Unix-like C
+	compiler command line arguments, and runs the Microsoft C compiler
+	(cl) after transforming the arguments to cl's syntax. This program
+	can be used when using the auto*/configure mechanism to build
+	software with MSVC.
 
 2001-09-25  Tor Lillqvist  <tml@iki.fi>
 
-	* makefile.mingw.in: Fix missing end @ in @LT_CURRENT@.
+	* win32/module.defs: Do define GLIB_VER after all. (Do use it in
+	(import) library names, like it is on Unix.)
 
-	* makefile.msc.in: Use same DLL and import library names as
-	libtool.
+	* win32/make.mingw
+	* win32/make.msc: Some comments added. Use GLIB_VER in GLib
+	(import) library names.
+
+2001-09-17  Tor Lillqvist  <tml@iki.fi>
+
+	* win32/build-dll: Invocation changed. We now expect a version
+	info like libtool's -version-info parameter. The intention is to
+	produce the same name DLL as libtool would, i.e. use "current -
+	age" as the DLL name suffix.
+
+	* win32/compile-resource: New file, containing the part of
+	build-dll that compiles the resource file, if available.
+
+	* win32/lt-compile-resource: New file, invokes compile-resource,
+	placing the resulting .o file in the .libs subdirectory, and
+	handcrafts a "libtool object" for it.
+
+	* win32/Makefile.am: Distribute new files.
+
+	* win32/make.mingw: Add COMPILE_RESOURCE.
+
+Tue Sep  4 01:46:15 2001  Owen Taylor  <otaylor@redhat.com>
+
+	* win32/Makefile.am (EXTRA_DIST): Add build-dll, on
+	the assumption it isn't going to get distributed otherwise.
+
+2001-09-01  Tor Lillqvist  <tml@iki.fi>
+
+	* win32/build-dll: Move here from GLib. Use gcc -shared instead of
+	the multiple pass gcc+dlltool method. Don't include the version
+	number in the import library names.
+
+	* win32/make.mingw
+	* win32/make.msc: Correspondingly, remove the version number parts
+	from (some) import library names. (Just a start, more to follow.)
+
+	* win32/module.defs: In fact, no need to know the versions at all
+	for stuff that doesn't include it as part of the directory name.
 	
-2001-09-19  Tor Lillqvist  <tml@iki.fi>
+2001-01-06  Hans Breuer  <hans@breuer.org>
 
-	* gmodule.rc.in: Correct InternalName and OriginalFilename to
-	match what we actually produce.
+	* win32/module.defs : renamed GTKCURRENT to GTK2 and some
+	version number updates
 
-2001-09-18  Tor Lillqvist  <tml@iki.fi>
+	* win32/make.msc : added GTK2_CFLAGS and GTK2_LIBS, now used
+	by CVS HEAD Gimp. Minor updates,
 
-	* Makefile.am: On Win32, pass a dummy -rpath flag to libtool when
-	building libgplugin_[ab].la, otherwise libtool doesn't create a
-	DLL, but a static archive.
+2001-05-22  Sebastian Wilhelmi  <wilhelmi@ira.uka.de>
 
-2001-07-20  Hans Breuer  <hans@breuer.org>
+	* win32/make.mingw: Redid CFLAGS.
 
-	* makefile.msc.in : reflect glib move
+	* win32/make.mingw (CXX): Removed PTHREAD defs. Added -O2 -Wall to
+	compile flags.
 
-2001-05-21  Mark Murnane  <Mark.Murnane@ireland.sun.com>
+2001-01-06  Hans Breuer  <hans@breuer.org>
 
-	* gmodule.c (g_str_check_suffix):  Modified type of string_len
-	and suffix_len to be gsize.  Properly accommodates return from
-	strlen().
+	* win32/make.msc win32/module.defs : added ATK,
+	adapted Pango version
 
-2001-05-29  Sebastian Wilhelmi  <wilhelmi@ira.uka.de>
+2001-03-19  Tor Lillqvist  <tml@iki.fi>
 
-	* gmodule.c (g_module_set_error_unduped): Do not g_strdup, as
-	promised in the function name.
+	* win32/module.defs (GLIB_GENMARSHAL): Add macro for glib-genmarshal.
 
-Tue May 29 12:57:51 2001  Tim Janik  <timj@gtk.org>
+2001-02-17  Tor Lillqvist  <tml@iki.fi>
 
-	* gmodule.c (g_module_symbol): erk, strconcat needs NULL as last arg.
-	make sure we pass module name with suffix into backend open.
+	* win32/make.{mingw,msc} (INTL_LIBS): Call the import library just
+	libintl, not gnu-intl, for consistency with Unix conventions. (The
+	DLL is still called gnu-intl.dll, using such a generic name as
+	just "intl.dll" would be asking for trouble.)
 
-Mon May 28 20:19:25 2001  Tim Janik  <timj@gtk.org>
+2001-01-28  Tor Lillqvist  <tml@iki.fi>
 
-	* gmodule.c (g_module_open): as a last resort, if we can't access()
-	the module, leave it up to the platform backends to find it.
-	(fixes implicit search patch loading i broke with my last
-	commit, spotted by Padraig O'Briain).
+	* win32/module.defs
+	* win32/make.mingw
+	* win32/make.msc : Use libiconv 1.5.1. Use libiconv's import
+	library as built by its Makefile.msvc, without any version
+	number. Use the same convention for the GNU-style import library.
 
-Thu May 24 03:43:12 2001  Tim Janik  <timj@gtk.org>
+2000-12-27  Tor Lillqvist  <tml@iki.fi>
 
-	* gmodule.c (g_module_open): reordered code so we have a single
-	module loading point (for reliable error messages). do access()
-	tests to figure plausible file names.
-	make error messages more verbose so users canfigure what's going on.
+	* win32/make.{mingw,msc} (TIFF_LIBS): Provide separate TIFF_LZW
+	and TIFF_NOLZW.
 
-2001-04-20  Dan Winship  <danw@ximian.com>
+2000-12-21  Tor Lillqvist  <tml@iki.fi>
 
-	* gmodule-dyld.c: gmodule implementation for Darwin/Mac OS X
+	* win32/*: Add version number for FreeType2. We need the FT2
+	library built as a DLL, and append the vesion number to its name,
+	too.
 
-	* gmodule.c: 
-	* gmoduleconf.h.in: Add gmodule-dyld support
+2000-12-20  Tor Lillqvist  <tml@iki.fi>
 
-	* testgmodule.c (main): Fix spelling
+	* win32/module.defs (FRIBIDI_VER): Use FriBidi 0.1.15.
 
-2001-03-13  Tor Lillqvist  <tml@iki.fi>
+2000-12-14  Tor Lillqvist  <tml@iki.fi>
 
-	From Edward M. Lee  <tailbert@yahoo.com>:
+	* win32/make.msc: Split C runtime flag (-MD or -MDd) to a separate
+	macro.
 
-	* gmodule-win32.c (_g_module_build_path): use (cygwin friendly) dir
-	separator.
+2000-11-15  Tor Lillqvist  <tml@iki.fi>
 
-2001-03-12  Tor Lillqvist  <tml@iki.fi>
+	* win32/module.defs (PANGO_VER): Update Pango version to 0.13.
 
-	* Makefile.am (libgplugin_a_la_LIBADD, libgplugin_b_la_LIBADD):
-	Link with the libgmodule la only on Win32.
+2000-10-22  Tor Lillqvist  <tml@iki.fi>
 
-2001-03-10  Tor Lillqvist  <tml@iki.fi>
+	* win32/make.msc (PANGO_LIBS): Include version in Pango lib names.
 
-	* Makefile.am: Use the _LIBADD dependency on libglib only on the
-	Win32 platform (including Cygwin).
+2000-10-07  Tor Lillqvist  <tml@iki.fi>
 
-2001-03-07  Sebastian Wilhelmi  <wilhelmi@ira.uka.de>
+	* win32/make.msc: Improve to be more useable.
 
-	* Makefile.am, makefile.mingw.in, makefile.msc.in: Set
-	G_LOG_DOMAIN to \"GModule\" instead of g_log_domain_gmodule.
+2000-09-12  Tor Lillqvist  <tml@iki.fi>
 
-	* gmodule.def, gmodule.h, gmodule.c: Removed g_log_domain_gmodule.
+	* win32/make.{mingw,msc}: Add PTHREAD_LIBS and PTHREAD_CFLAGS.
 
-2001-02-21  Tor Lillqvist  <tml@iki.fi>
+2000-08-24  Tor Lillqvist  <tml@iki.fi>
 
-	* gmodule.h: Use G_BEGIN_DECLS and G_END_DECLS. Define
-	G_MODULE_EXPORT correctly on Cygwin, too.
+	* win32/module.defs: Add separate version number for gdk-pixbuf.
 
-	* gmodule-win32.c (_g_module_open): Convert path to Windows format
-	on Cygwin.
+	* win32/make.mingw: Add C++ defs.
 
-	* Makefile.am (libglib): Use libglib-1.3.la from
-	top_builddir. Invoke libtool with -no-undefined for Win32 and
-	Cygwin.
+2000-08-20  Tor Lillqvist  <tml@iki.fi>
 
-2001-02-17  Havoc Pennington  <hp@pobox.com>
+	* win32/*: Remove FREETYPE2_20000624, not needed any
+	longer by gimp-freetype.
 
-        Applied patch from Soeren Sandmann:
+	* win32/make.mingw: Add rule to produce assembler source.
+
+	* win32/make.msc: Fix syntax error. Add CFLAGS.
+
+2000-08-05  Tor Lillqvist  <tml@iki.fi>
+
+	* win32/module.defs
+	* win32/make.{mingw,msc}: Rename the FreeType2 snapshot from 2000-06-24
+	(used by gimp-freetype). Use the name "FreeType2" for the current
+	FreeType2.
 	
-	* gmodule.c (g_module_error): G_CONST_RETURN
-	(g_module_name): G_CONST_RETURN
+2000-07-30  Tor Lillqvist  <tml@iki.fi>
 
-Sat Feb 17 07:27:15 2001  Tim Janik  <timj@gtk.org>
+	* win32/module.defs
+	* win32/make.mingw
+	* win32/make.msc: Rename XML to LIBXML. Use version 0.14 of
+	it. Add LIBXML_CFLAGS and _LIBS. Add GTKCURRENT referring the
+	current CVS GTK+ (nonworking on Win32).
+	
+2000-07-25  Tor Lillqvist  <tml@iki.fi>
 
-	* gmodule.c: work around platforms that have broken RTLD_GLOBAL.
+	* win32/make.mingw (PANGO_LIBS): Typo.
 
-2001-01-27  Tor Lillqvist  <tml@iki.fi>
+2000-07-21  Tor Lillqvist  <tml@iki.fi>
 
-	* gmodule.c: (Win32) Need <io.h> for open() and close().
+	* win32/*: Reorder stuff to be in alphabetical order of package
+	names. Add GtkGLArea. Add path to OpenGL headers.
 
-2000-12-22  Sebastian Wilhelmi  <wilhelmi@ira.uka.de>
+2000-07-18  Tor Lillqvist  <tml@iki.fi>
 
-	* gmodule.c: Make g_module_open more tolerant wrt to the module
-	name. First it tries to open the module as named, if that fails,
-	it checks, whether it is a libtool archive and parses it, if that
-	fails it appends the systems shared library suffix
-	(i.e. ".so") (if not already found) and tries again and if that
-	fails it tries to append the ".la" libtool suffix (if not already
-	found) and parses it.
+	* win32/module.defs (FRIBIDI_VER)
+	* win32/make.{mingw,msc} (FRIBIDI_LIBS): Use correct version
+	of FriBidi.
 
-	* gmodule.c: Lock recursive mutex during most module functions for
-	safety.
+2000-07-15  Tor Lillqvist  <tml@iki.fi>
 
-	* gmodule-dl.c: Return an error from _g_module_symbol only, if
-	dlerror says so. All other functions return an error as well, if
-	dlerror returns NULL.
+	* win32/make.mingw
+	* win32/make.msc
+	* win32/module.defs: Add Pango.
 
-	* testgmodule.c: Thanks to the above change the #ifdefs have
-	vanished.
+2000-07-10  Tor Lillqvist  <tml@iki.fi>
 
-2000-10-15  Raja R Harinath  <harinath@cs.umn.edu>
+	* win32/module.defs: 
+	* win32/make.msc: New files. Factor out common stuff to module.defs.
+	make.msc is for nmake and MSVC. Thanks to Hans Breuer.
 
-	* Makefile.am (BUILT_EXTRA_DIST): New variable.
-	(dist-hook): Handle $(BUILT_EXTRA_DIST).
+	* win32/Makefile.am: Add them to EXTRA_DIST.
 
-2000-09-28  Sebastian Wilhelmi  <wilhelmi@ira.uka.de>
+	* win32/make.mingw: Move part to module.defs. Ugly hack to find
+	module.defs.
 
-	* gmodule.h: Moved declaration of g_log_domain_gmodule up before
-	the inclusion of glib.h to make it compile on non-gcc compilers.
+2000-07-02  Tor Lillqvist  <tml@iki.fi>
 
-2000-07-22  Tor Lillqvist  <tml@iki.fi>
+	* win32/make.mingw: Addd FriBidi and libiconv. Add USRDIR for
+	headers and libs that are "installed".
 
-	* makefile.mingw.in: Remove leftover gmodule-win32res.o stuff. The
-	build-dll script automagically handles resources.
+2000-06-07  Tor Lillqvist  <tml@iki.fi>
 
-2000-07-20  Sebastian Wilhelmi  <wilhelmi@ira.uka.de>
+	* win32/make.mingw: Clarify where this stuff should be located.
 
-	* libgplugin_a.c, testgmodule.c: Use g_path_get_basename instead
-	of the deprecated g_basename.
+	* Makefile.am
+	* win32/Makefile.am: New files. Only set SUBDIRS and EXTRA_DIST.
 
-2000-07-19  Sebastian Wilhelmi  <wilhelmi@ira.uka.de>
+2000-05-29  Tor Lillqvist  <tml@iki.fi>
 
-	* gmodule.h: include glib.h before doing extern "C". Makes some C++
-	compiler happy. Reported by Denis Vakatov
-	<vakatov@peony.nlm.nih.gov>.
-
-2000-07-19  Tor Lillqvist  <tml@iki.fi>
-
-	* gmodule-win32.c: Don't #include <tlhelp32.h> when compiling with
-	gcc, as it isn't provided. Declaration of a needed struct (from
-	www.microsoft.com) inserted instead.
+	* win32/make.mingw: Add gmodule directory to GLib includes. Use
+	freetype2 directory called just that.
 
 2000-05-13  Tor Lillqvist  <tml@iki.fi>
 
-	* makefile.mingw.in: New file, with gmodule stuff
-	moved from ../makefile.mingw.in.
+	* README: Remove the original README text.
 
-	* Makefile.am: Add to EXTRA_DIST, and add rule to make makefile.mingw.
+	* win32/make.mingw: Define macros for CFLAGS and LIBS of GLib,
+	GTk+, intl, freetype2, zlib, libjpeg, libtiff and GIMP. Remove the
+	WIN32APIHEADERS, that is now taken care of in glib/build-dll.
 
-2000-05-02  Tor Lillqvist  <tml@iki.fi>
+2000-05-05  Tor Lillqvist  <tml@iki.fi>
 
-	* gmodule-win32.c: No need to include <psapi.h>
+	* win32/make.mingw: Add GIMP_VER. Add path to GIMP and freetype2
+	sources.
 
-2000-03-23  Tor Lillqvist  <tml@iki.fi>
+2000-05-04  Tor Lillqvist  <tml@iki.fi>
 
-	* gmodule-win32.c (_g_module_symbol): When looking for symbols in
-	the "main" module we must search both the main program and all
-	currently loaded DLLs. Not only the main program, or even just the
-	DLLs loaded as gmodules.  Libglade requires this.
+	* ChangeLog: Start ChangeLog.
 
-	Thus we need to get a list of all modules in the current
-	process. There are two alternative APIs to do this: PSAPI and
-	Toolhelp. The former is only available on NT (including Win2k),
-	the latter on Win9x and Win2k. Check which one works, and use
-	that.
+	* README: Change purpose of this directory.
 
-	First check for the symbol in the main program, and if not found
-	there, in all the modules.
+	* win32/make.mingw: New file.
 
-	Code for using PSAPI and Toolhelp was borrowed from the Dr. Mingw
-	tool written by José Fonseca <em96115@fe.up.pt>. Thanks.
-
-2000-03-04  Tor Lillqvist  <tml@iki.fi>
-
-	* gmodule-win32.c: Call g_win32_error_message() to get the error
-	message strings.
-
-	* libgplugin_a.c
-	* libgplugin_b.c
-	* gmodule.c: Remove LibMain functions that were needed by LCC,
-	which is not a supported compiler.
-
-	* testgmodule.c (main): Test for G_MODULE_IMPL ==
-	G_MODULE_IMPL_WIN32, not G_OS_WIN32.
-
-	* gmoduleconf.h.win32: Remove LCC stuff from here, too. 
-
-Wed Mar  1 05:34:47 2000  Tim Janik  <timj@gtk.org>
-
-	* gmodule-beos.c (_g_module_symbol): do not return NULL symbols.
-
-	* gmodule-os2.c: removed NetBSD specific defines.
-	(_g_module_self): set an error message for unsupported behaviour.
-
-	* gmodule-beos.c: many coding style fixups.
-	(_g_module_open):
-	(_g_module_self):
-	(_g_module_close):
-	(_g_module_symbol): bunch of memory leaks plugged.
-
-	* gmodule-dl.c: make sure the error message returned from dlerror()
-	is always != NULL, by using a wrapper function fetch_dlerror(). based
-	on a patch to fix _g_module_symbol() for NetBSD from Scott Presnell
-	<srp@zgi.com>.
-
-	* gmodule-dld.c: minor indentation.
-
-	* gmodule-win32.c: minor cleanups.
-
-	* merges from glib-1-2.
-
-Sat Feb 19 19:43:29 2000  Tim Janik  <timj@gtk.org>
-
-	* testgmodule.c (main): added test to check that not yet bound symbols
-	in shared libraries of the main module are retrievable, from David Gero.
-
-2000-01-13  Martin Baulig  <martin@home-of-linux.org>
-
-	* gmodule.c (g_module_open): Check whether `check_init' is not NULL
-	before we attempt to call it.
-
-Sun Oct  3 19:30:52 PDT 1999 Manish Singh <yosh@gimp.org>
-
-	* gmodule.h
-	* testgmodule.c: use G_OS stuff
-
-Sat Jul 24 20:47:18 1999  Tim Janik  <timj@gtk.org>
-
-	* merged changes from GLib-1-2 branch.
-
-1999-05-06  Tor Lillqvist  <tml@iki.fi>
-
-	* gmodule.c: Remove LibMain.
-
-Sat May  1 10:58:57 PDT 1999 Manish Singh <yosh@gimp.org>
-
-	* Makefile.am: use -avoid-version and -module for test plugins
-
-Mon Apr 19 08:43:59 1999  ape@lrdpf.spacetec.no  (Asbjorn Pettersen)
-
-	* Makefile.am (EXTRA_DIST): Add gmodule-os2.c
-
-Wed Apr  7 20:12:58 1999  ape@lrdpf.spacetec.no  (Asbjorn Pettersen)
-
-	* gmodule-os2.c: OS/2 specific file for gmodule.
-	* gmodule.c (_g_module_open): Add gmodule-os2.c if G_MODULE_IMPL_OS2.
-	* gmoduleconf.h.in: Add G_MODULE_IMPL_OS2.
-
-Fri Apr 23 09:03:48 1999  Tim Janik  <timj@gtk.org>
-
-	* gmodule.c (g_module_symbol): removed inline variable assignment.
-	s/CHECK_ERROR/SUPPORT_OR_RETURN/ to make the code more self descriptive.
-
-Wed Feb 10 12:06:30 1999  Tim Janik  <timj@gtk.org>
-
-	* gmodule.c (CHECK_ERROR): be more descriptive on unsupported systems.
-
-Wed Feb 10 07:56:33 1999  Tim Janik  <timj@gtk.org>
-
-	* gmodule.c (g_module_error): fixed errernerous code wrt to thread
-	specific error string allocation handling.
-
-Thu Jan 21 12:40:11 EST 1999  Jeff Garzik  <jgarzik@pobox.com>
-
-	* gmodule-dl.c (_g_module_build_path):
-	Add braces to eliminate an ambiguous else warning.
-
-1999-01-16  Tor Lillqvist  <tml@iki.fi>
-
-	* gmodule-dl.c gmodule-dld.c: In
- 	_g_module_build_path, don't add the "lib" prefix and
- 	".so" or ".sl" suffix if already there.
-
-	* gmodule-win32.c: Likewise for the ".dll" suffix.
-
-1998-12-10  Sebastian Wilhelmi  <wilhelmi@ira.uka.de>
-
-	* gmodule.c: Made it MT safe, the g_module_error() is now thread
-	specific.
-
-Fri Nov 20 14:43:44 1998  Tim Janik  <timj@gtk.org>
-
-	* gmodule.c (_g_module_build_path): added empty default imlementation
-	so gmodule.so compiles on systems that are not yet supported, fix from
-	Erik Bagfors <bagfors@hpc2n.umu.se>.
-
-1998-11-13  Nuno Ferreira  <nmrf@rnl.ist.utl.pt>
-
-	* Makefile.am (INCLUDES): The previous commit message is wrong
-	about the -I$(top_srcdir) being redundant. I put it back.
-
-Wed Nov 11 23:23:22 EST 1998 Jeff Garzik <jgarzik@pobox.com>
-
-	* Makefile.am : INCLUDES is the right way to add to CFLAGS, not 
-	DEFS.  Also there are bugs with '+=' in makefiles.
-	Got rid of DEFS line by moving G_LOG_DOMAIN setting into INCLUDES.
-	Removed redundant -I from INCLUDES.
-
-Tue Oct 27 04:00:11 1998  Tim Janik  <timj@gtk.org>
-
-	* testgmodule.c (main): changed the #ifdef WIN32 test to NATIVE_WIN32,
-	this needs to be more constistent throughout the code, do we go for
-	NATIVE_WIN32 or WIN32?
-
-	* gmodule.c (LibMain): special cased the #ifdef __LCC__ case for
-	NATIVE_WIN32, since lcc maybe used on other platforms as well.
-	* libgplugin_a.c (LibMain): 
-	* libgplugin_b.c (LibMain): 
-	likewise. not sure i like this special requirement for lcc in here.
-
-	* gmodule-dl.c (_g_module_build_path): 
-	feature empty "" directories and prepend the module name with "lib".
-
-	* gmodule-dld.c (_g_module_build_path): 
-	* gmodule-win32.c (_g_module_build_path): 
-	feature empty "" directories.
-
-	* we need some more magic in the _g_module_build_path variants
-	so we don't append/prepend lib and .so, .sl or .dll for those names
-	that already contain it.
-
-	* applied patch from Tor Lillqvist for g_module_build_path() and
-	windows support.
-
-1998-10-20: Tor Lillqvist <tml@iki.fi>
-
-	* gmodule/gmodule-win32.c:
-	New file.
-
-	* gmodule/gmodule.c gmodule/gmodule.h:
-	Added the funcion g_module_build_path that builds the path to
-	a module file, decorating the name according to the system's
-	conventions.  Added the Windows implementation.
-
-	* gmodule/libgplugin_a.c gmodule/libgplugin_b.c:
-	Added LibMain for LCC-Win32.
-
-	* gmodule/testgmodule.c:
-	Handle Windows dll names.
-
-1998-10-25  Raja R Harinath  <harinath@cs.umn.edu>
-
-	* gmodule.h: Remove `#pragma }'.
-	* gmoduleconf.h.in: Likewise.
-
-Wed Oct 21 19:58:27 1998  Tim Janik  <timj@gtk.org>
-
-	* gmodule.c (g_module_symbol): fixed a string pointer bug that could
- 	cause garbage error messages from g_module_symbol() for systems that
-	NEED_USCORE.
-
-Mon Sep 21 01:54:48 1998  Tim Janik  <timj@gtk.org>
-
-	* gmodule.h: 
-	* gmodule.c: renamed old _de_init functionality to _unload.
-	modules are now expected to export:
-	G_MODULE_EXPORT const gchar* g_module_check_init (GModule *module);
-	and
-	G_MODULE_EXPORT void g_module_unload (GModule *module);
-	returning a string other than NULL from g_module_check_init() will
- 	prevent the module from being loaded. a call to g_module_make_resident()
-	from g_module_unload() will prevent the module from being unloaded and
-	still make it resident.
-
-Thu Sep 17 06:34:22 1998  Tim Janik  <timj@gtk.org>
-
-	* gmodule.h: 
-	* gmodule.c: implemented g_module_make_resident() which can be
-	used to make modules resident.
-	fixed a buglet about the optional "g_module_de_init" function in
-	modules, which could get invoked twice on very obscure occasions.
-
-Tue Sep 15 14:57:30 1998  Owen Taylor  <otaylor@redhat.com>
-
-	* Makefile.am: Update to libtool-1.2b,
-	change library versioning scheme to drop LT_RELEASE
-	from the -l line, while keeping it in the soname.
-
-Thu Aug 20 07:08:16 1998  Tim Janik  <timj@gtk.org>
-
-	* gmodule.c: provide no operation implementation for the underlying
-	_g_module_* functions, so we at least compile on systems that have
- 	neither of G_MODULE_IMPL_DL or G_MODULE_IMPL_DLD.
-
-Mon Aug 17 03:41:52 1998  Tim Janik  <timj@gtk.org>
-
-	* gmodule.h:
-	* gmodule.c (g_module_open): changed the return type for the
-	GModuleCheckInit function to be a string, describing the error
-	condition.
-	(g_module_symbol): show the failing symbol on error messages.
-
-Fri Aug 14 02:24:39 1998  Tim Janik  <timj@gtk.org>
-
-	* Makefile.am: feature the G_LOG_DOMAIN macro to set the log domain
-	to "GModule" upon compilation. we currently have to add this definition
-	to the DEFS variable.
-	* testgmodule.c: we need an ugly #undef G_LOG_DOMAIN at the start
-	of this file currently, since automake doesn't support per target
-	_CFLAGS yet.
-
-Mon Aug 10 03:35:57 1998  Tim Janik  <timj@gtk.org>
-
-	* gmodule.c: minor changes to internal interface.
-	* gmodule-dl.c: 
-	* gmodule-dld.c: put some comments into the files, and provided
-	better error checking for shl_findsym(). whish i had a system to
- 	test this stuff on.
-
-Mon Aug 10 02:18:31 1998  Tim Janik  <timj@gtk.org>
-
-	* Makefile.am (lib_LTLIBRARIES): for now, skip the dependency on
-	-lglib for libgmodule-1.1.la, libgplugin_a.la and libgplugin_b.la
-	since this clashes with inter-library-dependencies for not installed
-	libraries. glib-config takes care of this for the usuall case, but
-	there needs to be a better way...
-
-Sun Aug  9 15:57:38 1998  Tim Janik  <timj@gtk.org>
-
-	* testgmodule.c: test program for GModule.
-	* libgplugin_a.c: 
-	* libgplugin_b.c: test plugins for testgmodule.c.
-
-	* gmodule.h: 
-	* gmodule.c: GModule library implementation, which is basically
-	a wrapper about system specifc dynamic loading facilities.
-
-Sun Aug  9 10:31:05 1998  Tim Janik  <timj@gtk.org>
-
-	* ChangeLog start for gmodule.
+	* build.inf
+	* cvs.py
+	* write.py: Remove.

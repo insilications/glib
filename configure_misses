@@ -43,18 +43,9 @@ Configure miss: DocBook XML DTD V4.1.2 in XML catalog
 Configure miss: whether to generate man pages
 Configure miss: dtrace
 Configure miss: whether to include systemtap tracing support
-Configure miss: if gcc supports flag -Werror=format-security in envvar CFLAGS
-Configure miss: i686-generic-linux-gnu-gcc
 Configure miss: the Android
 Configure miss: Mac OS X Carbon support
 Configure miss: Mac OS X Cocoa support
-Configure miss: i686-generic-linux-gnu-c++
-Configure miss: i686-generic-linux-gnu-g++
-Configure miss: i686-generic-linux-gnu-gcc
-Configure miss: i686-generic-linux-gnu-CC
-Configure miss: i686-generic-linux-gnu-cxx
-Configure miss: i686-generic-linux-gnu-cc++
-Configure miss: i686-generic-linux-gnu-cl
 Configure miss: growing stack pointer
 Configure miss: whether using Sun Studio C compiler
 Configure miss: sys/vmount.h usability
@@ -96,4 +87,3 @@ Configure miss: DocBook XML DTD V4.1.2 in XML catalog
 Configure miss: whether to generate man pages
 Configure miss: dtrace
 Configure miss: whether to include systemtap tracing support
-Configure miss: if gcc supports flag -Werror=format-security in envvar CFLAGS
