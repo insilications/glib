@@ -9,3 +9,6 @@ ln -s /usr/lib/systemd/system/glib-schemas-firstboot.service %{buildroot}/usr/li
 mkdir -p %{buildroot}/usr/libexec
 mv %{buildroot}/usr/bin/glib-compile-schemas %{buildroot}/usr/libexec/glib-compile-schemas
 ln -s ../libexec/glib-compile-schemas %{buildroot}/usr/bin
+
+# fix busted multlib compiles by providing custom header to include the right architecture file
+install -m 00644 multilib-glibconfig.h %{buildroot}/usr/include/glib-2.0/glibconfig.h

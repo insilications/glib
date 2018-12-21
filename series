@@ -8,3 +8,4 @@ wakeups.patch
 gerror-return-on-null.patch
 gmodule-avx.patch
 0001-Remove-debugging-in-gspawn.c.patch
+add-multilib-config.patch

@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.58.2
-Release  : 85
+Release  : 86
 URL      : https://download.gnome.org/sources/glib/2.58/glib-2.58.2.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.58/glib-2.58.2.tar.xz
 Source1  : glib-schemas-firstboot.service
@@ -40,6 +40,7 @@ BuildRequires : gtk-doc-dev
 BuildRequires : libxml2-dev
 BuildRequires : libxml2-dev32
 BuildRequires : libxslt-bin
+BuildRequires : perl
 BuildRequires : perl(XML::Parser)
 BuildRequires : pkg-config
 BuildRequires : pkgconfig(32dbus-1)
@@ -62,6 +63,7 @@ Patch3: wakeups.patch
 Patch4: gerror-return-on-null.patch
 Patch5: gmodule-avx.patch
 Patch6: 0001-Remove-debugging-in-gspawn.c.patch
+Patch7: add-multilib-config.patch
 
 %description
 
@@ -190,6 +192,7 @@ services components for the glib package.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 pushd ..
 cp -a glib-2.58.2 build32
 popd
@@ -199,7 +202,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1545246790
+export SOURCE_DATE_EPOCH=1545396041
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -220,7 +223,7 @@ export LDFLAGS="$LDFLAGS -m32"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1545246790
+export SOURCE_DATE_EPOCH=1545396041
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/glib
 cp COPYING %{buildroot}/usr/share/package-licenses/glib/COPYING
@@ -249,6 +252,7 @@ ln -s /usr/lib/systemd/system/glib-schemas-firstboot.service %{buildroot}/usr/li
 mkdir -p %{buildroot}/usr/libexec
 mv %{buildroot}/usr/bin/glib-compile-schemas %{buildroot}/usr/libexec/glib-compile-schemas
 ln -s ../libexec/glib-compile-schemas %{buildroot}/usr/bin
+install -m 00644 multilib-glibconfig.h %{buildroot}/usr/include/glib-2.0/glibconfig.h
 ## install_append end
 
 %files
@@ -554,6 +558,7 @@ ln -s ../libexec/glib-compile-schemas %{buildroot}/usr/bin
 /usr/include/glib-2.0/glib/gversion.h
 /usr/include/glib-2.0/glib/gversionmacros.h
 /usr/include/glib-2.0/glib/gwin32.h
+/usr/include/glib-2.0/glibconfig.h
 /usr/include/glib-2.0/gmodule.h
 /usr/include/glib-2.0/gobject/gbinding.h
 /usr/include/glib-2.0/gobject/gboxed.h
