@@ -87,3 +87,4 @@ Configure miss: DocBook XML DTD V4.1.2 in XML catalog
 Configure miss: whether to generate man pages
 Configure miss: dtrace
 Configure miss: whether to include systemtap tracing support
+Configure miss: --fatal-warnings linker flag

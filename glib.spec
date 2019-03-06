@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.58.3
-Release  : 87
+Release  : 88
 URL      : https://download.gnome.org/sources/glib/2.58/glib-2.58.3.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.58/glib-2.58.3.tar.xz
 Source1  : glib-schemas-firstboot.service
@@ -40,6 +40,7 @@ BuildRequires : gtk-doc-dev
 BuildRequires : libxml2-dev
 BuildRequires : libxml2-dev32
 BuildRequires : libxslt-bin
+BuildRequires : perl
 BuildRequires : perl(XML::Parser)
 BuildRequires : pkg-config
 BuildRequires : pkgconfig(32dbus-1)
@@ -117,6 +118,7 @@ Requires: glib-lib = %{version}-%{release}
 Requires: glib-bin = %{version}-%{release}
 Requires: glib-data = %{version}-%{release}
 Provides: glib-devel = %{version}-%{release}
+Requires: glib = %{version}-%{release}
 
 %description dev
 dev components for the glib package.
@@ -207,7 +209,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1548092140
+export SOURCE_DATE_EPOCH=1551907333
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -220,15 +222,15 @@ make  %{?_smp_mflags}
 
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
-export ASFLAGS="$ASFLAGS --32"
-export CFLAGS="$CFLAGS -m32"
-export CXXFLAGS="$CXXFLAGS -m32"
-export LDFLAGS="$LDFLAGS -m32"
+export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
+export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32"
+export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32"
+export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32"
 %autogen --disable-static --with-python=/usr/bin/python3  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1548092140
+export SOURCE_DATE_EPOCH=1551907333
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/glib
 cp COPYING %{buildroot}/usr/share/package-licenses/glib/COPYING
