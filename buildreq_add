@@ -12,3 +12,15 @@ elfutils-dev32
 glib-dev
 gtk-doc
 which
+pcre-dev32
+pcre-dev
+libffi-dev32
+libffi-dev
+zlib-dev
+zlib-dev32
+systemd-dev
+systemd-dev32
+util-linux-dev
+util-linux-dev32
+dbus-dev
+dbus-dev32
