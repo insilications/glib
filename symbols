@@ -58,6 +58,8 @@ libgio-2.0.so.0:g_app_info_launch_default_for_uri
 libgio-2.0.so.0:g_app_info_launch_default_for_uri_async
 libgio-2.0.so.0:g_app_info_launch_default_for_uri_finish
 libgio-2.0.so.0:g_app_info_launch_uris
+libgio-2.0.so.0:g_app_info_launch_uris_async
+libgio-2.0.so.0:g_app_info_launch_uris_finish
 libgio-2.0.so.0:g_app_info_monitor_get
 libgio-2.0.so.0:g_app_info_monitor_get_type
 libgio-2.0.so.0:g_app_info_remove_supports_type
@@ -206,6 +208,7 @@ libgio-2.0.so.0:g_content_type_from_mime_type
 libgio-2.0.so.0:g_content_type_get_description
 libgio-2.0.so.0:g_content_type_get_generic_icon_name
 libgio-2.0.so.0:g_content_type_get_icon
+libgio-2.0.so.0:g_content_type_get_mime_dirs
 libgio-2.0.so.0:g_content_type_get_mime_type
 libgio-2.0.so.0:g_content_type_get_symbolic_icon
 libgio-2.0.so.0:g_content_type_guess
@@ -213,6 +216,7 @@ libgio-2.0.so.0:g_content_type_guess_for_tree
 libgio-2.0.so.0:g_content_type_is_a
 libgio-2.0.so.0:g_content_type_is_mime_type
 libgio-2.0.so.0:g_content_type_is_unknown
+libgio-2.0.so.0:g_content_type_set_mime_dirs
 libgio-2.0.so.0:g_content_types_get_registered
 libgio-2.0.so.0:g_converter_convert
 libgio-2.0.so.0:g_converter_flags_get_type
@@ -318,6 +322,7 @@ libgio-2.0.so.0:g_dbus_connection_flush_finish
 libgio-2.0.so.0:g_dbus_connection_flush_sync
 libgio-2.0.so.0:g_dbus_connection_get_capabilities
 libgio-2.0.so.0:g_dbus_connection_get_exit_on_close
+libgio-2.0.so.0:g_dbus_connection_get_flags
 libgio-2.0.so.0:g_dbus_connection_get_guid
 libgio-2.0.so.0:g_dbus_connection_get_last_serial
 libgio-2.0.so.0:g_dbus_connection_get_peer_credentials
@@ -580,6 +585,7 @@ libgio-2.0.so.0:g_desktop_app_info_get_nodisplay
 libgio-2.0.so.0:g_desktop_app_info_get_show_in
 libgio-2.0.so.0:g_desktop_app_info_get_startup_wm_class
 libgio-2.0.so.0:g_desktop_app_info_get_string
+libgio-2.0.so.0:g_desktop_app_info_get_string_list
 libgio-2.0.so.0:g_desktop_app_info_get_type
 libgio-2.0.so.0:g_desktop_app_info_has_key
 libgio-2.0.so.0:g_desktop_app_info_launch_action
@@ -638,6 +644,7 @@ libgio-2.0.so.0:g_dtls_connection_emit_accept_certificate
 libgio-2.0.so.0:g_dtls_connection_get_certificate
 libgio-2.0.so.0:g_dtls_connection_get_database
 libgio-2.0.so.0:g_dtls_connection_get_interaction
+libgio-2.0.so.0:g_dtls_connection_get_negotiated_protocol
 libgio-2.0.so.0:g_dtls_connection_get_peer_certificate
 libgio-2.0.so.0:g_dtls_connection_get_peer_certificate_errors
 libgio-2.0.so.0:g_dtls_connection_get_rehandshake_mode
@@ -646,6 +653,7 @@ libgio-2.0.so.0:g_dtls_connection_get_type
 libgio-2.0.so.0:g_dtls_connection_handshake
 libgio-2.0.so.0:g_dtls_connection_handshake_async
 libgio-2.0.so.0:g_dtls_connection_handshake_finish
+libgio-2.0.so.0:g_dtls_connection_set_advertised_protocols
 libgio-2.0.so.0:g_dtls_connection_set_certificate
 libgio-2.0.so.0:g_dtls_connection_set_database
 libgio-2.0.so.0:g_dtls_connection_set_interaction
@@ -876,6 +884,8 @@ libgio-2.0.so.0:g_file_peek_path
 libgio-2.0.so.0:g_file_poll_mountable
 libgio-2.0.so.0:g_file_poll_mountable_finish
 libgio-2.0.so.0:g_file_query_default_handler
+libgio-2.0.so.0:g_file_query_default_handler_async
+libgio-2.0.so.0:g_file_query_default_handler_finish
 libgio-2.0.so.0:g_file_query_exists
 libgio-2.0.so.0:g_file_query_file_type
 libgio-2.0.so.0:g_file_query_filesystem_info
@@ -1266,6 +1276,12 @@ libgio-2.0.so.0:g_output_stream_write_bytes
 libgio-2.0.so.0:g_output_stream_write_bytes_async
 libgio-2.0.so.0:g_output_stream_write_bytes_finish
 libgio-2.0.so.0:g_output_stream_write_finish
+libgio-2.0.so.0:g_output_stream_writev
+libgio-2.0.so.0:g_output_stream_writev_all
+libgio-2.0.so.0:g_output_stream_writev_all_async
+libgio-2.0.so.0:g_output_stream_writev_all_finish
+libgio-2.0.so.0:g_output_stream_writev_async
+libgio-2.0.so.0:g_output_stream_writev_finish
 libgio-2.0.so.0:g_password_save_get_type
 libgio-2.0.so.0:g_permission_acquire
 libgio-2.0.so.0:g_permission_acquire_async
@@ -1288,6 +1304,8 @@ libgio-2.0.so.0:g_pollable_output_stream_create_source
 libgio-2.0.so.0:g_pollable_output_stream_get_type
 libgio-2.0.so.0:g_pollable_output_stream_is_writable
 libgio-2.0.so.0:g_pollable_output_stream_write_nonblocking
+libgio-2.0.so.0:g_pollable_output_stream_writev_nonblocking
+libgio-2.0.so.0:g_pollable_return_get_type
 libgio-2.0.so.0:g_pollable_source_new
 libgio-2.0.so.0:g_pollable_source_new_full
 libgio-2.0.so.0:g_pollable_stream_read
@@ -1332,12 +1350,16 @@ libgio-2.0.so.0:g_resolver_lookup_by_address_finish
 libgio-2.0.so.0:g_resolver_lookup_by_name
 libgio-2.0.so.0:g_resolver_lookup_by_name_async
 libgio-2.0.so.0:g_resolver_lookup_by_name_finish
+libgio-2.0.so.0:g_resolver_lookup_by_name_with_flags
+libgio-2.0.so.0:g_resolver_lookup_by_name_with_flags_async
+libgio-2.0.so.0:g_resolver_lookup_by_name_with_flags_finish
 libgio-2.0.so.0:g_resolver_lookup_records
 libgio-2.0.so.0:g_resolver_lookup_records_async
 libgio-2.0.so.0:g_resolver_lookup_records_finish
 libgio-2.0.so.0:g_resolver_lookup_service
 libgio-2.0.so.0:g_resolver_lookup_service_async
 libgio-2.0.so.0:g_resolver_lookup_service_finish
+libgio-2.0.so.0:g_resolver_name_lookup_flags_get_type
 libgio-2.0.so.0:g_resolver_record_type_get_type
 libgio-2.0.so.0:g_resolver_set_default
 libgio-2.0.so.0:g_resource_enumerate_children
@@ -1625,6 +1647,7 @@ libgio-2.0.so.0:g_socket_receive_messages
 libgio-2.0.so.0:g_socket_receive_with_blocking
 libgio-2.0.so.0:g_socket_send
 libgio-2.0.so.0:g_socket_send_message
+libgio-2.0.so.0:g_socket_send_message_with_timeout
 libgio-2.0.so.0:g_socket_send_messages
 libgio-2.0.so.0:g_socket_send_to
 libgio-2.0.so.0:g_socket_send_with_blocking
@@ -1708,6 +1731,7 @@ libgio-2.0.so.0:g_task_get_cancellable
 libgio-2.0.so.0:g_task_get_check_cancellable
 libgio-2.0.so.0:g_task_get_completed
 libgio-2.0.so.0:g_task_get_context
+libgio-2.0.so.0:g_task_get_name
 libgio-2.0.so.0:g_task_get_priority
 libgio-2.0.so.0:g_task_get_return_on_cancel
 libgio-2.0.so.0:g_task_get_source_object
@@ -1731,6 +1755,7 @@ libgio-2.0.so.0:g_task_return_pointer
 libgio-2.0.so.0:g_task_run_in_thread
 libgio-2.0.so.0:g_task_run_in_thread_sync
 libgio-2.0.so.0:g_task_set_check_cancellable
+libgio-2.0.so.0:g_task_set_name
 libgio-2.0.so.0:g_task_set_priority
 libgio-2.0.so.0:g_task_set_return_on_cancel
 libgio-2.0.so.0:g_task_set_source_tag
@@ -1771,6 +1796,7 @@ libgio-2.0.so.0:g_tls_backend_get_dtls_server_connection_type
 libgio-2.0.so.0:g_tls_backend_get_file_database_type
 libgio-2.0.so.0:g_tls_backend_get_server_connection_type
 libgio-2.0.so.0:g_tls_backend_get_type
+libgio-2.0.so.0:g_tls_backend_set_default_database
 libgio-2.0.so.0:g_tls_backend_supports_dtls
 libgio-2.0.so.0:g_tls_backend_supports_tls
 libgio-2.0.so.0:g_tls_certificate_flags_get_type
@@ -1797,6 +1823,7 @@ libgio-2.0.so.0:g_tls_connection_emit_accept_certificate
 libgio-2.0.so.0:g_tls_connection_get_certificate
 libgio-2.0.so.0:g_tls_connection_get_database
 libgio-2.0.so.0:g_tls_connection_get_interaction
+libgio-2.0.so.0:g_tls_connection_get_negotiated_protocol
 libgio-2.0.so.0:g_tls_connection_get_peer_certificate
 libgio-2.0.so.0:g_tls_connection_get_peer_certificate_errors
 libgio-2.0.so.0:g_tls_connection_get_rehandshake_mode
@@ -1806,6 +1833,7 @@ libgio-2.0.so.0:g_tls_connection_get_use_system_certdb
 libgio-2.0.so.0:g_tls_connection_handshake
 libgio-2.0.so.0:g_tls_connection_handshake_async
 libgio-2.0.so.0:g_tls_connection_handshake_finish
+libgio-2.0.so.0:g_tls_connection_set_advertised_protocols
 libgio-2.0.so.0:g_tls_connection_set_certificate
 libgio-2.0.so.0:g_tls_connection_set_database
 libgio-2.0.so.0:g_tls_connection_set_interaction
@@ -1903,6 +1931,7 @@ libgio-2.0.so.0:g_unix_mount_get_device_path
 libgio-2.0.so.0:g_unix_mount_get_fs_type
 libgio-2.0.so.0:g_unix_mount_get_mount_path
 libgio-2.0.so.0:g_unix_mount_get_options
+libgio-2.0.so.0:g_unix_mount_get_root_path
 libgio-2.0.so.0:g_unix_mount_guess_can_eject
 libgio-2.0.so.0:g_unix_mount_guess_icon
 libgio-2.0.so.0:g_unix_mount_guess_name
@@ -2870,6 +2899,7 @@ libglib-2.0.so.0:g_quark_from_string
 libglib-2.0.so.0:g_quark_to_string
 libglib-2.0.so.0:g_quark_try_string
 libglib-2.0.so.0:g_queue_clear
+libglib-2.0.so.0:g_queue_clear_full
 libglib-2.0.so.0:g_queue_copy
 libglib-2.0.so.0:g_queue_delete_link
 libglib-2.0.so.0:g_queue_find
@@ -3062,6 +3092,7 @@ libglib-2.0.so.0:g_set_error_literal
 libglib-2.0.so.0:g_set_prgname
 libglib-2.0.so.0:g_set_print_handler
 libglib-2.0.so.0:g_set_printerr_handler
+libglib-2.0.so.0:g_set_user_dirs
 libglib-2.0.so.0:g_setenv
 libglib-2.0.so.0:g_shell_error_quark
 libglib-2.0.so.0:g_shell_parse_argv
@@ -3258,6 +3289,7 @@ libglib-2.0.so.0:g_strstr_len
 libglib-2.0.so.0:g_strtod
 libglib-2.0.so.0:g_strup
 libglib-2.0.so.0:g_strv_contains
+libglib-2.0.so.0:g_strv_equal
 libglib-2.0.so.0:g_strv_length
 libglib-2.0.so.0:g_test_add_data_func
 libglib-2.0.so.0:g_test_add_data_func_full
@@ -3477,6 +3509,7 @@ libglib-2.0.so.0:g_utf8_to_ucs4
 libglib-2.0.so.0:g_utf8_to_ucs4_fast
 libglib-2.0.so.0:g_utf8_to_utf16
 libglib-2.0.so.0:g_utf8_validate
+libglib-2.0.so.0:g_utf8_validate_len
 libglib-2.0.so.0:g_utime
 libglib-2.0.so.0:g_uuid_string_is_valid
 libglib-2.0.so.0:g_uuid_string_random
@@ -3601,6 +3634,7 @@ libglib-2.0.so.0:g_variant_print_string
 libglib-2.0.so.0:g_variant_ref
 libglib-2.0.so.0:g_variant_ref_sink
 libglib-2.0.so.0:g_variant_serialised_byteswap
+libglib-2.0.so.0:g_variant_serialised_check
 libglib-2.0.so.0:g_variant_serialised_get_child
 libglib-2.0.so.0:g_variant_serialised_is_normal
 libglib-2.0.so.0:g_variant_serialised_n_children
@@ -3780,6 +3814,7 @@ libgobject-2.0.so.0:g_main_loop_get_type
 libgobject-2.0.so.0:g_mapped_file_get_type
 libgobject-2.0.so.0:g_markup_parse_context_get_type
 libgobject-2.0.so.0:g_match_info_get_type
+libgobject-2.0.so.0:g_normalize_mode_get_type
 libgobject-2.0.so.0:g_object_add_toggle_ref
 libgobject-2.0.so.0:g_object_add_weak_pointer
 libgobject-2.0.so.0:g_object_bind_property
@@ -4017,6 +4052,9 @@ libgobject-2.0.so.0:g_type_remove_interface_check
 libgobject-2.0.so.0:g_type_set_qdata
 libgobject-2.0.so.0:g_type_test_flags
 libgobject-2.0.so.0:g_type_value_table_peek
+libgobject-2.0.so.0:g_unicode_break_type_get_type
+libgobject-2.0.so.0:g_unicode_script_get_type
+libgobject-2.0.so.0:g_unicode_type_get_type
 libgobject-2.0.so.0:g_value_array_append
 libgobject-2.0.so.0:g_value_array_copy
 libgobject-2.0.so.0:g_value_array_free
