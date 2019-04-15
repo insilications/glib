@@ -16,10 +16,10 @@ diff --git a/gio/tests/meson.build b/gio/tests/meson.build
 index 5c0e033..2b74500 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
-@@ -554,6 +554,13 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-   # Create object file containing resource data
-   # for testing the external data option
-   if build_machine.system() == 'linux'
+@@ -566,6 +566,13 @@
+   # (https://reviews.llvm.org/D58234). FIXME: This test could be enabled for
+   # LLVM once that support is in a stable release.
+   if build_machine.system() == 'linux' and cc.get_id() == 'gcc'
 +    ld_subcommand = ['ld', '-r', '-b', 'binary']
 +    pym = import('python3')
 +    py3 = pym.find_python()
