@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.60.2
-Release  : 92
+Release  : 93
 URL      : https://download.gnome.org/sources/glib/2.60/glib-2.60.2.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.60/glib-2.60.2.tar.xz
 Source1  : glib-schemas-firstboot.service
@@ -205,7 +205,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1556902494
+export SOURCE_DATE_EPOCH=1557000104
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
