@@ -4,13 +4,13 @@
 #
 Name     : glib
 Version  : 2.60.3
-Release  : 94
+Release  : 95
 URL      : https://download.gnome.org/sources/glib/2.60/glib-2.60.3.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.60/glib-2.60.3.tar.xz
 Source1  : glib-schemas-firstboot.service
 Source2  : glib-schemas-trigger.service
 Source3  : glib.tmpfiles
-Summary  : Common C routines used by Gtk+ and other libs
+Summary  : No detailed summary available
 Group    : Development/Tools
 License  : LGPL-2.0+ LGPL-2.1
 Requires: glib-autostart = %{version}-%{release}
@@ -59,15 +59,10 @@ Patch5: gmodule-avx.patch
 Patch6: 0001-Remove-debugging-in-gspawn.c.patch
 Patch7: add-multilib-config.patch
 Patch8: 0001-Check-for-32bit-linker-flag-when-creating-resource-f.patch
+Patch9: CVE-2019-12450.patch
 
 %description
-General Information
-===================
-GLib is the low-level core
-library that forms the basis for projects such as GTK+ and GNOME. It
-provides data structure handling for C, portability wrappers, and
-interfaces for such runtime functionality as an event loop, threads,
-dynamic loading, and an object system.
+
 
 %package autostart
 Summary: autostart components for the glib package.
@@ -113,7 +108,6 @@ Requires: glib-lib = %{version}-%{release}
 Requires: glib-bin = %{version}-%{release}
 Requires: glib-data = %{version}-%{release}
 Provides: glib-devel = %{version}-%{release}
-Requires: glib = %{version}-%{release}
 Requires: glib = %{version}-%{release}
 
 %description dev
@@ -197,6 +191,7 @@ services components for the glib package.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 pushd ..
 cp -a glib-2.60.3 build32
 popd
@@ -206,14 +201,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1558515740
+export SOURCE_DATE_EPOCH=1559171027
+export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --prefix /usr --buildtype=plain -Dinstalled_tests=false  builddir
 ninja -v -C builddir
 pushd ../build32

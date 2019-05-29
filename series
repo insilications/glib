@@ -10,3 +10,4 @@ gmodule-avx.patch
 0001-Remove-debugging-in-gspawn.c.patch
 add-multilib-config.patch
 0001-Check-for-32bit-linker-flag-when-creating-resource-f.patch
+CVE-2019-12450.patch
