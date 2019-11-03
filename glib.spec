@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.62.2
-Release  : 102
+Release  : 103
 URL      : https://download.gnome.org/sources/glib/2.62/glib-2.62.2.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.62/glib-2.62.2.tar.xz
 Source1  : glib-schemas-firstboot.service
