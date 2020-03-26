@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.64.1
-Release  : 108
+Release  : 111
 URL      : https://download.gnome.org/sources/glib/2.64/glib-2.64.1.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.64/glib-2.64.1.tar.xz
 Source1  : glib-schemas-firstboot.service
@@ -204,7 +204,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1583945061
+export SOURCE_DATE_EPOCH=1585235003
 # -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
@@ -225,6 +225,15 @@ export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
 meson --libdir=lib32 --prefix=/usr --buildtype=plain -Dinstalled_tests=false  builddir
 ninja -v -C builddir
 popd
+
+%check
+export LANG=C.UTF-8
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
+meson test -C builddir || :
+cd ../build32;
+meson test -C builddir || : || :
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/glib
