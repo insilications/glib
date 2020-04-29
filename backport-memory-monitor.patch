@@ -1,0 +1,490 @@
+From 79e20e47816536c90ec0e86274e75309ab9baac7 Mon Sep 17 00:00:00 2001
+From: Ross Burton <ross.burton@intel.com>
+Date: Tue, 7 Apr 2020 15:45:06 +0100
+Subject: [PATCH 1/2] gio: use TAPTestRunner in the memory monitor tests
+
+There are two memory monitor tests that use Python's unittest module directly,
+but GLib tests should be outputting TAP.  Use the embedded TAPTestRunner to
+ensure that TAP is output for these tests too.
+---
+ gio/tests/memory-monitor-dbus.py.in   | 5 +++--
+ gio/tests/memory-monitor-portal.py.in | 5 +++--
+ gio/tests/meson.build                 | 3 ++-
+ 3 files changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/gio/tests/memory-monitor-dbus.py.in b/gio/tests/memory-monitor-dbus.py.in
+index 675024a50..bb9d7d5b7 100755
+--- a/gio/tests/memory-monitor-dbus.py.in
++++ b/gio/tests/memory-monitor-dbus.py.in
+@@ -21,6 +21,8 @@ import fcntl
+ import os
+ import time
+ 
++import taptestrunner
++
+ from gi.repository import GLib
+ from gi.repository import Gio
+ 
+@@ -98,5 +100,4 @@ class TestLowMemoryMonitor(dbusmock.DBusTestCase):
+ 
+ 
+ if __name__ == '__main__':
+-    # avoid writing to stderr
+-    unittest.main(testRunner=unittest.TextTestRunner(stream=sys.stdout, verbosity=2))
++    unittest.main(testRunner=taptestrunner.TAPTestRunner())
+diff --git a/gio/tests/memory-monitor-portal.py.in b/gio/tests/memory-monitor-portal.py.in
+index 37c206fd4..214e18c93 100755
+--- a/gio/tests/memory-monitor-portal.py.in
++++ b/gio/tests/memory-monitor-portal.py.in
+@@ -21,6 +21,8 @@ import fcntl
+ import os
+ import time
+ 
++import taptestrunner
++
+ from gi.repository import GLib
+ from gi.repository import Gio
+ 
+@@ -114,5 +116,4 @@ class TestLowMemoryMonitorPortal(dbusmock.DBusTestCase):
+ 
+ 
+ if __name__ == '__main__':
+-    # avoid writing to stderr
+-    unittest.main(testRunner=unittest.TextTestRunner(stream=sys.stdout, verbosity=2))
++    unittest.main(testRunner=taptestrunner.TAPTestRunner())
+diff --git a/gio/tests/meson.build b/gio/tests/meson.build
+index 788cf978b..48891b06b 100644
+--- a/gio/tests/meson.build
++++ b/gio/tests/meson.build
+@@ -531,8 +531,9 @@ if installed_tests_enabled
+     cdata = configuration_data()
+     cdata.set('installed_tests_dir', installed_tests_execdir)
+     cdata.set('program', memory_monitor_test + '.py')
++    cdata.set('env', '')
+     configure_file(
+-      input: installed_tests_template,
++      input: installed_tests_template_tap,
+       output: memory_monitor_test + '.test',
+       install_dir: installed_tests_metadir,
+       configuration: cdata
+-- 
+2.26.2
+
+
+From f0e38e0409771f3bfedbe4632bb62c0ac2c98825 Mon Sep 17 00:00:00 2001
+From: Ross Burton <ross.burton@intel.com>
+Date: Thu, 9 Apr 2020 15:28:12 +0100
+Subject: [PATCH 2/2] gio/tests/memory-monitor-*.py.in: skip if 3rd party
+ modules not available
+
+The GIO tests memory-monitor-dbus and memory-monitor-portal use a number
+of third party Python modules that may not be present when running the
+test case.
+
+Instead of failing due to missing imports, catch the ImportError and
+mock a test case that skips.  This can't use the usual unittest.skip
+logic because the test case class itself uses a 3rd party module.
+
+Closes #2083.
+---
+ gio/tests/memory-monitor-dbus.py.in   | 164 +++++++++++----------
+ gio/tests/memory-monitor-portal.py.in | 196 ++++++++++++++------------
+ 2 files changed, 188 insertions(+), 172 deletions(-)
+
+diff --git a/gio/tests/memory-monitor-dbus.py.in b/gio/tests/memory-monitor-dbus.py.in
+index bb9d7d5b7..cd16cf4e3 100755
+--- a/gio/tests/memory-monitor-dbus.py.in
++++ b/gio/tests/memory-monitor-dbus.py.in
+@@ -14,90 +14,98 @@ __license__ = 'LGPL 3+'
+ import unittest
+ import sys
+ import subprocess
+-import dbus
+-import dbus.mainloop.glib
+-import dbusmock
+ import fcntl
+ import os
+ import time
+ 
+ import taptestrunner
+ 
+-from gi.repository import GLib
+-from gi.repository import Gio
+-
+-dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+-
+-# XDG_DESKTOP_PORTAL_PATH = os.path.expanduser("~/.cache/jhbuild/build/xdg-desktop-portal/xdg-desktop-portal")
+-XDG_DESKTOP_PORTAL_PATH = "@libexecdir@/xdg-desktop-portal"
+-
+-class TestLowMemoryMonitor(dbusmock.DBusTestCase):
+-    '''Test GMemoryMonitorDBus'''
+-
+-    @classmethod
+-    def setUpClass(klass):
+-        klass.start_system_bus()
+-        klass.dbus_con = klass.get_dbus(True)
+-
+-    def setUp(self):
+-        try:
+-            Gio.MemoryMonitor
+-        except AttributeError:
+-            raise unittest.SkipTest('Low memory monitor not in '
+-                                    'introspection data. Requires '
+-                                    'GObject-Introspection ≥ 1.63.2')
+-        try:
+-            (self.p_mock, self.obj_lmm) = self.spawn_server_template(
+-                'low_memory_monitor', {}, stdout=subprocess.PIPE)
+-        except ModuleNotFoundError:
+-            raise unittest.SkipTest("Low memory monitor dbusmock template not "
+-                                    "found. Requires dbusmock ≥ 0.18.4.")
+-        # set log to nonblocking
+-        flags = fcntl.fcntl(self.p_mock.stdout, fcntl.F_GETFL)
+-        fcntl.fcntl(self.p_mock.stdout, fcntl.F_SETFL, flags | os.O_NONBLOCK)
+-        self.last_warning = -1
+-        self.dbusmock = dbus.Interface(self.obj_lmm, dbusmock.MOCK_IFACE)
+-        self.memory_monitor = Gio.MemoryMonitor.dup_default()
+-        self.memory_monitor.connect("low-memory-warning", self.memory_warning_cb)
+-        self.mainloop = GLib.MainLoop()
+-        self.main_context = self.mainloop.get_context()
+-
+-    def tearDown(self):
+-        self.p_mock.terminate()
+-        self.p_mock.wait()
+-
+-    def memory_warning_cb(self, monitor, level):
+-        self.last_warning = level
+-        self.main_context.wakeup()
+-
+-    def test_low_memory_warning_signal(self):
+-        '''LowMemoryWarning signal'''
+-
+-        # Wait 2 seconds
+-        timeout = 2
+-        while timeout > 0:
+-            time.sleep(0.5)
+-            timeout -= 0.5
+-            self.main_context.iteration(False)
+-
+-        self.dbusmock.EmitWarning(100)
+-        # Wait 2 seconds or until warning
+-        timeout = 2
+-        while timeout > 0 and self.last_warning != 100:
+-            time.sleep(0.5)
+-            timeout -= 0.5
+-            self.main_context.iteration(False)
+-        self.assertEqual(self.last_warning, 100)
+-
+-        self.dbusmock.EmitWarning(255)
+-        # Wait 2 seconds or until warning
+-        timeout = 2
+-        while timeout > 0 and self.last_warning != 255:
+-            time.sleep(0.5)
+-            timeout -= 0.5
+-            self.main_context.iteration(False)
+-        self.assertEqual(self.last_warning, 255)
+-
++try:
++    # Do all non-standard imports here so we can skip the tests if any
++    # needed packages are not available.
++    import dbus
++    import dbus.mainloop.glib
++    import dbusmock
++    from gi.repository import GLib
++    from gi.repository import Gio
++
++    dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
++
++    # XDG_DESKTOP_PORTAL_PATH = os.path.expanduser("~/.cache/jhbuild/build/xdg-desktop-portal/xdg-desktop-portal")
++    XDG_DESKTOP_PORTAL_PATH = "@libexecdir@/xdg-desktop-portal"
++
++    class TestLowMemoryMonitor(dbusmock.DBusTestCase):
++        '''Test GMemoryMonitorDBus'''
++
++        @classmethod
++        def setUpClass(klass):
++            klass.start_system_bus()
++            klass.dbus_con = klass.get_dbus(True)
++
++        def setUp(self):
++            try:
++                Gio.MemoryMonitor
++            except AttributeError:
++                raise unittest.SkipTest('Low memory monitor not in '
++                                        'introspection data. Requires '
++                                        'GObject-Introspection ≥ 1.63.2')
++            try:
++                (self.p_mock, self.obj_lmm) = self.spawn_server_template(
++                    'low_memory_monitor', {}, stdout=subprocess.PIPE)
++            except ModuleNotFoundError:
++                raise unittest.SkipTest("Low memory monitor dbusmock template not "
++                                        "found. Requires dbusmock ≥ 0.18.4.")
++            # set log to nonblocking
++            flags = fcntl.fcntl(self.p_mock.stdout, fcntl.F_GETFL)
++            fcntl.fcntl(self.p_mock.stdout, fcntl.F_SETFL, flags | os.O_NONBLOCK)
++            self.last_warning = -1
++            self.dbusmock = dbus.Interface(self.obj_lmm, dbusmock.MOCK_IFACE)
++            self.memory_monitor = Gio.MemoryMonitor.dup_default()
++            self.memory_monitor.connect("low-memory-warning", self.memory_warning_cb)
++            self.mainloop = GLib.MainLoop()
++            self.main_context = self.mainloop.get_context()
++
++        def tearDown(self):
++            self.p_mock.terminate()
++            self.p_mock.wait()
++
++        def memory_warning_cb(self, monitor, level):
++            self.last_warning = level
++            self.main_context.wakeup()
++
++        def test_low_memory_warning_signal(self):
++            '''LowMemoryWarning signal'''
++
++            # Wait 2 seconds
++            timeout = 2
++            while timeout > 0:
++                time.sleep(0.5)
++                timeout -= 0.5
++                self.main_context.iteration(False)
++
++            self.dbusmock.EmitWarning(100)
++            # Wait 2 seconds or until warning
++            timeout = 2
++            while timeout > 0 and self.last_warning != 100:
++                time.sleep(0.5)
++                timeout -= 0.5
++                self.main_context.iteration(False)
++            self.assertEqual(self.last_warning, 100)
++
++            self.dbusmock.EmitWarning(255)
++            # Wait 2 seconds or until warning
++            timeout = 2
++            while timeout > 0 and self.last_warning != 255:
++                time.sleep(0.5)
++                timeout -= 0.5
++                self.main_context.iteration(False)
++            self.assertEqual(self.last_warning, 255)
++
++except ImportError as e:
++    @unittest.skip("Cannot import %s" % e.name)
++    class TestLowMemoryMonitor(unittest.TestCase):
++        def test_low_memory_warning_signal(self):
++            pass
+ 
+ if __name__ == '__main__':
+     unittest.main(testRunner=taptestrunner.TAPTestRunner())
+diff --git a/gio/tests/memory-monitor-portal.py.in b/gio/tests/memory-monitor-portal.py.in
+index 214e18c93..cb4a960eb 100755
+--- a/gio/tests/memory-monitor-portal.py.in
++++ b/gio/tests/memory-monitor-portal.py.in
+@@ -14,106 +14,114 @@ __license__ = 'LGPL 3+'
+ import unittest
+ import sys
+ import subprocess
+-import dbus
+-import dbus.mainloop.glib
+-import dbusmock
+ import fcntl
+ import os
+ import time
+ 
+ import taptestrunner
+ 
+-from gi.repository import GLib
+-from gi.repository import Gio
+-
+-dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+-
+-# XDG_DESKTOP_PORTAL_PATH = os.path.expanduser("~/.cache/jhbuild/build/xdg-desktop-portal/xdg-desktop-portal")
+-XDG_DESKTOP_PORTAL_PATH = "@libexecdir@/xdg-desktop-portal"
+-
+-class TestLowMemoryMonitorPortal(dbusmock.DBusTestCase):
+-    '''Test GMemoryMonitorPortal'''
+-
+-    @classmethod
+-    def setUpClass(klass):
+-        klass.start_system_bus()
+-        klass.dbus_con = klass.get_dbus(True)
+-        # Start session bus so that xdg-desktop-portal can run on it
+-        klass.start_session_bus()
+-
+-    def setUp(self):
+-        try:
+-            Gio.MemoryMonitor
+-        except AttributeError:
+-            raise unittest.SkipTest('Low memory monitor not in '
+-                                    'introspection data. Requires '
+-                                    'GObject-Introspection ≥ 1.63.2')
+-        try:
+-            (self.p_mock, self.obj_lmm) = self.spawn_server_template(
+-                'low_memory_monitor', {}, stdout=subprocess.PIPE)
+-        except ModuleNotFoundError:
+-            raise unittest.SkipTest("Low memory monitor dbusmock template not "
+-                                    "found. Requires dbusmock ≥ 0.18.4.")
+-        # set log to nonblocking
+-        flags = fcntl.fcntl(self.p_mock.stdout, fcntl.F_GETFL)
+-        fcntl.fcntl(self.p_mock.stdout, fcntl.F_SETFL, flags | os.O_NONBLOCK)
+-        self.last_warning = -1
+-        self.dbusmock = dbus.Interface(self.obj_lmm, dbusmock.MOCK_IFACE)
+-        try:
+-            self.xdp = subprocess.Popen([XDG_DESKTOP_PORTAL_PATH])
+-        except FileNotFoundError:
+-            raise unittest.SkipTest("xdg-desktop-portal not available")
+-
+-        try:
+-            self.wait_for_bus_object('org.freedesktop.portal.Desktop',
+-                                     '/org/freedesktop/portal/desktop')
+-        except:
+-            raise
+-        # subprocess.Popen(['gdbus', 'monitor', '--session', '--dest', 'org.freedesktop.portal.Desktop'])
+-
+-        os.environ['GTK_USE_PORTAL'] = "1"
+-        self.memory_monitor = Gio.MemoryMonitor.dup_default()
+-        assert("GMemoryMonitorPortal" in str(self.memory_monitor))
+-        self.memory_monitor.connect("low-memory-warning", self.portal_memory_warning_cb)
+-        self.mainloop = GLib.MainLoop()
+-        self.main_context = self.mainloop.get_context()
+-
+-    def tearDown(self):
+-        self.p_mock.terminate()
+-        self.p_mock.wait()
+-
+-    def portal_memory_warning_cb(self, monitor, level):
+-        self.last_warning = level
+-        self.main_context.wakeup()
+-
+-    def test_low_memory_warning_portal_signal(self):
+-        '''LowMemoryWarning signal'''
+-
+-        # Wait 2 seconds
+-        timeout = 2
+-        while timeout > 0:
+-            time.sleep(0.5)
+-            timeout -= 0.5
+-            self.main_context.iteration(False)
+-
+-        self.dbusmock.EmitWarning(100)
+-        # Wait 2 seconds or until warning
+-        timeout = 2
+-        while timeout > 0 and self.last_warning != 100:
+-            time.sleep(0.5)
+-            timeout -= 0.5
+-            self.main_context.iteration(False)
+-        self.assertEqual(self.last_warning, 100)
+-
+-        self.dbusmock.EmitWarning(255)
+-        # Wait 2 seconds or until warning
+-        timeout = 2
+-        while timeout > 0 and self.last_warning != 255:
+-            time.sleep(0.5)
+-            timeout -= 0.5
+-            self.main_context.iteration(False)
+-        self.assertEqual(self.last_warning, 255)
+-
++try:
++    # Do all non-standard imports here so we can skip the tests if any
++    # needed packages are not available.
++    import dbus
++    import dbus.mainloop.glib
++    import dbusmock
++    from gi.repository import GLib
++    from gi.repository import Gio
++
++    dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
++
++    # XDG_DESKTOP_PORTAL_PATH = os.path.expanduser("~/.cache/jhbuild/build/xdg-desktop-portal/xdg-desktop-portal")
++    XDG_DESKTOP_PORTAL_PATH = "@libexecdir@/xdg-desktop-portal"
++
++    class TestLowMemoryMonitorPortal(dbusmock.DBusTestCase):
++        '''Test GMemoryMonitorPortal'''
++
++        @classmethod
++        def setUpClass(klass):
++            klass.start_system_bus()
++            klass.dbus_con = klass.get_dbus(True)
++            # Start session bus so that xdg-desktop-portal can run on it
++            klass.start_session_bus()
++
++        def setUp(self):
++            try:
++                Gio.MemoryMonitor
++            except AttributeError:
++                raise unittest.SkipTest('Low memory monitor not in '
++                                        'introspection data. Requires '
++                                        'GObject-Introspection ≥ 1.63.2')
++            try:
++                (self.p_mock, self.obj_lmm) = self.spawn_server_template(
++                    'low_memory_monitor', {}, stdout=subprocess.PIPE)
++            except ModuleNotFoundError:
++                raise unittest.SkipTest("Low memory monitor dbusmock template not "
++                                        "found. Requires dbusmock ≥ 0.18.4.")
++            # set log to nonblocking
++            flags = fcntl.fcntl(self.p_mock.stdout, fcntl.F_GETFL)
++            fcntl.fcntl(self.p_mock.stdout, fcntl.F_SETFL, flags | os.O_NONBLOCK)
++            self.last_warning = -1
++            self.dbusmock = dbus.Interface(self.obj_lmm, dbusmock.MOCK_IFACE)
++            try:
++                self.xdp = subprocess.Popen([XDG_DESKTOP_PORTAL_PATH])
++            except FileNotFoundError:
++                raise unittest.SkipTest("xdg-desktop-portal not available")
++
++            try:
++                self.wait_for_bus_object('org.freedesktop.portal.Desktop',
++                                        '/org/freedesktop/portal/desktop')
++            except:
++                raise
++            # subprocess.Popen(['gdbus', 'monitor', '--session', '--dest', 'org.freedesktop.portal.Desktop'])
++
++            os.environ['GTK_USE_PORTAL'] = "1"
++            self.memory_monitor = Gio.MemoryMonitor.dup_default()
++            assert("GMemoryMonitorPortal" in str(self.memory_monitor))
++            self.memory_monitor.connect("low-memory-warning", self.portal_memory_warning_cb)
++            self.mainloop = GLib.MainLoop()
++            self.main_context = self.mainloop.get_context()
++
++        def tearDown(self):
++            self.p_mock.terminate()
++            self.p_mock.wait()
++
++        def portal_memory_warning_cb(self, monitor, level):
++            self.last_warning = level
++            self.main_context.wakeup()
++
++        def test_low_memory_warning_portal_signal(self):
++            '''LowMemoryWarning signal'''
++
++            # Wait 2 seconds
++            timeout = 2
++            while timeout > 0:
++                time.sleep(0.5)
++                timeout -= 0.5
++                self.main_context.iteration(False)
++
++            self.dbusmock.EmitWarning(100)
++            # Wait 2 seconds or until warning
++            timeout = 2
++            while timeout > 0 and self.last_warning != 100:
++                time.sleep(0.5)
++                timeout -= 0.5
++                self.main_context.iteration(False)
++            self.assertEqual(self.last_warning, 100)
++
++            self.dbusmock.EmitWarning(255)
++            # Wait 2 seconds or until warning
++            timeout = 2
++            while timeout > 0 and self.last_warning != 255:
++                time.sleep(0.5)
++                timeout -= 0.5
++                self.main_context.iteration(False)
++            self.assertEqual(self.last_warning, 255)
++
++except ImportError as e:
++    @unittest.skip("Cannot import %s" % e.name)
++    class TestLowMemoryMonitorPortal(unittest.TestCase):
++        def test_low_memory_warning_portal_signal(self):
++            pass
+ 
+ if __name__ == '__main__':
+     unittest.main(testRunner=taptestrunner.TAPTestRunner())
+-- 
+2.26.2
+

@@ -11,3 +11,4 @@ gmodule-avx.patch
 add-multilib-config.patch
 0001-Check-for-32bit-linker-flag-when-creating-resource-f.patch
 #CVE-2019-12450.patch
+backport-memory-monitor.patch
