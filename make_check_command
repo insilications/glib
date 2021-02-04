@@ -1,0 +1,7 @@
+# A mime database needs to be populated for a few tests
+mkdir -p $HOME/.local/share/mime
+ln -s /usr/share/mime-packages $HOME/.local/share/mime/packages
+update-mime-database $HOME/.local/share/mime
+meson test -C builddir --print-errorlogs || :
+cd ../build32;
+meson test -C builddir --print-errorlogs || : || :

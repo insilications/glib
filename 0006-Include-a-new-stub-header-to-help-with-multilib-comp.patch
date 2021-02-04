@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ikey Doherty <ikey.doherty@intel.com>
+Date: Fri, 21 Dec 2018 12:29:49 +0000
+Subject: [PATCH] Include a new stub header to help with multilib compilation
+
+Due to the unpredictable sort of includes, we'll often end up with
+the 64-bit glibconfig.h header when building 32-bit packages, when
+we need the one with 32-bit definitions.
+
+To help alleviate that issue, we place a dynamic stub header into
+the system include directory, which will automatically include the
+right header location based on the word size.
+
+Signed-off-by: Ikey Doherty <ikey.doherty@intel.com>
+---
+ multilib-glibconfig.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+ create mode 100644 multilib-glibconfig.h
+
+diff --git a/multilib-glibconfig.h b/multilib-glibconfig.h
+new file mode 100644
+index 0000000..029a8af
+--- /dev/null
++++ b/multilib-glibconfig.h
+@@ -0,0 +1,9 @@
++#include <bits/wordsize.h>
++
++#if __WORDSIZE == 32
++#include "../lib32/glib-2.0/include/glibconfig.h"
++#elif __WORDSIZE == 64
++#include "../lib64/glib-2.0/include/glibconfig.h"
++#else
++#error "Unknown word size"
++#endif

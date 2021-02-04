@@ -1,6 +1,17 @@
---- glib-2.56.1/gmodule/gmodule.c~	2018-01-08 21:34:19.000000000 +0000
-+++ glib-2.56.1/gmodule/gmodule.c	2018-05-26 23:18:06.606226418 +0000
-@@ -542,8 +542,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Arjan van de Ven <arjan@linux.intel.com>
+Date: Sat, 26 May 2018 23:23:57 +0000
+Subject: [PATCH] gmodule avx
+
+---
+ gmodule/gmodule.c | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
+
+diff --git a/gmodule/gmodule.c b/gmodule/gmodule.c
+index 3c67e2e..130fb07 100644
+--- a/gmodule/gmodule.c
++++ b/gmodule/gmodule.c
+@@ -538,8 +538,30 @@ g_module_open (const gchar    *file_name,
        return module;
      }
  

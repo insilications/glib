@@ -1,26 +1,24 @@
-#
-# This file contains additional build requirements that did not get picked up
-# automatically. One name per line, no whitespace.
-#
-elfutils-dev
-tzdata
+# This file contains additional build requirements that did not get
+# picked up automatically. One name per line, no whitespace.
+dbus-dev
+dbus-dev32
 desktop-file-utils
-shared-mime-info
-libxml2-dev
-libxml2-dev32
+elfutils-dev
 elfutils-dev32
 glib-dev
 gtk-doc
-which
-pcre-dev32
-pcre-dev
-libffi-dev32
 libffi-dev
-zlib-dev
-zlib-dev32
+libffi-dev32
+libxml2-dev
+libxml2-dev32
+pcre-dev
+pcre-dev32
+shared-mime-info
 systemd-dev
 systemd-dev32
+tzdata
 util-linux-dev
 util-linux-dev32
-dbus-dev
-dbus-dev32
+which
+zlib-dev
+zlib-dev32

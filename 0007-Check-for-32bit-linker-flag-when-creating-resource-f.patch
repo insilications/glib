@@ -1,4 +1,4 @@
-From e20ae435eba8fc62cc4b198c7b3976b3a47adb61 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: William Douglas <william.douglas@intel.com>
 Date: Tue, 12 Mar 2019 11:26:52 -0700
 Subject: [PATCH] Check for 32bit linker flag when creating resource file
@@ -13,11 +13,11 @@ the elf_i386 object.
  1 file changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-index 382dfcc..a7aa850 100644
+index d8ebd56..7de55f5 100644
 --- a/gio/tests/meson.build
 +++ b/gio/tests/meson.build
-@@ -580,6 +580,13 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-   objcopy = find_program('objcopy', required : false)
+@@ -671,6 +671,13 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
+   ld = find_program('ld', required : false)
  
    if build_machine.system() == 'linux' and cc.get_id() == 'gcc' and objcopy.found() and objcopy_supports_add_symbol and ld.found()
 +    ld_subcommand = ['ld', '-r', '-b', 'binary']
@@ -30,7 +30,7 @@ index 382dfcc..a7aa850 100644
      test_gresource_binary = custom_target('test5.gresource',
        input : 'test5.gresource.xml',
        output : 'test5.gresource',
-@@ -608,11 +615,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
+@@ -699,11 +706,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
      test_resources_binary = custom_target('test_resources.o',
        input : test_gresource_binary,
        output : 'test_resources.o',
@@ -43,6 +43,3 @@ index 382dfcc..a7aa850 100644
  
      # Rename symbol to match the one in the C file
      test_resources_binary2 = custom_target('test_resources2.o',
--- 
-2.24.0
-

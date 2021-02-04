@@ -1,0 +1,37 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ikey Doherty <michael.i.doherty@intel.com>
+Date: Mon, 13 Apr 2015 16:27:29 +0100
+Subject: [PATCH] xdg-path
+
+Signed-off-by: Ikey Doherty <michael.i.doherty@intel.com>
+---
+ glib/gutils.c      | 2 +-
+ glib/tests/utils.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/glib/gutils.c b/glib/gutils.c
+index 15c0c00..bbd146d 100644
+--- a/glib/gutils.c
++++ b/glib/gutils.c
+@@ -2594,7 +2594,7 @@ g_build_system_config_dirs (void)
+     }
+ #else
+   if (!conf_dirs || !conf_dirs[0])
+-    conf_dirs = "/etc/xdg";
++    conf_dirs = "/usr/share/xdg" G_SEARCHPATH_SEPARATOR_S "/etc/xdg";
+ 
+   conf_dir_vector = g_strsplit (conf_dirs, G_SEARCHPATH_SEPARATOR_S, 0);
+ #endif
+diff --git a/glib/tests/utils.c b/glib/tests/utils.c
+index 2c5d16c..5fc3634 100644
+--- a/glib/tests/utils.c
++++ b/glib/tests/utils.c
+@@ -485,7 +485,7 @@ test_xdg_dirs (void)
+ 
+   xdg = (gchar *)g_getenv ("XDG_CONFIG_DIRS");
+   if (!xdg)
+-    xdg = "/etc/xdg";
++    xdg = "/usr/share/xdg" G_SEARCHPATH_SEPARATOR_S "/etc/xdg";
+ 
+   dirs = g_get_system_config_dirs ();
+ 
