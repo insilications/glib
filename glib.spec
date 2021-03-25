@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.68.0
-Release  : 125
+Release  : 126
 URL      : https://download.gnome.org/sources/glib/2.68/glib-2.68.0.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.68/glib-2.68.0.tar.xz
 Source1  : glib-schemas-firstboot.service
