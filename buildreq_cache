@@ -1,4 +1,3 @@
-2.68.0
+2.68.1
 bash-completion-dev
-pkgconfig(32bash-completion)
 pkgconfig(bash-completion)
