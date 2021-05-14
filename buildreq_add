@@ -1,10 +1,18 @@
 # This file contains additional build requirements that did not get
 # picked up automatically. One name per line, no whitespace.
+bash-completion-dev
+buildreq-gnome
+buildreq-meson
 dbus-dev
 dbus-dev32
 desktop-file-utils
 elfutils-dev
 elfutils-dev32
+gcc-dev32
+gcc-libgcc32
+gcc-libstdc++32
+glibc-dev32
+glibc-libc32
 glib-dev
 gtk-doc
 libffi-dev
