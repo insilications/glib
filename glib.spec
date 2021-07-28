@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.68.3
-Release  : 133
+Release  : 134
 URL      : https://download.gnome.org/sources/glib/2.68/glib-2.68.3.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.68/glib-2.68.3.tar.xz
 Source1  : glib-schemas-firstboot.service
@@ -219,7 +219,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1627493902
+export SOURCE_DATE_EPOCH=1627507026
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -248,7 +248,7 @@ export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
 export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
 meson --libdir=lib32 --prefix=/usr --buildtype=plain -Dinstalled_tests=true \
 -Dglib_assert=false \
--Dglib_checks=true -Dgio_module_dir="/usr/lib/gio/modules" builddir
+-Dglib_checks=true -Dgio_module_dir="/usr/lib32/gio/modules" builddir
 ninja -v -C builddir
 popd
 
