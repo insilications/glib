@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Patrick McCarty <patrick.mccarty@intel.com>
+Date: Mon, 23 Aug 2021 13:25:01 -0700
+Subject: [PATCH] Disable use of close_range()
+
+This relatively new syscall is failing with EPERM within a
+systemd-nspawn v246.4 container... The issue appears to be fixed when
+running systemd-nspawn v249.1, but just to be safe, disable use of the
+syscall for now.
+
+Upstream-Status: Inappropriate
+Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
+---
+ meson.build | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index a0223ce..52a3564 100644
+--- a/meson.build
++++ b/meson.build
+@@ -488,7 +488,6 @@ if host_system == 'windows'
+ endif
+ 
+ functions = [
+-  'close_range',
+   'endmntent',
+   'endservent',
+   'epoll_create',

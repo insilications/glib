@@ -8,10 +8,10 @@ Subject: [PATCH] gerror: return on null
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/glib/gerror.c b/glib/gerror.c
-index 86167d7..cf83236 100644
+index 82bf626..d4ac5cc 100644
 --- a/glib/gerror.c
 +++ b/glib/gerror.c
-@@ -646,7 +646,8 @@ void
+@@ -1012,7 +1012,8 @@ void
  g_propagate_error (GError **dest,
  		   GError  *src)
  {

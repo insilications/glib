@@ -5,3 +5,4 @@
 0005-gmodule-avx.patch
 0006-Include-a-new-stub-header-to-help-with-multilib-comp.patch
 0007-Check-for-32bit-linker-flag-when-creating-resource-f.patch
+0008-Disable-use-of-close_range.patch

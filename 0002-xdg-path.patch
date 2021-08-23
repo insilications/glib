@@ -10,10 +10,10 @@ Signed-off-by: Ikey Doherty <michael.i.doherty@intel.com>
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/glib/gutils.c b/glib/gutils.c
-index 15c0c00..bbd146d 100644
+index dad1625..3ee30a2 100644
 --- a/glib/gutils.c
 +++ b/glib/gutils.c
-@@ -2594,7 +2594,7 @@ g_build_system_config_dirs (void)
+@@ -2599,7 +2599,7 @@ g_build_system_config_dirs (void)
      }
  #else
    if (!conf_dirs || !conf_dirs[0])

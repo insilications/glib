@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.68.4
-Release  : 135
+Release  : 136
 URL      : https://download.gnome.org/sources/glib/2.68/glib-2.68.4.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.68/glib-2.68.4.tar.xz
 Source1  : glib-schemas-firstboot.service
@@ -61,6 +61,7 @@ Patch4: 0004-gerror-return-on-null.patch
 Patch5: 0005-gmodule-avx.patch
 Patch6: 0006-Include-a-new-stub-header-to-help-with-multilib-comp.patch
 Patch7: 0007-Check-for-32bit-linker-flag-when-creating-resource-f.patch
+Patch8: 0008-Disable-use-of-close_range.patch
 
 %description
 GLib provides the core application building blocks for libraries and
@@ -204,6 +205,7 @@ cd %{_builddir}/glib-2.68.4
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 pushd ..
 cp -a glib-2.68.4 build32
 popd
@@ -219,7 +221,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1629395392
+export SOURCE_DATE_EPOCH=1629751556
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib

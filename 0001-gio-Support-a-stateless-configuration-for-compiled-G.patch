@@ -10,7 +10,7 @@ Signed-off-by: Ikey Doherty <michael.i.doherty@intel.com>
  1 file changed, 2 insertions(+)
 
 diff --git a/gio/gsettingsschema.c b/gio/gsettingsschema.c
-index 8e203db..5791359 100644
+index a46d505..ea7798b 100644
 --- a/gio/gsettingsschema.c
 +++ b/gio/gsettingsschema.c
 @@ -361,6 +361,8 @@ initialise_schema_sources (void)
