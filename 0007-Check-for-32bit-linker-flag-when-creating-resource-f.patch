@@ -19,7 +19,7 @@ index a926ae0..a590b9f 100644
 @@ -688,6 +688,13 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
    ld = find_program('ld', required : false)
  
-   if build_machine.system() == 'linux' and cc.get_id() == 'gcc' and objcopy.found() and objcopy_supports_add_symbol and ld.found()
+   if build_machine.system() == 'linux' and objcopy.found() and objcopy_supports_add_symbol and ld.found()
 +    ld_subcommand = ['ld', '-r', '-b', 'binary']
 +    pym = import('python3')
 +    py3 = pym.find_python()
