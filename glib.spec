@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.70.0
-Release  : 139
+Release  : 140
 URL      : https://download.gnome.org/sources/glib/2.70/glib-2.70.0.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.70/glib-2.70.0.tar.xz
 Source1  : glib-schemas-firstboot.service
@@ -224,36 +224,29 @@ popd
 pushd ..
 cp -a glib-2.70.0 buildavx2
 popd
-pushd ..
-cp -a glib-2.70.0 buildavx512
-popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1633752272
+export SOURCE_DATE_EPOCH=1634479092
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mprefer-vector-width=256 "
-export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mprefer-vector-width=256 "
-export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mprefer-vector-width=256 "
-export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mprefer-vector-width=256 "
+export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
+export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
+export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dinstalled_tests=true \
 -Dglib_assert=false \
 -Dglib_checks=true -Dgio_module_dir="/usr/lib64/gio/modules" builddir
 ninja -v -C builddir
-CFLAGS="$CFLAGS -m64 -march=x86-64-v3" CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 " LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dinstalled_tests=true \
+CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -O3" CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 " LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dinstalled_tests=true \
 -Dglib_assert=false \
 -Dglib_checks=true -Dgio_module_dir="/usr/lib64/gio/modules" builddiravx2
 ninja -v -C builddiravx2
-CFLAGS="$CFLAGS -m64 -march=x86-64-v4" CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v4 " LDFLAGS="$LDFLAGS -m64 -march=x86-64-v4" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dinstalled_tests=true \
--Dglib_assert=false \
--Dglib_checks=true -Dgio_module_dir="/usr/lib64/gio/modules" builddiravx512
-ninja -v -C builddiravx512
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig:/usr/share/pkgconfig"
 export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
@@ -299,9 +292,6 @@ popd
 fi
 popd
 DESTDIR=%{buildroot}-v3 ninja -C builddiravx2 install
-/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
-DESTDIR=%{buildroot}-v4 ninja -C builddiravx512 install
-/usr/bin/elf-move.py avx512 %{buildroot}-v4 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 DESTDIR=%{buildroot} ninja -C builddir install
 %find_lang glib20
 mkdir -p %{buildroot}/usr/lib/systemd/system
@@ -325,6 +315,7 @@ ln -s ../libexec/glib-compile-schemas %{buildroot}/usr/bin
 # fix busted multlib compiles by providing custom header to include the right architecture file
 install -m 00644 multilib-glibconfig.h %{buildroot}/usr/include/glib-2.0/glibconfig.h
 ## install_append end
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
@@ -732,7 +723,6 @@ install -m 00644 multilib-glibconfig.h %{buildroot}/usr/include/glib-2.0/glibcon
 %files libexec
 %defattr(-,root,root,-)
 /usr/libexec/glib-compile-schemas
-/usr/share/clear/optimized-elf/exec*
 
 %files license
 %defattr(0644,root,root,0755)
@@ -1327,6 +1317,7 @@ install -m 00644 multilib-glibconfig.h %{buildroot}/usr/include/glib-2.0/glibcon
 /usr/libexec/installed-tests/glib/x-content/image-dcf/DCIM/Camera/20130831_203928.jpg
 /usr/libexec/installed-tests/glib/x-content/unix-software/autorun.sh
 /usr/libexec/installed-tests/glib/x-content/win32-software/autorun.exe
+/usr/share/clear/optimized-elf/test*
 /usr/share/installed-tests/glib/1bit-mutex.test
 /usr/share/installed-tests/glib/642026-ec.test
 /usr/share/installed-tests/glib/642026.test
