@@ -4,7 +4,7 @@
 #
 Name     : glib
 Version  : 2.70.0
-Release  : 140
+Release  : 141
 URL      : https://download.gnome.org/sources/glib/2.70/glib-2.70.0.tar.xz
 Source0  : https://download.gnome.org/sources/glib/2.70/glib-2.70.0.tar.xz
 Source1  : glib-schemas-firstboot.service
@@ -230,7 +230,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1634479092
+export SOURCE_DATE_EPOCH=1634694276
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -243,7 +243,7 @@ CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --
 -Dglib_assert=false \
 -Dglib_checks=true -Dgio_module_dir="/usr/lib64/gio/modules" builddir
 ninja -v -C builddir
-CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -O3" CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 " LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dinstalled_tests=true \
+CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 -O3" CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 " LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dinstalled_tests=true \
 -Dglib_assert=false \
 -Dglib_checks=true -Dgio_module_dir="/usr/lib64/gio/modules" builddiravx2
 ninja -v -C builddiravx2
