@@ -1,8 +1,8 @@
+ld-linux-x86-64.so.2
 libc.so.6
 libdbus-1.so.3
 libelf.so.1
-libffi.so.7
-libgcc_s.so.1
+libffi.so.8
 libm.so.6
 libmount.so.1
 libpcre.so.1

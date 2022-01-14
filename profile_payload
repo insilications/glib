@@ -38,4 +38,4 @@ export DESKTOP_SESSION=plasma
 mkdir -p $HOME/.local/share/mime
 ln -s /usr/share/mime-packages $HOME/.local/share/mime/packages
 update-mime-database $HOME/.local/share/mime
-meson test --print-errorlogs --verbose --num-processes 1 -C builddir || :
+meson test --verbose --num-processes 1 -C builddir || :
