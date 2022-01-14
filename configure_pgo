@@ -1,13 +1,12 @@
--Dgio_module_dir="/usr/lib64/gio/modules"
+-Dglib_assert=false
+-Dglib_checks=false
 -Dglib_debug=disabled
 -Dman=true
--Dbsymbolic_functions=true
--Dgtk_doc=false
+-Dgio_module_dir="/usr/lib64/gio/modules"
 -Dselinux=disabled
 -Dnls=enabled
 -Dxattr=true
 -Dlibmount=enabled
--Dglib_assert=true
--Dglib_checks=true
+-Dbsymbolic_functions=true
 -Dinstalled_tests=false
 -Dtests=false

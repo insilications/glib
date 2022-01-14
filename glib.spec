@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : glib
 Version  : 2.71.0
-Release  : 303
+Release  : 304
 URL      : file:///aot/build/clearlinux/packages/glib/glib-v2.71.0.tar.gz
 Source0  : file:///aot/build/clearlinux/packages/glib/glib-v2.71.0.tar.gz
 Source1  : glib-schemas-firstboot.service
@@ -119,7 +119,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1642172071
+export SOURCE_DATE_EPOCH=1642172738
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -220,9 +220,6 @@ export GTK_USE_PORTAL=1
 export DESKTOP_SESSION=plasma
 export GSETTINGS_SCHEMA_DIR="/usr/share/glib-2.0/schemas"
 ## altflags_pgo end
-if [ ! -f statuspgo ]; then
-
-echo PGO Phase 1
 export CFLAGS="${CFLAGS_GENERATE}"
 export CXXFLAGS="${CXXFLAGS_GENERATE}"
 export FFLAGS="${FFLAGS_GENERATE}"
@@ -230,6 +227,8 @@ export FCFLAGS="${FCFLAGS_GENERATE}"
 export LDFLAGS="${LDFLAGS_GENERATE}"
 export ASMFLAGS="${ASMFLAGS_GENERATE}"
 export LIBS="${LIBS_GENERATE}"
+
+echo PGO Phase 1
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" LIBS="$LIBS" meson --libdir=lib64 --sysconfdir=/usr/share --prefix=/usr --buildtype=plain -Ddefault_library=both  -Dglib_assert=false \
 -Dglib_checks=false \
 -Dglib_debug=disabled \
@@ -243,7 +242,6 @@ CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" LIBS="$LIBS" meson --li
 -Dinstalled_tests=true \
 -Dtests=true builddir
 ninja --verbose %{?_smp_mflags} -C builddir
-
 ## profile_payload start
 unset LD_LIBRARY_PATH
 unset LIBRARY_PATH
@@ -292,33 +290,6 @@ meson test --print-errorlogs --verbose --num-processes 1 -C builddir || :
 export LD_LIBRARY_PATH="/usr/local/nvidia/lib64:/usr/local/nvidia/lib64/gbm:/usr/local/nvidia/lib64/vdpau:/usr/local/nvidia/lib64/xorg/modules/drivers:/usr/local/nvidia/lib64/xorg/modules/extensions:/usr/local/cuda/lib64:/usr/lib64/haswell:/usr/lib64/dri:/usr/lib64:/usr/lib:/aot/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin:/aot/intel/oneapi/compiler/latest/linux/lib:/aot/intel/oneapi/mkl/latest/lib/intel64:/aot/intel/oneapi/tbb/latest/lib/intel64/gcc4.8:/usr/share:/usr/lib64/wine:/usr/local/nvidia/lib32:/usr/local/nvidia/lib32/vdpau:/usr/lib32:/usr/lib32/wine"
 export LIBRARY_PATH="/usr/local/nvidia/lib64:/usr/local/nvidia/lib64/gbm:/usr/local/nvidia/lib64/vdpau:/usr/local/nvidia/lib64/xorg/modules/drivers:/usr/local/nvidia/lib64/xorg/modules/extensions:/usr/local/cuda/lib64:/usr/lib64/haswell:/usr/lib64/dri:/usr/lib64:/usr/lib:/aot/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin:/aot/intel/oneapi/compiler/latest/linux/lib:/aot/intel/oneapi/mkl/latest/lib/intel64:/aot/intel/oneapi/tbb/latest/lib/intel64/gcc4.8:/usr/share:/usr/lib64/wine:/usr/local/nvidia/lib32:/usr/local/nvidia/lib32/vdpau:/usr/lib32:/usr/lib32/wine"
 ## profile_payload end
-find builddir/ -type f,l -not -name '*.gcno' -not -name 'statuspgo*' -delete -print  || :
-echo USED > statuspgo
-fi
-if [ -f statuspgo ]; then
-echo PGO Phase 2
-export CFLAGS="${CFLAGS_USE}"
-export CXXFLAGS="${CXXFLAGS_USE}"
-export FFLAGS="${FFLAGS_USE}"
-export FCFLAGS="${FCFLAGS_USE}"
-export LDFLAGS="${LDFLAGS_USE}"
-export ASMFLAGS="${ASMFLAGS_USE}"
-export LIBS="${LIBS_USE}"
-CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" LIBS="$LIBS" meson --libdir=lib64 --sysconfdir=/usr/share --prefix=/usr --buildtype=plain -Ddefault_library=both -Dgio_module_dir="/usr/lib64/gio/modules" \
--Dglib_debug=disabled \
--Dman=true \
--Dbsymbolic_functions=true \
--Dgtk_doc=false \
--Dselinux=disabled \
--Dnls=enabled \
--Dxattr=true \
--Dlibmount=enabled \
--Dglib_assert=true \
--Dglib_checks=true \
--Dinstalled_tests=false \
--Dtests=false  builddir
-ninja --verbose %{?_smp_mflags} -C builddir
-fi
 pushd ../build32/
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
