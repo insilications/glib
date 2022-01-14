@@ -1,5 +1,4 @@
 -Dglib_assert=false
--Dglib_checks=false
 -Dglib_debug=disabled
 -Dman=true
 -Dgio_module_dir="/usr/lib64/gio/modules"
@@ -9,4 +8,4 @@
 -Dlibmount=enabled
 -Dbsymbolic_functions=true
 -Dinstalled_tests=false
--Dtests=false
+-Dtests=true
