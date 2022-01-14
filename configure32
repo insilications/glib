@@ -1,1 +1,4 @@
+-Dinstalled_tests=true
+-Dglib_assert=false
+-Dglib_checks=true
 -Dgio_module_dir="/usr/lib32/gio/modules"

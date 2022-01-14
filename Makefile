@@ -1,5 +1,6 @@
 PKG_NAME := glib
-URL = https://download.gnome.org/sources/glib/2.70/glib-2.70.2.tar.xz
+URL = https://gitlab.gnome.org/GNOME/glib.git
 ARCHIVES = 
+ARCHIVES_GIT = 
 
 include ../common/Makefile.common
