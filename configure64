@@ -8,5 +8,5 @@
 -Dxattr=true
 -Dlibmount=enabled
 -Dbsymbolic_functions=true
--Dinstalled_tests=true
--Dtests=true
+-Dinstalled_tests=false
+-Dtests=false
