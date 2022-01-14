@@ -5,9 +5,9 @@
 %define keepstatic 1
 Name     : glib
 Version  : 2.71.0
-Release  : 318
-URL      : file:///aot/build/clearlinux/packages/glib/glib-v2.71.0.tar.gz
-Source0  : file:///aot/build/clearlinux/packages/glib/glib-v2.71.0.tar.gz
+Release  : 319
+URL      : https://download-fallback.gnome.org/sources/glib/2.71/glib-2.71.0.tar.xz
+Source0  : https://download-fallback.gnome.org/sources/glib/2.71/glib-2.71.0.tar.xz
 Source1  : glib-schemas-firstboot.service
 Source2  : glib-schemas-trigger.service
 Source3  : glib.tmpfiles
@@ -239,8 +239,8 @@ staticdev32 components for the glib package.
 
 
 %prep
-%setup -q -n glib
-cd %{_builddir}/glib
+%setup -q -n glib-2.71.0
+cd %{_builddir}/glib-2.71.0
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -250,7 +250,7 @@ cd %{_builddir}/glib
 %patch7 -p1
 %patch8 -p1
 pushd %{_builddir}
-cp -a %{_builddir}/glib build32
+cp -a %{_builddir}/glib-2.71.0 build32
 popd
 
 %build
@@ -259,7 +259,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1642182185
+export SOURCE_DATE_EPOCH=1642184577
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
