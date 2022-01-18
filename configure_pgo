@@ -1,4 +1,5 @@
 -Dglib_assert=false
+-Dglib_checks=true
 -Dglib_debug=disabled
 -Dman=true
 -Dgio_module_dir="/usr/lib64/gio/modules"
