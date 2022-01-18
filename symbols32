@@ -1838,9 +1838,11 @@ libgio-2.0.so.0:g_tls_certificate_get_type
 libgio-2.0.so.0:g_tls_certificate_is_same
 libgio-2.0.so.0:g_tls_certificate_list_new_from_file
 libgio-2.0.so.0:g_tls_certificate_new_from_file
+libgio-2.0.so.0:g_tls_certificate_new_from_file_with_password
 libgio-2.0.so.0:g_tls_certificate_new_from_files
 libgio-2.0.so.0:g_tls_certificate_new_from_pem
 libgio-2.0.so.0:g_tls_certificate_new_from_pkcs11_uris
+libgio-2.0.so.0:g_tls_certificate_new_from_pkcs12
 libgio-2.0.so.0:g_tls_certificate_request_flags_get_type
 libgio-2.0.so.0:g_tls_certificate_verify
 libgio-2.0.so.0:g_tls_channel_binding_error_get_type

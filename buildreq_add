@@ -3,7 +3,6 @@
 attr
 attr-dev
 attr-dev32
-attrs
 bash-completion-dev
 buildreq-gnome
 buildreq-meson
@@ -36,6 +35,7 @@ pcre-dev
 pcre-dev32
 pcre-staticdev
 perl
+pypi(attrs)
 shared-mime-info
 systemd-dev
 systemd-dev32
